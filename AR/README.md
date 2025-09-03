@@ -1,5 +1,5 @@
-AR1: Not working
-AR2: Simple block example. Works with Hiro glyph.
-AR3: Simple block example. Works with "3" barcode.
-AR4: Not working
-AR5: Multiblock example, works with barcodes 1-4.
+- AR1: Not working
+- AR2: Simple block example. Works with Hiro glyph.
+- AR3: Simple block example. Works with "3" barcode.
+- AR4: Not working
+- AR5: Multiblock example, works with barcodes 1-4.
