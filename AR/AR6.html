@@ -9,13 +9,11 @@
   <body style="margin: 0px; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
       <a-marker type="barcode" value="1">
-<!--               <a-entity obj-model=”obj: url(/path/to/nameOfFile.obj); 
-                mtl: url(/path/to/nameOfFile.mtl)”>
-              </a-entity> -->
+        <a-box position="0 0.5 0" material="color: red;"></a-box>
       </a-marker>
 
       <a-marker type="barcode" value="2">
-        <a-box position="0 0.5 0" material="color: green;"></a-box>
+        <a-gltf-model src="Assets/Antarctica2.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
       </a-marker>
 
       <a-marker type="barcode" value="3">
