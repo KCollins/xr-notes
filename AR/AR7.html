@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR.js Multi-Barcode Example</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+
+  <body style="margin: 0px; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      <a-marker type="barcode" value="1">
+<!--         <a-gltf-model src="Assets/tohoku.glb" position="0 0 0" scale="1 1 1"></a-gltf-model> -->
+<!--         <a-entity ply-model="src: url(path/to/your/model.ply); mesh: true; size: 0.5;"></a-entity> -->
+        <a-entity ply-model="src:Assets/ptCloudsTest.ply; mesh: true; size: 0.5;"></a-entity>
+      </a-marker>
+
+      <a-marker type="barcode" value="2">
+        <a-gltf-model src="Assets/Antarctica2.glb" position="0 0 0" scale="0.01 0.01 0.01"></a-gltf-model>
+      </a-marker>
+
+      <a-marker type="barcode" value="3">
+<!--         <a-gltf-model src="https://osf.io/download/ysb3w/" position="0 0 0" scale="1 1 1"></a-gltf-model> -->
+<!--         <a-gltf-model src="Assets/earth.glb" position="0 .5 0" scale=".01 .01 .01"></a-gltf-model> -->
+        <a-entity gltf-model="Assets/earth.glb" animation-mixer="loop: pingpong; duration: 4;"></a-entity>
+      </a-marker>
+
+      <a-marker type="barcode" value="4">
+        <a-box position="0 0.5 0" material="color: yellow;"></a-box>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
