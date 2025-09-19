@@ -5,6 +5,32 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://unpkg.com/aframe-ply-component/index.js"></script>
+
+    <script>
+      AFRAME.registerComponent('manual-animation', {
+        init: function () {
+          this.model = null;
+          this.mixer = null;
+
+          const self = this;
+          this.el.addEventListener('model-loaded', function (event) {
+            self.model = event.detail.model;
+            if (self.model.animations && self.model.animations.length > 0) {
+              self.mixer = new THREE.AnimationMixer(self.model);
+              const clip = self.model.animations[0];
+              const action = self.mixer.clipAction(clip);
+              action.play();
+            }
+          });
+        },
+        tick: function (t, dt) {
+          if (this.mixer) {
+            this.mixer.update(dt / 1000);
+          }
+        }
+      });
+    </script>
+
   </head>
   <body style="margin: 0px; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
@@ -17,7 +43,7 @@
       </a-marker>
 
       <a-marker type="barcode" value="3">
-        <a-gltf-model src="Assets/earth.glb" animation-mixer="loop: repeat;"></a-gltf-model>
+        <a-gltf-model src="Assets/earth.glb" manual-animation></a-gltf-model>
       </a-marker>
 
       <a-marker type="barcode" value="4">
