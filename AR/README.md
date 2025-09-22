@@ -5,6 +5,7 @@
 - AR5: Multiblock example, works with barcodes 1-4.
 - AR6: Adaptation of AR5 using 3D assets
 - AR7: Experimental copy of AR6.
+- ARJ: Variant of AR6 with improved lighting and additional models.
 
 
 "Tōhoku earthquake - 2011" (https://skfb.ly/6GMOp) by Loïc Norgeot is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
