@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ARJ Multi-Asset Demo</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+
+  <body style="margin: 0px; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" renderer="colorManagement: true;">
+      <!-- Marker 1 shows the airborne point cloud -->
+      <a-marker type="barcode" value="1">
+        <a-entity ply-model="src:Assets/ptCloudsTest2.ply; mesh: false; size: 2.5;" rotation="-90 0 0" scale="0.25 0.25 0.25"></a-entity>
+      </a-marker>
+
+      <!-- Marker 2 displays the Antarctica surface model -->
+      <a-marker type="barcode" value="2">
+        <a-gltf-model src="Assets/Antarctica2.glb" position="0 -0.25 0" scale="0.01 0.01 0.01" shadow></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 3 animates the rotating Earth -->
+      <a-marker type="barcode" value="3">
+        <a-gltf-model src="Assets/earth.glb" animation-mixer="clip: '*'; autoplay: true; loop: pingpong; duration: 4; timeScale: 0.5"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 5 reveals Earth's interior structure -->
+      <a-marker type="barcode" value="5">
+        <a-gltf-model src="Assets/earths_interior.glb" position="0 -0.35 0" scale="0.5 0.5 0.5"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 6 shows the parsed PLY geometry (disabled while previewing marker 1) -->
+      <a-marker type="barcode" value="6">
+        <a-gltf-model src="Assets/PLYparsed.glb" position="0 0.25 0" scale="1.3 1.3 1.3" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-gltf-model>
+      </a-marker>
+
+      <!-- Scene lighting for better material readability -->
+      <a-entity light="type: ambient; intensity: 0.5; color: #ffffff;"></a-entity>
+      <a-entity light="type: directional; intensity: 0.8; color: #ffffff;" position="1 1 0"></a-entity>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
