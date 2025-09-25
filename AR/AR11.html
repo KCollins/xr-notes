@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR.js Multi-Barcode Example</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ar-js@3.4.2/aframe/build/aframe-ar.js"></script>
+
+    <script>
+      AFRAME.registerComponent('manual-animation', {
+        init: function () {
+          this.model = null;
+          this.mixer = null;
+
+          const self = this;
+          this.el.addEventListener('model-loaded', function (event) {
+            self.model = event.detail.model;
+            if (self.model.animations && self.model.animations.length > 0) {
+              self.mixer = new THREE.AnimationMixer(self.model);
+              const clip = self.model.animations[0];
+              const action = self.mixer.clipAction(clip);
+              action.play();
+            }
+          });
+        },
+        tick: function (t, dt) {
+          if (this.mixer) {
+            this.mixer.update(dt / 1000);
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body style="margin: 0px; overflow: hidden;">
+    <video id="co2vid" loop muted playsinline preload="auto" crossorigin="anonymous" style="display:none">
+      <!-- <source src="Assets/co2_2048.mp4" type="video/mp4"> -->
+      <!-- <source src="Assets/co2_2048.webm" type="video/webm"> -->
+      <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
+    </video>
+    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      
+
+      <!-- <a-marker type="barcode" value="2">
+        <a-gltf-model src="Assets/Antarctica2.glb" position="0 0 0" scale="0.01 0.01 0.01"></a-gltf-model>
+      </a-marker> -->
+
+      <a-marker type="barcode" value="6">
+        <a-gltf-model id="m6" data-src="Assets/Antarctica3.glb" rotation="0 0 0" position="0 0.50 0" scale="1.2 1.2 1.2"></a-gltf-model>
+      </a-marker>
+
+
+      <a-marker type="barcode" value="1">
+        <a-gltf-model id="m1" data-src="Assets/earths_interior.glb" scale="0.75 0.75 0.75" manual-animation></a-gltf-model>
+      </a-marker>
+
+      <a-marker id="marker4" type="barcode" value="4">
+        <a-sphere radius="0.65"
+                  rotation="0 90 0"
+                  material="src:#co2vid; metalness:0; roughness:1"
+                  animation="property: rotation; to: 0 -360 0; loop: true; dur: 24000; easing: linear">
+        </a-sphere>
+      </a-marker>
+
+      <a-marker type="barcode" value="5">
+        <a-gltf-model id="m5" data-src="Assets/tohoku.glb"
+                      manual-animation
+                      position="0 0.50 0"
+                      animation="property: rotation; to: 0 360 0; loop: true; dur: 16000; easing: linear"></a-gltf-model>
+      </a-marker>
+    
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+    (function(){
+      const m4  = document.querySelector('#marker4');
+      const vid = document.querySelector('#co2vid');
+      if (!m4 || !vid) return;
+      m4.addEventListener('markerFound', () => { vid.play().catch((err) => { console.error('Video play failed:', err); }); });
+      m4.addEventListener('markerLost',  () => { vid.pause(); });
+    })();
+    </script>
+
+    <script>
+    (function(){
+      const scene = document.querySelector('a-scene');
+      if (!scene) return;
+
+      if (window.THREE && THREE.Cache) THREE.Cache.enabled = true;
+
+      // Collect all GLBs that should preload (in your chosen order)
+      const order = ['#m1', '#m5', '#m6']
+        .map(sel => document.querySelector(sel))
+        .filter(Boolean);
+      const queue = order.length ? order : Array.from(document.querySelectorAll('a-gltf-model[data-src]'));
+
+      let i = 0, started = false;
+
+      function loadNext(){
+        if (i >= queue.length) return;
+        const el  = queue[i++];
+        const src = el.getAttribute('data-src');
+        console.log('[QUEUE] loading', src);
+        // Stagger start slightly to allow GC/GPU to settle between loads
+        setTimeout(()=>{
+          const onLoaded = () => {
+            el.removeEventListener('model-loaded', onLoaded);
+            el.removeEventListener('model-error', onError);
+            console.log('[QUEUE] loaded', src);
+            setTimeout(loadNext, 100);
+          };
+          const onError = (e) => {
+            console.error('[QUEUE] error', src, e);
+            el.removeEventListener('model-loaded', onLoaded);
+            el.removeEventListener('model-error', onError);
+            setTimeout(loadNext, 100);
+          };
+          el.addEventListener('model-loaded', onLoaded, {once: true});
+          el.addEventListener('model-error', onError,  {once: true});
+          el.setAttribute('gltf-model', src);
+        }, 0);
+      }
+
+      function startOnce(){
+        if (started) return;
+        started = true;
+        console.log('[QUEUE] start');
+        loadNext();
+      }
+
+      // Prefer AR.js readiness, but fall back to scene loaded or a short timeout
+      scene.addEventListener('arReady', startOnce);
+      scene.addEventListener('loaded', startOnce);
+      setTimeout(startOnce, 1500);
+    })();
+    </script>
+
+  </body>
+</html>
