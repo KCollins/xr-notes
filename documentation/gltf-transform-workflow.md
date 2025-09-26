@@ -44,7 +44,7 @@ npx @gltf-transform/cli optimize model_1.glb model_1.opt.glb --compress draco --
 ✔ draco                6ms
 ```
 
-For a more opinionated preset that also simplifies geometry, applies Draco, resizes textures, and converts to WebP, run:
+For a more targeted approach, you can specify additional options for each process run by the `optimize` command:
 
 ```bash
 npx @gltf-transform/cli optimize \
@@ -61,9 +61,9 @@ npx @gltf-transform/cli optimize \
 - `--texture-compress webp` + `--texture-size 2048` → downscale to 2048 px, emit WebP textures (`EXT_texture_webp`).
 - `--simplify-ratio` / `--simplify-error` → lower triangle count while keeping shape close to original.
 
-## Optional Step-by-Step Workflow
+## Optional Step-by-Step Optimization
 
-If you want explicit control over each transform:
+You can also run each transform separately:
 
 ```bash
 # Geometry reduction first
@@ -120,7 +120,7 @@ done
 
 ## Verification
 
-After each run:
+You can run a verification on the glTF files (originals or optimized):
 
 ```bash
 # Check sizes
@@ -143,5 +143,5 @@ You should see `KHR_draco_mesh_compression` and `EXT_texture_webp`. Modern Safar
 
 ## Runtime Notes
 
-- ARx.html already references `.opt.glb` via `data-src` with fallback to the original `.glb`, so it is enough to drop the optimized `.opt.glb` files in `AR/Assets`.
+- ARx.html already references `.opt.glb` via `data-src`, with a fallback to the original `.glb`. It is enough to drop the optimized `.opt.glb` files where the glTF models are stored (e.g. `AR/Assets`).
 - Because the pipeline uses Draco and WebP, no extra JavaScript wiring is necessary—the GLTFLoader bundled with A-Frame 1.5.0 recognizes Draco automatically when using the official decoders.
