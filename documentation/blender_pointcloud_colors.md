@@ -8,7 +8,7 @@ These instructions show how to import, display and export per-point colors from 
 
 1. In a new or current Blender scene, set on the right-hand side menu `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
 
-![The right-hand Properties panel in Blender. You can set the units here.](image-3.png)
+![The right-hand Properties panel in Blender. You can set the scene units here.](image-3.png)
 
 2. Import the point cloud via `File → Import → Stanford PLY (.ply)` and select the file.
 3. With the point cloud object selected, adjust the **Scale** values so the bounding box reflects real-world meters (e.g., data in centimeters → scale by `0.01`), then apply it with `Ctrl+A → Scale`.
