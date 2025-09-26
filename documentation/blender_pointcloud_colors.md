@@ -6,7 +6,7 @@ These instructions show how to import, display and export per-point colors from 
 
 ## Preparation: Import, Scale, and Center the Point Cloud
 
-1. In a new or current Blender scene, **set** `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
+1. In a new or current Blender scene, **set** in the right-hand side panel `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
 
 ![The right-hand Properties panel in Blender. You can set the scene units here.](image-3.png)
 
