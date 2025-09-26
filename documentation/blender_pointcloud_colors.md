@@ -1,12 +1,12 @@
 # Visualizing Colored Point Clouds in Blender (4.x) and glTF 2.0 Export
 
-These instructions show how to display per-point colors from a `.ply` **Point Cloud object** in Blender.
+These instructions show how to import, display and export per-point colors from a `.ply` **Point Cloud object** in Blender to glTF format for use in AR/VR applications.
 
 ---
 
-## 0. Import, Scale, and Center the Point Cloud
+## Preparation: Import, Scale, and Center the Point Cloud
 
-1. In a new Blender scene, set `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
+1. In a new or current Blender scene, set on the right-hand side menu `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
 
 ![The right-hand Properties panel in Blender. You can set the units here.](image-3.png)
 
@@ -22,6 +22,8 @@ These instructions show how to display per-point colors from a `.ply` **Point Cl
 5. Snap the point cloud to the origin with `Shift+S → Selection to Cursor`, and apply the location (`Ctrl+A → Location`) if you want zeroed transforms before continuing.
 
 ![The Shift+S circular menu on Blender's viewport.](image-6.png)
+
+> **Note:** `Ctrl+A → Apply` writes the current scale/location values into the mesh data so transform defaults become 1/0. This keeps the glTF export aligned with real-world meters and avoids unexpected scaling when the model loads elsewhere.
 
 ## 1. Geometry Nodes Setup
 
