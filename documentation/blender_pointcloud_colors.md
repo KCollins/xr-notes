@@ -43,6 +43,8 @@ Set Material.Geometry
 
 (Optional: If your `.ply` has a `"radius"` attribute, you can pipe it into *Instance on Points → Scale* using a **Named Attribute** node and **Capture Attribute** node.)
 
+![A view of the Geometry Nodes for instancing primitives for each point in a point cloud.](image-1.png)
+
 ---
 
 ## 2. Material Setup
@@ -59,6 +61,8 @@ Attribute("Col").Color
 Principled BSDF.BSDF
   → Material Output.Surface
 ```
+
+![A view of the Shading nodes for setting up material properties in Blender.](image.png)
 
 **Notes**
 - The attribute name is usually `"Col"`, but check **Object Data Properties → Attributes** for the exact name (case-sensitive).
