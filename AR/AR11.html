@@ -36,8 +36,6 @@
   </head>
   <body style="margin: 0px; overflow: hidden;">
     <video id="co2vid" loop muted playsinline preload="metadata" crossorigin="anonymous" style="display:none">
-      <!-- <source src="Assets/co2_2048.mp4" type="video/mp4"> -->
-      <!-- <source src="Assets/co2_2048.webm" type="video/webm"> -->
       <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
     </video>
     <video id="co2spherevid" loop muted playsinline preload="metadata" crossorigin="anonymous" style="display:none">
@@ -111,7 +109,7 @@
 
       <!-- Marker 6: Antarctica Ice Sheet -->
       <a-marker type="barcode" value="6">
-        <a-gltf-model id="m2" data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb"
+        <a-gltf-model id="m2" data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb" data-lite-skip="true"
                       rotation="0 0 0"
                       position="0 0.01 0"
                       scale="1.2 1.2 1.2"> 
@@ -230,102 +228,63 @@
 
       if (window.THREE && THREE.Cache) THREE.Cache.enabled = true;
 
-      // Preload order: exclude heavy Antarctica (m2) for on-demand load
-      const order = ['#m1', '#m5', '#m6']
-        .map(sel => document.querySelector(sel))
-        .filter(Boolean);
-      const queue = order; // use explicit order to avoid including m2
+      function loadModelOnce(el){
+        if (el.hasAttribute('gltf-model')) return;
+        if (lite && el.dataset.liteSkip === 'true') return;
 
-      let i = 0, started = false;
+        const primary = el.getAttribute('data-src');
+        if (!primary) return;
+        const fallback = el.getAttribute('data-fallback');
 
-      function loadNext(){
-        if (i >= queue.length) {
-          scene.emit('asset-queue-complete');
-          return;
-        }
-        const el  = queue[i++];
-        const src = el.getAttribute('data-src');
-        if (!src) return setTimeout(loadNext, 50);
-        console.log('[QUEUE] loading', src);
-        // Stagger start slightly to allow GC/GPU to settle between loads
-        setTimeout(()=>{
-          const onLoaded = () => {
-            el.removeEventListener('model-loaded', onLoaded);
-            el.removeEventListener('model-error', onError);
-            console.log('[QUEUE] loaded', el.getAttribute('gltf-model'));
-            setTimeout(loadNext, 100);
-          };
-          const onError = (e) => {
-            const attempted = el.dataset.attempt || '0';
-            const fb = el.getAttribute('data-fallback');
-            const currentSrc = el.getAttribute('gltf-model');
-            console.warn('[QUEUE] error for', currentSrc || src, e.type || e);
-            if (attempted === '0' && fb && currentSrc !== fb) {
-              el.dataset.attempt = '1';
-              console.log('[QUEUE] falling back to', fb);
-              // Try fallback; keep listeners for subsequent load/error
-              return el.setAttribute('gltf-model', fb);
-            }
-            // Final failure; cleanup and advance
-            el.removeEventListener('model-loaded', onLoaded);
-            el.removeEventListener('model-error', onError);
-            setTimeout(loadNext, 100);
-          };
-          el.addEventListener('model-loaded', onLoaded, {once: true});
-          el.addEventListener('model-error', onError);
-          el.dataset.attempt = '0';
-          el.setAttribute('gltf-model', src);
-        }, 0);
-      }
-
-      function startOnce(){
-        if (started) return;
-        started = true;
-        console.log('[QUEUE] start');
-        loadNext();
-      }
-
-      // Heavy model (m2) on-demand on first markerFound, unless lite
-      const marker6 = document.querySelector('a-marker[type="barcode"][value="6"]');
-      const m2 = document.querySelector('#m2');
-      if (marker6 && m2) {
-        const loadM2 = () => {
-          if (lite) return; // skip in lite mode
-          const src = m2.getAttribute('data-src');
-          const fb  = m2.getAttribute('data-fallback');
-          if (src && !m2.getAttribute('gltf-model')) {
-            console.log('[ON-DEMAND] loading', src);
-            const onLoaded = () => {
-              m2.removeEventListener('model-loaded', onLoaded);
-              m2.removeEventListener('model-error', onError);
-              console.log('[ON-DEMAND] loaded', m2.getAttribute('gltf-model'));
-            };
-            const onError = () => {
-              const attempted = m2.dataset.attempt || '0';
-              const currentSrc = m2.getAttribute('gltf-model');
-              if (attempted === '0' && fb && currentSrc !== fb) {
-                m2.dataset.attempt = '1';
-                console.log('[ON-DEMAND] falling back to', fb);
-                return m2.setAttribute('gltf-model', fb);
-              }
-              m2.removeEventListener('model-loaded', onLoaded);
-              m2.removeEventListener('model-error', onError);
-              console.warn('[ON-DEMAND] failed to load', currentSrc || src);
-            };
-            m2.addEventListener('model-loaded', onLoaded, { once: true });
-            m2.addEventListener('model-error', onError);
-            m2.dataset.attempt = '0';
-            m2.setAttribute('gltf-model', src);
-          }
-          marker6.removeEventListener('markerFound', loadM2);
+        const onLoaded = () => {
+          el.removeEventListener('model-loaded', onLoaded);
+          el.removeEventListener('model-error', onError);
+          delete el.dataset.lazyAttempt;
+          console.log('[LAZY] loaded', el.getAttribute('gltf-model'));
         };
-        marker6.addEventListener('markerFound', loadM2);
+
+        const onError = (evt) => {
+          const attempted = el.dataset.lazyAttempt || '0';
+          const current = el.getAttribute('gltf-model');
+          console.warn('[LAZY] error for', current || primary, evt.type || evt);
+          if (attempted === '0' && fallback && current !== fallback) {
+            el.dataset.lazyAttempt = '1';
+            console.log('[LAZY] falling back to', fallback);
+            el.setAttribute('gltf-model', fallback);
+            return;
+          }
+          el.removeEventListener('model-loaded', onLoaded);
+          el.removeEventListener('model-error', onError);
+        };
+
+        el.dataset.lazyAttempt = '0';
+        el.addEventListener('model-loaded', onLoaded);
+        el.addEventListener('model-error', onError);
+        el.setAttribute('gltf-model', primary);
+        console.log('[LAZY] loading', primary);
       }
 
-      // Prefer AR.js readiness, but fall back to scene loaded or a short timeout
-      scene.addEventListener('arReady', startOnce);
-      scene.addEventListener('loaded', startOnce);
-      setTimeout(startOnce, 1500);
+      function setupMarkerLazyLoad(marker){
+        const models = Array.from(marker.querySelectorAll('[data-src]'));
+        if (!models.length) return;
+
+        const tryLoad = () => {
+          let pending = false;
+          models.forEach((el) => {
+            if (!el.hasAttribute('gltf-model') && !(lite && el.dataset.liteSkip === 'true')) {
+              pending = true;
+              loadModelOnce(el);
+            }
+          });
+          if (!pending) {
+            marker.removeEventListener('markerFound', tryLoad);
+          }
+        };
+
+        marker.addEventListener('markerFound', tryLoad);
+      }
+
+      scene.querySelectorAll('a-marker').forEach(setupMarkerLazyLoad);
     })();
     </script>
 
