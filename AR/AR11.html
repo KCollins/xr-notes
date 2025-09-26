@@ -40,8 +40,8 @@
       <!-- <source src="Assets/co2_2048.webm" type="video/webm"> -->
       <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
     </video>
-    <a-scene embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: high"
-                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 960; sourceHeight: 720;">
+    <a-scene stats embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;"
+                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 800; sourceHeight: 600;">
 
       <!-- Marker 0: Tohoku Earthquake Volume -->
       <a-marker type="barcode" value="0">
