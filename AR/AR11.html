@@ -2,9 +2,11 @@
 <html>
   <head>
     <title>AR.js Multi-Barcode Example</title>
+    <!-- Reminder: Before publishing, pin external JS to exact versions or self-host.
+         Use tag-based URLs (e.g., AR.js @ 3.4.2) or vendor into /vendor to avoid
+         breaking changes from upstream. -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/ar-js@3.4.2/aframe/build/aframe-ar.js"></script> -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar-nft.js"></script>
 
     <script>
       AFRAME.registerComponent('manual-animation', {
@@ -33,40 +35,67 @@
 
   </head>
   <body style="margin: 0px; overflow: hidden;">
-    <video id="co2vid" loop muted playsinline preload="auto" crossorigin="anonymous" style="display:none">
+    <video id="co2vid" loop muted playsinline preload="metadata" crossorigin="anonymous" style="display:none">
       <!-- <source src="Assets/co2_2048.mp4" type="video/mp4"> -->
       <!-- <source src="Assets/co2_2048.webm" type="video/webm"> -->
       <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
     </video>
-    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-      
+    <a-scene embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: high" arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 480; sourceHeight: 360;">
 
-      <!-- <a-marker type="barcode" value="2">
-        <a-gltf-model src="Assets/Antarctica2.glb" position="0 0 0" scale="0.01 0.01 0.01"></a-gltf-model>
-      </a-marker> -->
+      <!-- Marker 0: Unassigned -->
 
-      <a-marker type="barcode" value="6">
-        <a-gltf-model id="m6" data-src="Assets/Antarctica3.glb" rotation="0 0 0" position="0 0.50 0" scale="1.2 1.2 1.2"></a-gltf-model>
-      </a-marker>
-
-
-      <a-marker type="barcode" value="1">
-        <a-gltf-model id="m1" data-src="Assets/earths_interior.glb" scale="0.75 0.75 0.75" manual-animation></a-gltf-model>
-      </a-marker>
-
-      <a-marker id="marker4" type="barcode" value="4">
-        <a-sphere radius="0.65"
+      <!-- Marker 1: Video Globe -->
+      <a-marker id="videoGlobe" type="barcode" value="1">
+        <a-sphere id="vidSphere" radius="3"
+                  position="0 0 -5"
                   rotation="0 90 0"
-                  material="src:#co2vid; metalness:0; roughness:1"
-                  animation="property: rotation; to: 0 -360 0; loop: true; dur: 24000; easing: linear">
+                  animation="property: rotation; to: 0 -360 0; loop: true; dur: 120000; easing: linear">
         </a-sphere>
       </a-marker>
 
-      <a-marker type="barcode" value="5">
-        <a-gltf-model id="m5" data-src="Assets/tohoku.glb"
+      <!-- Marker 2: Unassigned -->
+
+      <!-- Marker 3: Tohoku Earthquake Volume -->
+      <a-marker type="barcode" value="3">
+        <a-gltf-model id="m5" data-src="Assets/tohoku.opt.glb" data-fallback="Assets/tohoku.glb"
                       manual-animation
-                      position="0 0.50 0"
-                      animation="property: rotation; to: 0 360 0; loop: true; dur: 16000; easing: linear"></a-gltf-model>
+                      position="0 0.70 0"
+                      scale="1 1 1"
+                      animation="property: rotation; to: 0 360 0; loop: true; dur: 80000; easing: linear"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 4: CubeSat Model -->
+      <a-marker type="barcode" value="4">
+        <a-entity position="0 0.90 0"
+                  animation__bob="property: position; to: 0 1.05 0; dir: alternate; dur: 3200; easing: easeInOutSine; loop: true">
+          <a-entity animation__wobble="property: rotation; to: 4 4 0; dir: alternate; dur: 2600; easing: easeInOutSine; loop: true">
+            <a-gltf-model id="m6" data-src="Assets/CubeSat_-_1_RU_Generic.opt.glb" data-fallback="Assets/CubeSat_-_1_RU_Generic.glb"
+                          scale="0.4 0.4 0.4"
+                          animation="property: rotation; to: 0 360 0; loop: true; dur: 16000; easing: linear">
+            </a-gltf-model>
+          </a-entity>
+        </a-entity>
+      </a-marker>
+
+      <!-- Marker 5: Unassigned -->
+
+      <!-- Marker 6: Antarctica Ice Sheet -->
+      <a-marker type="barcode" value="6">
+        <a-gltf-model id="m2" data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb"
+                      rotation="0 0 0"
+                      position="0 0.10 0"
+                      scale="1.2 1.2 1.2"> 
+        </a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 7: Earth's Interior Cross-Section -->
+      <a-marker type="barcode" value="7">
+        <a-gltf-model id="m1" data-src="Assets/earths_interior.opt.glb" data-fallback="Assets/earths_interior.glb"
+                      rotation="0 -90 0"
+                      position="0 0 0"
+                      scale="0.65 0.65 0.65"
+                      manual-animation>
+        </a-gltf-model>
       </a-marker>
     
       <a-entity camera></a-entity>
@@ -74,11 +103,39 @@
 
     <script>
     (function(){
-      const m4  = document.querySelector('#marker4');
-      const vid = document.querySelector('#co2vid');
-      if (!m4 || !vid) return;
-      m4.addEventListener('markerFound', () => { vid.play().catch((err) => { console.error('Video play failed:', err); }); });
-      m4.addEventListener('markerLost',  () => { vid.pause(); });
+      const params = new URLSearchParams(location.search);
+      const lite = params.has('lite') || params.get('mode') === 'lite';
+
+      const videoMarker  = document.querySelector('#videoGlobe');
+      const sphere       = document.querySelector('#vidSphere');
+      const vid          = document.querySelector('#co2vid');
+      if (!videoMarker || !sphere || !vid) return;
+
+      let materialBound = false;
+
+      function bindVideoMaterialOnce(){
+        if (materialBound) return;
+        materialBound = true;
+        sphere.setAttribute('material', 'src:#co2vid; metalness:0; roughness:1');
+      }
+
+      // Skip video entirely in lite mode
+      if (lite) {
+        videoMarker.addEventListener('markerFound', () => {/* no-op in lite mode */});
+        videoMarker.addEventListener('markerLost',  () => {/* no-op in lite mode */});
+        return;
+      }
+
+      // Bind the video material as soon as the video is ready enough
+      const onReady = () => bindVideoMaterialOnce();
+      vid.addEventListener('loadeddata', onReady, { once: true });
+      vid.addEventListener('canplaythrough', onReady, { once: true });
+
+      videoMarker.addEventListener('markerFound', () => {
+        bindVideoMaterialOnce();
+        vid.play().catch((err) => { console.error('Video play failed:', err); });
+      });
+      videoMarker.addEventListener('markerLost',  () => { vid.pause(); });
     })();
     </script>
 
@@ -87,37 +144,55 @@
       const scene = document.querySelector('a-scene');
       if (!scene) return;
 
+      const params = new URLSearchParams(location.search);
+      const lite = params.has('lite') || params.get('mode') === 'lite';
+
       if (window.THREE && THREE.Cache) THREE.Cache.enabled = true;
 
-      // Collect all GLBs that should preload (in your chosen order)
+      // Preload order: exclude heavy Antarctica (m2) for on-demand load
       const order = ['#m1', '#m5', '#m6']
         .map(sel => document.querySelector(sel))
         .filter(Boolean);
-      const queue = order.length ? order : Array.from(document.querySelectorAll('a-gltf-model[data-src]'));
+      const queue = order; // use explicit order to avoid including m2
 
       let i = 0, started = false;
 
       function loadNext(){
-        if (i >= queue.length) return;
+        if (i >= queue.length) {
+          scene.emit('asset-queue-complete');
+          return;
+        }
         const el  = queue[i++];
         const src = el.getAttribute('data-src');
+        if (!src) return setTimeout(loadNext, 50);
         console.log('[QUEUE] loading', src);
         // Stagger start slightly to allow GC/GPU to settle between loads
         setTimeout(()=>{
           const onLoaded = () => {
             el.removeEventListener('model-loaded', onLoaded);
             el.removeEventListener('model-error', onError);
-            console.log('[QUEUE] loaded', src);
+            console.log('[QUEUE] loaded', el.getAttribute('gltf-model'));
             setTimeout(loadNext, 100);
           };
           const onError = (e) => {
-            console.error('[QUEUE] error', src, e);
+            const attempted = el.dataset.attempt || '0';
+            const fb = el.getAttribute('data-fallback');
+            const currentSrc = el.getAttribute('gltf-model');
+            console.warn('[QUEUE] error for', currentSrc || src, e.type || e);
+            if (attempted === '0' && fb && currentSrc !== fb) {
+              el.dataset.attempt = '1';
+              console.log('[QUEUE] falling back to', fb);
+              // Try fallback; keep listeners for subsequent load/error
+              return el.setAttribute('gltf-model', fb);
+            }
+            // Final failure; cleanup and advance
             el.removeEventListener('model-loaded', onLoaded);
             el.removeEventListener('model-error', onError);
             setTimeout(loadNext, 100);
           };
           el.addEventListener('model-loaded', onLoaded, {once: true});
-          el.addEventListener('model-error', onError,  {once: true});
+          el.addEventListener('model-error', onError);
+          el.dataset.attempt = '0';
           el.setAttribute('gltf-model', src);
         }, 0);
       }
@@ -129,11 +204,55 @@
         loadNext();
       }
 
+      // Heavy model (m2) on-demand on first markerFound, unless lite
+      const marker6 = document.querySelector('a-marker[type="barcode"][value="6"]');
+      const m2 = document.querySelector('#m2');
+      if (marker6 && m2) {
+        const loadM2 = () => {
+          if (lite) return; // skip in lite mode
+          const src = m2.getAttribute('data-src');
+          const fb  = m2.getAttribute('data-fallback');
+          if (src && !m2.getAttribute('gltf-model')) {
+            console.log('[ON-DEMAND] loading', src);
+            const onLoaded = () => {
+              m2.removeEventListener('model-loaded', onLoaded);
+              m2.removeEventListener('model-error', onError);
+              console.log('[ON-DEMAND] loaded', m2.getAttribute('gltf-model'));
+            };
+            const onError = () => {
+              const attempted = m2.dataset.attempt || '0';
+              const currentSrc = m2.getAttribute('gltf-model');
+              if (attempted === '0' && fb && currentSrc !== fb) {
+                m2.dataset.attempt = '1';
+                console.log('[ON-DEMAND] falling back to', fb);
+                return m2.setAttribute('gltf-model', fb);
+              }
+              m2.removeEventListener('model-loaded', onLoaded);
+              m2.removeEventListener('model-error', onError);
+              console.warn('[ON-DEMAND] failed to load', currentSrc || src);
+            };
+            m2.addEventListener('model-loaded', onLoaded, { once: true });
+            m2.addEventListener('model-error', onError);
+            m2.dataset.attempt = '0';
+            m2.setAttribute('gltf-model', src);
+          }
+          marker6.removeEventListener('markerFound', loadM2);
+        };
+        marker6.addEventListener('markerFound', loadM2);
+      }
+
       // Prefer AR.js readiness, but fall back to scene loaded or a short timeout
       scene.addEventListener('arReady', startOnce);
       scene.addEventListener('loaded', startOnce);
       setTimeout(startOnce, 1500);
     })();
+    </script>
+
+    <script>
+      // Basic error logging for production diagnostics
+      window.addEventListener('unhandledrejection', (e) => {
+        console.error('[UNHANDLED]', e.reason || e);
+      });
     </script>
 
   </body>
