@@ -3,6 +3,7 @@
 ## Prerequisites
 
 1. **Install Node.js (one-time):**
+   Using Homebrew on macOS (if already installed):
    ```bash
    brew install node
    ```
@@ -23,8 +24,8 @@ Use this to simplify geometry, Draco-compress, resize textures, and convert to W
 
 ```bash
 npx @gltf-transform/cli optimize \
-  CubeSat_-_1_RU_Generic.glb \
-  CubeSat_-_1_RU_Generic.opt.glb \
+  model_1.glb \
+  model_1.opt.glb \
   --compress draco \
   --texture-compress webp \
   --texture-size 2048 \
@@ -36,8 +37,6 @@ npx @gltf-transform/cli optimize \
 - `--texture-compress webp` + `--texture-size 2048` → downscale to 2048 px, emit WebP textures (`EXT_texture_webp`).
 - `--simplify-ratio` / `--simplify-error` → lower triangle count while keeping shape close to original.
 
-> Note: `--simplify-lock-normals` isn’t available; the CLI ignores it.
-
 ## Optional Step-by-Step Workflow
 
 If you want explicit control over each transform:
@@ -45,15 +44,15 @@ If you want explicit control over each transform:
 ```bash
 # Geometry reduction first
 npx @gltf-transform/cli simplify \
-  CubeSat_-_1_RU_Generic.glb \
-  CubeSat_-_1_RU_Generic.simplified.glb \
+  model_1.glb \
+  model_1.simplified.glb \
   --ratio 0.6 \
   --error 0.001
 
 # Draco, texture compression, pruning, etc.
 npx @gltf-transform/cli optimize \
-  CubeSat_-_1_RU_Generic.simplified.glb \
-  CubeSat_-_1_RU_Generic.opt.glb \
+  model_1.simplified.glb \
+  model_1.opt.glb \
   --compress draco \
   --texture-compress webp \
   --texture-size 2048
@@ -63,8 +62,26 @@ npx @gltf-transform/cli optimize \
 
 Optimize all relevant models at once:
 
+This example manually lists the models you want to process:
+
 ```bash
-for f in AR/Assets/{Antarctica3,earths_interior,tohoku,CubeSat_-_1_RU_Generic}.glb; do
+for f in AR/Assets/{model_1,model_2,model_3,model_4}.glb; do
+  out="${f%.glb}.opt.glb"
+  echo "Optimizing $f -> $out"
+  npx @gltf-transform/cli optimize \
+    "$f" "$out" \
+    --compress draco \
+    --texture-compress webp \
+    --texture-size 2048 \
+    --simplify-ratio 0.6 \
+    --simplify-error 0.001
+done
+```
+
+To target every `.glb` file in the folder automatically:
+
+```bash
+for f in AR/Assets/*.glb; do
   out="${f%.glb}.opt.glb"
   echo "Optimizing $f -> $out"
   npx @gltf-transform/cli optimize \
@@ -83,20 +100,24 @@ After each run:
 
 ```bash
 # Check sizes
-ls -lh AR/Assets/CubeSat_-_1_RU_Generic*.glb
+ls -lh AR/Assets/model_1*.glb
 
-# Inspect required extensions
-npx @gltf-transform/cli inspect AR/Assets/CubeSat_-_1_RU_Generic.opt.glb \
+# Inspect required extensions on a single file
+npx @gltf-transform/cli inspect AR/Assets/model_1.opt.glb \
   | rg 'extensionsRequired'
+
+# Inspect every glb in the folder
+for f in AR/Assets/*.glb; do
+  echo "Inspecting $f"
+  npx @gltf-transform/cli inspect "$f" | rg 'extensionsRequired'
+done
 ```
 
 You should see `KHR_draco_mesh_compression` and `EXT_texture_webp`. Modern Safari/Chrome support both; if any target device doesn’t support WebP, rerun with `--texture-compress jpg`.
 
-## Runtime Notes
-
-- Your HTML already references `.opt.glb` via `data-src` with fallback to the original `.glb`, so dropping the optimized files in `AR/Assets` is enough.
-- Because the pipeline uses Draco and WebP, no extra JavaScript wiring was necessary—the GLTFLoader bundled with A-Frame 1.5.0 recognizes Draco automatically when using the official decoders.
-
 ---
 
-Keep this Markdown file alongside the project for quick reference the next time you need to regenerate optimized assets.
+## Runtime Notes
+
+- ARx.html already references `.opt.glb` via `data-src` with fallback to the original `.glb`, so it is enough to drop the optimized `.opt.glb` files in `AR/Assets`.
+- Because the pipeline uses Draco and WebP, no extra JavaScript wiring is necessary—the GLTFLoader bundled with A-Frame 1.5.0 recognizes Draco automatically when using the official decoders.
