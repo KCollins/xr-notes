@@ -40,11 +40,22 @@
       <!-- <source src="Assets/co2_2048.webm" type="video/webm"> -->
       <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
     </video>
+    <video id="co2spherevid" loop muted playsinline preload="metadata" crossorigin="anonymous" style="display:none">
+      <source src="Assets/videoCo2.mp4" type="video/mp4">
+    </video>
     <a-scene stats embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;"
-                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 800; sourceHeight: 600;">
+                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 5x5_BCH_22_7_7; sourceWidth: 800; sourceHeight: 600;">
 
       <!-- Marker 0: Tohoku Earthquake Volume -->
       <a-marker type="barcode" value="0">
+        <a-plane id="tohokuLabel"
+                 src="Assets/Tohoku_label.jpg"
+                 position="-0.47 1.1 -0.9"
+                 rotation="0 0 0"
+                 width="2.3"
+                 height="2.2"
+                 material="shader:standard; metalness:0; roughness:1; transparent:true">
+        </a-plane>
         <a-gltf-model id="m5" data-src="Assets/tohoku.opt.glb" data-fallback="Assets/tohoku.glb"
                       manual-animation
                       position="-0.5 0.70 0"
@@ -63,10 +74,28 @@
         </a-sphere>
       </a-marker>
 
-      <!-- Marker 3: Unassigned -->
+      <!-- Marker 3: EOS Website Logo -->
+      <a-marker type="barcode" value="3">
+        <a-plane id="eosLogo"
+                 src="Assets/EOS_website_logo.jpg"
+                 position="0 0.02 0"
+                 rotation="-90 0 0"
+                 width="1.1"
+                 height="1.1"
+                 material="shader:standard; metalness:0; roughness:1; transparent:false">
+        </a-plane>
+      </a-marker>
 
       <!-- Marker 4: CubeSat Model -->
       <a-marker type="barcode" value="4">
+        <a-plane id="cubeSatLabel"
+                 src="Assets/CubeSat_label.jpg"
+                 position="0 0.02 0"
+                 rotation="-90 0 0"
+                 width="1.1"
+                 height="1.1"
+                 material="shader:standard; metalness:0; roughness:1; transparent:false">
+        </a-plane>
         <a-entity position="0 0.90 0"
                   animation__bob="property: position; to: 0 1.05 0; dir: alternate; dur: 3200; easing: easeInOutSine; loop: true">
           <a-entity animation__wobble="property: rotation; to: 4 4 0; dir: alternate; dur: 2600; easing: easeInOutSine; loop: true">
@@ -84,20 +113,58 @@
       <a-marker type="barcode" value="6">
         <a-gltf-model id="m2" data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb"
                       rotation="0 0 0"
-                      position="0 0.10 0"
+                      position="0 0.01 0"
                       scale="1.2 1.2 1.2"> 
         </a-gltf-model>
       </a-marker>
 
-      <!-- Marker 7: Earth's Interior Cross-Section -->
-      <a-marker type="barcode" value="7">
+      <!-- Marker 7: CO₂ Emissions Sphere -->
+      <a-marker id="videoCo2" type="barcode" value="7">
+        <a-plane id="co2Label"
+                 src="Assets/CO2_label.jpg"
+                 position="0 0.02 0"
+                 rotation="-90 0 0"
+                 width="1.05"
+                 height="1.35"
+                 material="shader:standard; metalness:0; roughness:1; transparent:true">
+        </a-plane>
+        <a-sphere id="co2Sphere" radius="0.6"
+                  position="0 0.6 0"
+                  rotation="0 0 0"
+                  material="src:#co2spherevid; metalness:0; roughness:1"
+                  animation="property: rotation; to: 0 -360 0; loop: true; dur: 45000; easing: linear">
+        </a-sphere>
+      </a-marker>
+
+      <!-- Marker 8: Earth's Interior Cross-Section -->
+      <a-marker type="barcode" value="8">
         <a-gltf-model id="m1" data-src="Assets/earths_interior.opt.glb" data-fallback="Assets/earths_interior.glb"
                       rotation="0 -90 0"
-                      position="0 0 0"
+                      position="0 0.325 0"
                       scale="0.65 0.65 0.65"
                       manual-animation>
         </a-gltf-model>
       </a-marker>
+
+      <!-- Marker 9: Unassigned -->
+
+      <!-- Marker 10: Unassigned -->
+
+      <!-- Marker 11: Unassigned -->
+
+      <!-- Marker 12: Unassigned -->
+
+      <!-- Marker 13: Unassigned -->
+
+      <!-- Marker 14: Unassigned -->
+
+      <!-- Marker 15: Unassigned -->
+
+      <!-- Marker 16: Unassigned -->
+
+      <!-- Marker 17: Unassigned -->
+
+      <!-- Marker 18: Unassigned -->
     
       <a-entity camera></a-entity>
     </a-scene>
@@ -107,36 +174,49 @@
       const params = new URLSearchParams(location.search);
       const lite = params.has('lite') || params.get('mode') === 'lite';
 
-      const videoMarker  = document.querySelector('#videoGlobe');
-      const sphere       = document.querySelector('#vidSphere');
-      const vid          = document.querySelector('#co2vid');
-      if (!videoMarker || !sphere || !vid) return;
+      const setups = [
+        {
+          marker: document.querySelector('#videoGlobe'),
+          sphere: document.querySelector('#vidSphere'),
+          video:  document.querySelector('#co2vid'),
+          material: 'src:#co2vid; metalness:0; roughness:1'
+        },
+        {
+          marker: document.querySelector('#videoCo2'),
+          sphere: document.querySelector('#co2Sphere'),
+          video:  document.querySelector('#co2spherevid'),
+          material: 'src:#co2spherevid; metalness:0; roughness:1'
+        }
+      ].filter(cfg => cfg.marker && cfg.sphere && cfg.video);
 
-      let materialBound = false;
+      if (!setups.length) return;
 
-      function bindVideoMaterialOnce(){
-        if (materialBound) return;
-        materialBound = true;
-        sphere.setAttribute('material', 'src:#co2vid; metalness:0; roughness:1');
-      }
-
-      // Skip video entirely in lite mode
       if (lite) {
-        videoMarker.addEventListener('markerFound', () => {/* no-op in lite mode */});
-        videoMarker.addEventListener('markerLost',  () => {/* no-op in lite mode */});
+        setups.forEach(({ marker }) => {
+          marker.addEventListener('markerFound', () => {/* no-op in lite mode */});
+          marker.addEventListener('markerLost',  () => {/* no-op in lite mode */});
+        });
         return;
       }
 
-      // Bind the video material as soon as the video is ready enough
-      const onReady = () => bindVideoMaterialOnce();
-      vid.addEventListener('loadeddata', onReady, { once: true });
-      vid.addEventListener('canplaythrough', onReady, { once: true });
+      setups.forEach(({ marker, sphere, video, material }) => {
+        let materialBound = false;
+        const bindMaterial = () => {
+          if (materialBound) return;
+          materialBound = true;
+          sphere.setAttribute('material', material);
+        };
 
-      videoMarker.addEventListener('markerFound', () => {
-        bindVideoMaterialOnce();
-        vid.play().catch((err) => { console.error('Video play failed:', err); });
+        const onReady = () => bindMaterial();
+        video.addEventListener('loadeddata', onReady, { once: true });
+        video.addEventListener('canplaythrough', onReady, { once: true });
+
+        marker.addEventListener('markerFound', () => {
+          bindMaterial();
+          video.play().catch((err) => { console.error('Video play failed:', err); });
+        });
+        marker.addEventListener('markerLost',  () => { video.pause(); });
       });
-      videoMarker.addEventListener('markerLost',  () => { vid.pause(); });
     })();
     </script>
 
