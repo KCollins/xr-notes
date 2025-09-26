@@ -41,29 +41,29 @@
       <source src="Assets/ecco2_sst_flow.mp4" type="video/mp4">
     </video>
     <a-scene embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: high"
-                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 480; sourceHeight: 360;">
+                      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; sourceWidth: 960; sourceHeight: 720;">
 
-      <!-- Marker 0: Unassigned -->
+      <!-- Marker 0: Tohoku Earthquake Volume -->
+      <a-marker type="barcode" value="0">
+        <a-gltf-model id="m5" data-src="Assets/tohoku.opt.glb" data-fallback="Assets/tohoku.glb"
+                      manual-animation
+                      position="-0.5 0.70 0"
+                      scale="2 2 2">
+        </a-gltf-model>
+      </a-marker>
 
-      <!-- Marker 1: Video Globe -->
-      <a-marker id="videoGlobe" type="barcode" value="1">
-        <a-sphere id="vidSphere" radius="3"
-                  position="0 0 -5"
+      <!-- Marker 1: Unassigned -->
+
+      <!-- Marker 2: Video Globe -->
+      <a-marker id="videoGlobe" type="barcode" value="2">
+        <a-sphere id="vidSphere" radius="2"
+                  position="1 1 -1"
                   rotation="0 90 0"
                   animation="property: rotation; to: 0 -360 0; loop: true; dur: 120000; easing: linear">
         </a-sphere>
       </a-marker>
 
-      <!-- Marker 2: Unassigned -->
-
-      <!-- Marker 3: Tohoku Earthquake Volume -->
-      <a-marker type="barcode" value="3">
-        <a-gltf-model id="m5" data-src="Assets/tohoku.opt.glb" data-fallback="Assets/tohoku.glb"
-                      manual-animation
-                      position="0 0.70 0"
-                      scale="1 1 1"
-                      animation="property: rotation; to: 0 360 0; loop: true; dur: 80000; easing: linear"></a-gltf-model>
-      </a-marker>
+      <!-- Marker 3: Unassigned -->
 
       <!-- Marker 4: CubeSat Model -->
       <a-marker type="barcode" value="4">
