@@ -44,8 +44,10 @@
     <a-scene stats embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;"
                       arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 5x5_BCH_22_7_7; sourceWidth: 800; sourceHeight: 600;">
 
-      <!-- Marker 0: Tohoku Earthquake Volume -->
-      <a-marker type="barcode" value="0">
+      <!-- Marker 0: Reserved / Unassigned (Marker 0 is usually reserved) -->
+
+      <!-- Marker 1: Tohoku Earthquake Volume -->
+      <a-marker type="barcode" value="1">
         <a-plane id="tohokuLabel"
                  src="Assets/Tohoku_label.jpg"
                  position="-0.47 1.1 -0.9"
@@ -61,10 +63,10 @@
         </a-gltf-model>
       </a-marker>
 
-      <!-- Marker 1: Unassigned -->
+      <!-- Marker 2: Unassigned -->
 
-      <!-- Marker 2: Video Globe -->
-      <a-marker id="videoGlobe" type="barcode" value="2">
+      <!-- Marker 3: Video Globe -->
+      <a-marker id="videoGlobe" type="barcode" value="3">
         <a-sphere id="vidSphere" radius="2"
                   position="1 1 -1"
                   rotation="0 90 0"
@@ -72,8 +74,8 @@
         </a-sphere>
       </a-marker>
 
-      <!-- Marker 3: EOS Website Logo -->
-      <a-marker type="barcode" value="3">
+      <!-- Marker 4: EOS Website Logo -->
+      <a-marker type="barcode" value="4">
         <a-plane id="eosLogo"
                  src="Assets/EOS_website_logo.jpg"
                  position="0 0.02 0"
@@ -84,8 +86,8 @@
         </a-plane>
       </a-marker>
 
-      <!-- Marker 4: CubeSat Model -->
-      <a-marker type="barcode" value="4">
+      <!-- Marker 5: CubeSat Model -->
+      <a-marker type="barcode" value="5">
         <a-plane id="cubeSatLabel"
                  src="Assets/CubeSat_label.jpg"
                  position="0 0.02 0"
@@ -105,10 +107,10 @@
         </a-entity>
       </a-marker>
 
-      <!-- Marker 5: Unassigned -->
+      <!-- Marker 6: Unassigned -->
 
-      <!-- Marker 6: Antarctica Ice Sheet -->
-      <a-marker type="barcode" value="6">
+      <!-- Marker 7: Antarctica Ice Sheet -->
+      <a-marker type="barcode" value="7">
         <a-gltf-model id="m2" data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb" data-lite-skip="true"
                       rotation="0 0 0"
                       position="0 0.01 0"
@@ -116,8 +118,8 @@
         </a-gltf-model>
       </a-marker>
 
-      <!-- Marker 7: CO₂ Emissions Sphere -->
-      <a-marker id="videoCo2" type="barcode" value="7">
+      <!-- Marker 8: CO₂ Emissions Sphere -->
+      <a-marker id="videoCo2" type="barcode" value="8">
         <a-plane id="co2Label"
                  src="Assets/CO2_label.jpg"
                  position="0 0.02 0"
@@ -134,8 +136,8 @@
         </a-sphere>
       </a-marker>
 
-      <!-- Marker 8: Earth's Interior Cross-Section -->
-      <a-marker type="barcode" value="8">
+      <!-- Marker 9: Earth's Interior Cross-Section -->
+      <a-marker type="barcode" value="9">
         <a-gltf-model id="m1" data-src="Assets/earths_interior.opt.glb" data-fallback="Assets/earths_interior.glb"
                       rotation="0 -90 0"
                       position="0 0.325 0"
@@ -143,8 +145,6 @@
                       manual-animation>
         </a-gltf-model>
       </a-marker>
-
-      <!-- Marker 9: Unassigned -->
 
       <!-- Marker 10: Unassigned -->
 
@@ -163,6 +163,8 @@
       <!-- Marker 17: Unassigned -->
 
       <!-- Marker 18: Unassigned -->
+
+      <!-- Marker 19: Unassigned -->
     
       <a-entity camera></a-entity>
     </a-scene>
