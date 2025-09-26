@@ -26,9 +26,25 @@ To run the most common optimizations in one step, use the `optimize` command:
 gltf-transform optimize input.glb output.glb --compress draco --texture-compress webp
 ```
 
-See usage recommendations on the official website: <https://gltf-transform.dev/cli>.
+See usage recommendations on the official website: <https://gltf-transform.dev/cli>. We use ".opt" in the output filename to indicate that the file is optimized. Example output from the command above:
 
-For a more tailored and targeted command that also applies chosen settings for simplifying geometry, Draco compression, texture resizing, and WebP conversion, run:
+```bash
+npx @gltf-transform/cli optimize model_1.glb model_1.opt.glb --compress draco --texture-compress webp
+✔ dedup                2ms
+✔ instance             0ms
+✔ palette              1ms
+✔ flatten              0ms
+✔ join                 3ms
+✔ weld                 6ms
+✔ simplify             10ms
+✔ resample             1ms
+✔ prune                167ms
+✔ sparse               2ms
+✔ textureCompress      372ms
+✔ draco                6ms
+```
+
+For a more opinionated preset that also simplifies geometry, applies Draco, resizes textures, and converts to WebP, run:
 
 ```bash
 npx @gltf-transform/cli optimize \
