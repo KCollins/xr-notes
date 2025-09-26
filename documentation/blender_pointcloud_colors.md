@@ -6,20 +6,20 @@ These instructions show how to import, display and export per-point colors from 
 
 ## Preparation: Import, Scale, and Center the Point Cloud
 
-1. In a new or current Blender scene, set on the right-hand side menu `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
+1. In a new or current Blender scene, **set** `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
 
 ![The right-hand Properties panel in Blender. You can set the scene units here.](image-3.png)
 
-2. Import the point cloud via `File → Import → Stanford PLY (.ply)` and select the file.
-3. With the point cloud object selected, adjust the **Scale** values so the bounding box reflects real-world meters (e.g., data in centimeters → scale by `0.01`), then apply it with `Ctrl+A → Scale`.
+2. **Import** the point cloud via `File → Import → Stanford PLY (.ply)` and select the file.
+3. With the point cloud object selected, **adjust** the **Scale** values so the bounding box reflects real-world meters (e.g., data in centimeters → scale by `0.01`), then **apply** with `Ctrl+A → Scale`.
 
 ![The Blender viewport showing an example of an imported point cloud and the Transform panel on the right-hand side.](image-4.png)
 
-4. Press `Shift+C` to reset the 3D cursor to the world origin, then choose `Object → Set Origin → Origin to Geometry` to place the object’s origin at its center.
+4. Press `Shift+C` to **reset** the 3D cursor to the world origin, then choose `Object → Set Origin → Origin to Geometry` to **place the origin at the object's center**.
 
 ![The Object menu within Blender's viewport. You can choose the origin of the cursor here.](image-5.png)
 
-5. Snap the point cloud to the origin with `Shift+S → Selection to Cursor`, and apply the location (`Ctrl+A → Location`) if you want zeroed transforms before continuing.
+5. **Snap** the point cloud to the origin with `Shift+S → Selection to Cursor`, and **apply** the location (`Ctrl+A → Location`) if you want zeroed transforms before continuing.
 
 ![The Shift+S circular menu on Blender's viewport.](image-6.png)
 
