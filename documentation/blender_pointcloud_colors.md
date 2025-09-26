@@ -1,4 +1,4 @@
-# Visualizing Colored Point Clouds in Blender (3.6 / 4.x)
+# Visualizing Colored Point Clouds in Blender (4.x) and glTF 2.0 Export
 
 These instructions show how to display per-point colors from a `.ply` **Point Cloud object** in Blender.
 
@@ -93,3 +93,21 @@ Ico Sphere → Instance on Points
 ```
 Attribute("Col") → Principled BSDF.Base Color → Material Output.Surface
 ```
+
+---
+
+## 4. Exporting to glTF
+
+1. Select the point cloud objects (and any supporting meshes) you need in the export.
+2. Go to `File → Export → glTF 2.0 (.glb/.gltf)`.
+3. In the export dialog, choose a filename and destination.
+4. Under **Format**, pick `glTF Binary (.glb)` for a single file or `glTF Separate (.gltf + .bin + textures)` if you prefer external assets.
+5. Under **Include**, enable **Selected Objects** so only your chosen assets are exported.
+6. Under **Mesh**, enable **Apply Modifiers** to bake the Geometry Nodes output.
+7. Still under **Mesh**, under **Vertex Colors** ensure **All Vertex Colors** is enabled so per-point colors are written.
+8. Check **Compression** box to shrink file size during export (adjust the level if needed, 6 is maximum compression value).
+9. Click **Export glTF 2.0**.
+
+![The export dialog window for glTF options in Blender 4.x. The settings have been optimized for point cloud export.](image-2.png)
+
+> After export, review `documentation/gltf-transform-workflow.md` for optional gltf-transform steps to post-process or compress the file and greatly reduce file size.
