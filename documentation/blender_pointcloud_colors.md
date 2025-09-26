@@ -4,6 +4,25 @@ These instructions show how to display per-point colors from a `.ply` **Point Cl
 
 ---
 
+## 0. Import, Scale, and Center the Point Cloud
+
+1. In a new Blender scene, set `Properties → Scene → Units` to `Metric` with `Unit Scale = 1.0` so measurements are in meters.
+
+![The right-hand Properties panel in Blender. You can set the units here.](image-3.png)
+
+2. Import the point cloud via `File → Import → Stanford PLY (.ply)` and select the file.
+3. With the point cloud object selected, adjust the **Scale** values so the bounding box reflects real-world meters (e.g., data in centimeters → scale by `0.01`), then apply it with `Ctrl+A → Scale`.
+
+![The Blender viewport showing an example of an imported point cloud and the Transform panel on the right-hand side.](image-4.png)
+
+4. Press `Shift+C` to reset the 3D cursor to the world origin, then choose `Object → Set Origin → Origin to Geometry` to place the object’s origin at its center.
+
+![The Object menu within Blender's viewport. You can choose the origin of the cursor here.](image-5.png)
+
+5. Snap the point cloud to the origin with `Shift+S → Selection to Cursor`, and apply the location (`Ctrl+A → Location`) if you want zeroed transforms before continuing.
+
+![The Shift+S circular menu on Blender's viewport.](image-6.png)
+
 ## 1. Geometry Nodes Setup
 
 1. Select your imported **Point Cloud object**.
