@@ -20,6 +20,14 @@
 
 ## Single-Command Optimization
 
+To run the most common optimizations in one step, use the `optimize` command:
+
+```bash
+gltf-transform optimize input.glb output.glb --compress draco --texture-compress webp
+```
+
+Reference: https://gltf-transform.dev/cli
+
 Use this to simplify geometry, Draco-compress, resize textures, and convert to WebP in one go:
 
 ```bash
