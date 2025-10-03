@@ -1,7 +1,7 @@
 | Marker    | Asset                                                 | Description | Characteristics                   | Creator(s)                          |  Post-Processing Required | Link to Original Model | License |
 |-----------|-------------------------------------------------------|-------------|-----------------------------------|-------------------------------------|---------------------------|------------------------|---------|
-| Marker 0  |  Reserved / Unassigned (Marker 0 is usually reserved) |             | n/a                               |                                     |                           |                        |         |
-| Marker 1  |  Tohoku Earthquake Volume                             |             | Data fusion from multiple sensors |                                     |                           |                        |         |
+| Marker 0  |  Reserved / Unassigned (Marker 0 is usually reserved) |      n/a   |         n/a                       |         n/a                     |     n/a             |    n/a         |  n/a       |      |         |
+| Marker 1  |  Tōhoku Earthquake Volume          |  Animation of bathymetry, fault plane and seismic readings during the 2011 [Tōhoku Earthquake](https://en.wikipedia.org/wiki/2011_T%C5%8Dhoku_earthquake_and_tsunami)       | Data fusion from multiple sensors |       Loïc Norgeot         |               |      https://skfb.ly/6GMOp     | CC Attribution         |
 | Marker 2  |  Unassigned                                           |    n/a   |         n/a                       |         n/a                     |     n/a             |    n/a         |  n/a       |      |         |
 | Marker 3  |  Video Globe                                          |             |                                   |                                     |                           |                        |         |
 | Marker 4  |  EOS Website Logo                                     |             |                                   |                                     |                           |                        |         |
@@ -11,3 +11,5 @@
 | Marker 8  |  CO₂ Emissions Sphere                                 |             |                                   |                                     |                           |                        |         |
 | Marker 9  |  Earth's Interior Cross-Section                       |             |                                   |                                     |                           |                        |         |
 | Marker 10 |  AWE Radiance                                         |             |                                   |                                     |                           |                        |         |
+
+
