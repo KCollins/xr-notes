@@ -1,2 +1,2 @@
 # vr-tips
-Supplements to Eos article. 
+Draft supplements to Eos article. 
