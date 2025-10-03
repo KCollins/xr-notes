@@ -41,7 +41,7 @@
     <video id="co2spherevid" loop muted playsinline preload="metadata" crossorigin="anonymous" style="display:none">
       <source src="Assets/videoCo2.mp4" type="video/mp4">
     </video>
-    <a-scene stats embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;"
+    <a-scene embedded renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;"
                       arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 5x5_BCH_22_7_7; sourceWidth: 800; sourceHeight: 600;">
 
       <!-- Marker 0: Reserved / Unassigned (Marker 0 is usually reserved) -->
@@ -156,7 +156,14 @@
         </a-gltf-model>
       </a-marker>
 
-      <!-- Marker 11: Unassigned -->
+      <!-- Marker 11: Curaçao Snake Bay Coral -->
+      <a-marker type="barcode" value="11">
+        <a-gltf-model id="m11" data-src="Assets/curacao-snakebay_20m_coral.opt.glb"
+                      rotation="0 0 0"
+                      position="0 0 0"
+                      scale="0.03 0.03 0.03">
+        </a-gltf-model>
+      </a-marker>
 
       <!-- Marker 12: Unassigned -->
 
