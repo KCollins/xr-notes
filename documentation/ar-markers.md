@@ -24,7 +24,7 @@ You can create printable markers with the AR.js-compatible generator at:
 
 Steps:
 1. Choose a `5x5` marker grid with `BCH (22,7,7)` encoding (error checking and correction type) for more reliable tracking.  
-   If you need a larger ID pool and are willing to trade some tracking and occlusion resilience, consider using a larger `Matrix` code such as `3x3` or `4x4`, which can also be easily hand-drawn.
+> If you need a larger ID pool and are willing to trade some tracking and occlusion resilience, consider using a larger `Matrix` code such as `3x3` or `4x4`, which can also be easily hand-drawn.
 2. Enter the marker ID you need (1–127).
 3. Export as SVG or PNG for high-quality prints.
 
