@@ -115,6 +115,42 @@ Ico Sphere → Instance on Points
 Attribute("Col") → Principled BSDF.Base Color → Material Output.Surface
 ```
 
+### Optional: Point Cloud Decimator
+
+To thin dense scans without touching the source file, insert a lightweight decimator ahead of `Instance on Points`:
+
+1. Add a **Random Value** (float) node and leave `Min = 0`, `Max = 1`.
+2. Add a **Greater Than** node (a Math node in **Compare** mode). Press `F2` and rename it to `Keep Ratio` so the slider reads clearly in the modifier.
+3. Add a **Delete Geometry** node.
+4. Reroute the existing flow so `Group Input.Geometry → Delete Geometry.Geometry → Instance on Points.Points`.
+5. Connect `Random Value.Value → Keep Ratio.A` and expose `Keep Ratio.B` as the percentage of points to keep (e.g., `0.35` keeps roughly 35 %).
+6. Send `Keep Ratio.Result → Delete Geometry.Selection` so only points passing the comparison survive.
+
+This randomness runs per point each time you evaluate the node tree, giving a reproducible subset once you apply or bake the modifiers.
+
+![Geometry Nodes decimator showing Random Value feeding the Keep Ratio compare node and Delete Geometry before Instance on Points.](image-7.png)
+
+### Optional: Coordinate-Based Point Deletion
+
+You can carve spatial windows directly in Geometry Nodes before instancing.
+
+**Single-axis clamp**
+- Drop in a **Position** node and a **Separate XYZ** node; use the axis output you care about.
+- Add **Greater Than** and **Less Than** Compare nodes, feeding the axis value into both `A` inputs and exposing their `B` values as the min/max thresholds.
+- Combine the boolean results with a **Boolean Math** node set to `NAND` (or `Not And`) so points outside the window evaluate to true.
+- Drive a **Delete Geometry.Selection** input with the NAND output, wired inline before `Instance on Points`.
+
+![Geometry Nodes single-axis clamp using Position, Separate XYZ, and compare nodes driving Delete Geometry.](image-8.png)
+
+**3D bounding box clamp**
+- Duplicate the single-axis branch for X, Y, and Z, but change the Boolean Math nodes that pair min/max checks to `AND` so each axis produces a "within range" mask.
+- Feed two of the three axis masks into another Boolean Math node set to `AND` to represent points inside the 3D box.
+- Finish with a final Boolean Math node set to `NAND`, and connect that to `Delete Geometry.Selection` — any point outside the combined box gets culled.
+
+The final layout below combines the 3D box clamp (all three coordinate gates) with the Keep Ratio decimator so you can preview both filters working together in a single node tree.
+
+![Full Geometry Nodes graph combining X/Y/Z range clamps with a Keep Ratio decimator feeding Delete Geometry before Instance on Points.](image-9.png)
+
 ---
 
 ## 4. Exporting to glTF
