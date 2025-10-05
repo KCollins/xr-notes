@@ -1,5 +1,5 @@
 # vr-tips
-Draft supplements to Eos article. 
+Supplements to Eos article. 
 
 <img width="800" height="480" alt="image" src="https://github.com/user-attachments/assets/e7f08c0c-c173-4d2f-9c26-8a328480f0ae" />
 
