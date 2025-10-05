@@ -12,5 +12,5 @@
 | Marker 9  |  Earth's Interior Cross-Section     |    A simple animated rendering of Earth's crust, mantle and core.         |                                   |  Sketchfab user [Pointy Orb](https://sketchfab.com/PointyOrb)    |  |  https://skfb.ly/oFLIP   |  CC Attribution-NonCommercial-NoDerivs       |
 | Marker 10 |  AWE Radiance                                         |             |                                   |                                     |                           |                        |         |
 | Marker 11 |  Snake Bay Coral Reef in Curaçao   |  A downsampled photogrammetric pointcloud.     |                                   |   [Reefscape Genomics Lab](https://www.reefscapegenomics.com/)          |                           |    https://skfb.ly/o6B6V   |  CC Attribution       |
-
+| Marker 12 |  Snake Bay Coral Reef in Curaçao - Subseelection   |  A downsampled photogrammetric pointcloud (same as Marker 11) zoomed in on one area.     |                                   |   [Reefscape Genomics Lab](https://www.reefscapegenomics.com/)          |                           |    https://skfb.ly/o6B6V   |  CC Attribution       |
 
