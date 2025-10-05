@@ -1,3 +1,24 @@
+Here's a table of all the assets visible in [AR11](https://kcollins.github.io/xr-notes/AR/AR11.html).
+
+| Marker    | Asset                                                 | Description | Notes              | Creator(s)                          |  Post-Processing Required | Link | License |
+|-----------|-------------------------------------------------------|-------------|-----------------------------------|-------------------------------------|---------------------------|------------------------|---------|
+| Marker 0  |  Reserved / Unassigned (Marker 0 is usually reserved) |      n/a   |         n/a                       |         n/a                     |     n/a             |    n/a         |  n/a       |      |         |
+| Marker 1  |  Tōhoku Earthquake Volume          |  Animation of bathymetry, fault plane and seismic readings during the 2011 [Tōhoku Earthquake](https://en.wikipedia.org/wiki/2011_T%C5%8Dhoku_earthquake_and_tsunami)       | Data fusion from multiple sensors | Loïc Norgeot  |     |      https://skfb.ly/6GMOp     | CC Attribution         |
+| Marker 2  |  Unassigned    |    n/a   |         n/a                       |         n/a                     |     n/a             |    n/a         |  n/a       |      |         
+| Marker 3  |  Video Globe    |    Sea surface currents in ECCO2 model, colormapped by temperature.    | Animation on a revolving sphere.  | NASA/Goddard Space Flight Center Scientific Visualization Studio  |                   |   https://svs.gsfc.nasa.gov/3912         |         |
+| Marker 4  |  EOS Website Logo                                     |   Logo of Eos magazine.          |   Simple demonstration of a 2D image in AR.        |     [Eos Magazine](https://www.eos.org)       |     None                      |    N/A    |   Copyright      |
+| Marker 5  |  [CubeSat](https://en.wikipedia.org/wiki/CubeSat) Model        |   Model of a generic CubeSat. A slight wobble is added with HTML code.   |   Engineering models can be exported from CAD programs in XR-friendly formats. If the size of a marker is precisely controlled, AR can be used to illustrate scale, and make mechanical systems easier to visualize before they are built.   |      Sketchfab User [Space Explorers Academy](https://sketchfab.com/Spaceexplorersacademy)                               |                           |  https://skfb.ly/pxrpt      |   CC Attribution-NonCommercial      |
+| Marker 6  |  Unassigned                                           |      n/a   |         n/a                       |         n/a                     |     n/a             |    n/a         |  n/a       |
+| Marker 7  |  Antarctica                                 |   A digital elevation model (DEM) of Antarctica, Z-height 100x. Data from [REMA](https://www.pgc.umn.edu/data/rema/). |  DEMs can be converted into 3D files which are straightforward to display in XR or print on a 3D printer.    | Collins; produced with [TouchTerrain](https://doi.org/10.1016/j.cageo.2017.07.005) |  Colors added in Blender. |    See Asset folder               | MIT     |
+| Marker 8  |  CO₂ Emissions Sphere                                 |  CO2 being added to Earth's atmosphere over the course of the year 2021, split into four major contributors: fossil fuels in orange, burning biomass in red, land ecosystems in green, and the ocean in blue.           | Equirectangular imagery intended for projection on a [NOAA Science-on-a-Sphere](https://sos.noaa.gov/) globe.  |      NASA/Goddard Space Flight Center Scientific Visualization Studio    |                           |    https://svs.gsfc.nasa.gov/5273/        |         |
+| Marker 9  |  Earth's Interior Cross-Section     |    A simple animated rendering of Earth's crust, mantle and core.         |                                   |  Sketchfab user [Pointy Orb](https://sketchfab.com/PointyOrb)    |  |  https://skfb.ly/oFLIP   |  CC Attribution-NonCommercial-NoDerivs       |
+| Marker 10 |  AWE Radiance                                         |             |                                   |                                     |                           |                        |         |
+| Marker 11 |  Snake Bay Coral Reef in Curaçao   |  A downsampled photogrammetric pointcloud.     |                                   |   [Reefscape Genomics Lab](https://www.reefscapegenomics.com/)          |                           |    https://skfb.ly/o6B6V   |  CC Attribution       |
+| Marker 12 |  Snake Bay Coral Reef in Curaçao - Subseelection   |  A downsampled photogrammetric pointcloud (same as Marker 11) zoomed in on one area.     |                                   |   [Reefscape Genomics Lab](https://www.reefscapegenomics.com/)          |                           |    https://skfb.ly/o6B6V   |  CC Attribution       |
+
+
+
+There are old versions in this folder as well. Here's a list: 
 - AR1: Not working
 - AR2: Simple block example. Works with Hiro glyph.
 - AR3: Simple block example. Works with "3" barcode.
@@ -6,7 +27,3 @@
 - AR6: Adaptation of AR5 using 3D assets
 - AR7: Experimental copy of AR6.
 - ARJ: Variant of AR6 with improved lighting and additional models.
-
-
-"Tōhoku earthquake - 2011" (https://skfb.ly/6GMOp) by Loïc Norgeot is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-Earth's Interior model: https://sketchfab.com/3d-models/earths-interior-4fa1ee1a6fa246d8acf56bc400f1bf5f
