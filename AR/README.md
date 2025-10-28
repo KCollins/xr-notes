@@ -19,10 +19,8 @@ Here's a table of all the assets visible in [AR11](https://kcollins.github.io/xr
 
 
 There are old versions in this folder as well. Here's a list: 
-- AR1: Not working
 - AR2: Simple block example. Works with Hiro glyph.
 - AR3: Simple block example. Works with "3" barcode.
-- AR4: Not working
 - AR5: Multiblock example, works with barcodes 1-4.
 - AR6: Adaptation of AR5 using 3D assets
 - AR7: Experimental copy of AR6.
