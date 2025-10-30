@@ -1,0 +1,28 @@
+abstract: '<p>This repository contains augmented reality demos. To try them, print
+  out <a href="https://github.com/KCollins/xr-notes/blob/main/AR/AR_marker_layout_2page.pdf">this
+  document</a>, navigate to <a href="https://kcollins.github.io/xr-notes/AR/AR11.html">this
+  page</a>, turn on camera permissions and hold up the markers.&nbsp;</p>
+  
+authors:
+- affiliation: Space Science Institute
+  family-names: Collins
+  given-names: Kristina
+  orcid: 0000-0002-3816-1948
+- affiliation: "Embry\u2013Riddle Aeronautical University"
+  family-names: Aguilar Guerrero
+  given-names: Jaime
+  orcid: 0000-0002-9160-3434
+- affiliation: Lamont-Doherty Earth Observatory, Columbia University
+  family-names: Boghosian
+  given-names: Alexandra
+  orcid: 0000-0003-0856-5172
+cff-version: 1.2.0
+date-released: '2025-10-30'
+doi: 10.5281/zenodo.17480258
+license:
+- cc-by-4.0
+message: If you use this software, please cite it using the metadata from this file.
+repository-code: https://github.com/KCollins/xr-notes/tree/v0.1.0
+title: Augmented Reality Demos for Earth and Space Science
+type: software
+version: v0.1.0
