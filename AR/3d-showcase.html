@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D model web-based showcase</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap");
+
+      :root {
+        color-scheme: light;
+        --ink-900: #0b1420;
+        --ink-700: #1c2c3a;
+        --ink-600: #2b4256;
+        --ink-500: #41586e;
+        --sand-50: #f7f2e9;
+        --sand-100: #efe6d8;
+        --sea-500: #0c9fa0;
+        --sea-700: #0a6f73;
+        --sun-500: #f59f0b;
+        --glass: rgba(255, 255, 255, 0.82);
+        --glass-strong: rgba(255, 255, 255, 0.92);
+        --stroke: rgba(14, 23, 38, 0.12);
+        --shadow: 0 22px 50px rgba(11, 20, 32, 0.16);
+        --shadow-soft: 0 14px 30px rgba(11, 20, 32, 0.12);
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        color: var(--ink-900);
+        background:
+          radial-gradient(1200px 600px at 15% -10%, rgba(12, 159, 160, 0.2), transparent 60%),
+          radial-gradient(900px 500px at 90% 0%, rgba(245, 159, 11, 0.18), transparent 55%),
+          linear-gradient(130deg, #f7f2e9 0%, #eef2f6 58%, #eef2eb 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(14, 23, 38, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(14, 23, 38, 0.05) 1px, transparent 1px);
+        background-size: 140px 140px;
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+      }
+
+      .hero {
+        display: grid;
+        gap: 18px;
+        padding: 32px;
+        background: var(--glass-strong);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--stroke);
+        animation: fade-up 0.8s ease both;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(12, 159, 160, 0.3);
+        color: var(--sea-700);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        background: rgba(12, 159, 160, 0.1);
+        width: fit-content;
+      }
+
+      .hero h1 {
+        font-family: "Fraunces", "Iowan Old Style", serif;
+        font-size: clamp(2.2rem, 3vw, 3.3rem);
+        margin: 0;
+        letter-spacing: -0.01em;
+        color: var(--ink-900);
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--ink-700);
+        font-size: 1.05rem;
+        max-width: 70ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .primary-button {
+        padding: 12px 20px;
+        border-radius: 999px;
+        background: var(--ink-900);
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--shadow-soft);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .primary-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 28px rgba(11, 20, 32, 0.22);
+      }
+
+      .hero-hint {
+        font-size: 0.92rem;
+        color: var(--ink-500);
+      }
+
+      .viewer-section {
+        display: grid;
+        grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+        gap: 26px;
+        margin-top: 28px;
+        animation: fade-up 0.9s ease both;
+        animation-delay: 0.1s;
+      }
+
+      .panel {
+        background: var(--glass);
+        border-radius: var(--radius-lg);
+        padding: 22px;
+        border: 1px solid var(--stroke);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--ink-500);
+      }
+
+      .panel p {
+        margin: 0 0 18px;
+        color: var(--ink-700);
+      }
+
+      .model-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .model-button {
+        display: grid;
+        gap: 6px;
+        padding: 14px;
+        border-radius: var(--radius-md);
+        border: 1px solid transparent;
+        background: rgba(255, 255, 255, 0.7);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .model-button strong {
+        font-size: 1rem;
+        color: var(--ink-900);
+      }
+
+      .model-button span {
+        font-size: 0.85rem;
+        color: var(--ink-500);
+      }
+
+      .model-button[data-active="true"] {
+        border-color: rgba(12, 159, 160, 0.6);
+        background: rgba(12, 159, 160, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .viewer-card {
+        display: grid;
+        gap: 18px;
+      }
+
+      .viewer-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .viewer-title h2 {
+        margin: 0;
+        font-family: "Fraunces", "Iowan Old Style", serif;
+        font-size: 1.7rem;
+      }
+
+      .viewer-title p {
+        margin: 4px 0 0;
+        color: var(--ink-500);
+      }
+
+      .viewer-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .control-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid var(--stroke);
+        font-size: 0.85rem;
+      }
+
+      .control-chip input[type="checkbox"] {
+        accent-color: var(--sea-700);
+      }
+
+      .control-chip input[type="range"] {
+        accent-color: var(--sea-700);
+      }
+
+      .control-chip select {
+        border: none;
+        background: transparent;
+        font: inherit;
+        color: var(--ink-700);
+        padding: 2px 4px;
+      }
+
+      .control-chip select:disabled {
+        color: var(--ink-500);
+      }
+
+      .control-chip input[type="range"]:disabled {
+        opacity: 0.6;
+      }
+
+      .control-button {
+        border: none;
+        border-radius: 999px;
+        padding: 8px 14px;
+        background: var(--ink-900);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .control-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .control-button.zoom-button {
+        background: var(--sea-700);
+        padding: 8px 12px;
+        font-size: 0.85rem;
+      }
+
+      .control-button.zoom-button:hover {
+        background: var(--sea-500);
+      }
+
+      .viewer-stage {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 1px solid var(--stroke);
+        background:
+          radial-gradient(circle at 30% 20%, rgba(12, 159, 160, 0.15), transparent 55%),
+          radial-gradient(circle at 70% 70%, rgba(245, 159, 11, 0.16), transparent 50%),
+          linear-gradient(140deg, #ffffff, #edf2f5 75%);
+        height: 460px;
+      }
+
+      #modelCanvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .viewer-overlay {
+        position: absolute;
+        inset: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        pointer-events: none;
+      }
+
+      .overlay-pill {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(11, 20, 32, 0.75);
+        color: #fff;
+        font-size: 0.8rem;
+        letter-spacing: 0.02em;
+      }
+
+      .overlay-pill.light {
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--ink-700);
+        border: 1px solid var(--stroke);
+      }
+
+      .model-details {
+        display: grid;
+        gap: 16px;
+      }
+
+      .detail-block {
+        padding: 16px;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--stroke);
+      }
+
+      .detail-block h3 {
+        margin: 0 0 8px;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-500);
+      }
+
+      .detail-block p {
+        margin: 0;
+        color: var(--ink-700);
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .detail-item {
+        padding: 14px;
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--stroke);
+      }
+
+      .detail-item span {
+        display: block;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-500);
+      }
+
+      .detail-item strong {
+        display: block;
+        margin-top: 6px;
+        font-weight: 600;
+        color: var(--ink-900);
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        color: var(--ink-700);
+        background: rgba(12, 159, 160, 0.12);
+        border: 1px solid rgba(12, 159, 160, 0.2);
+      }
+
+      .section-title {
+        margin-top: 48px;
+        margin-bottom: 16px;
+      }
+
+      .section-title h2 {
+        margin: 0 0 8px;
+        font-family: "Fraunces", "Iowan Old Style", serif;
+        font-size: 2rem;
+      }
+
+      .section-title p {
+        margin: 0;
+        color: var(--ink-700);
+        max-width: 70ch;
+      }
+
+      .approach-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+      }
+
+      .approach-card {
+        background: var(--glass);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        border: 1px solid var(--stroke);
+        box-shadow: var(--shadow-soft);
+        animation: fade-up 0.8s ease both;
+      }
+
+      .approach-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+      }
+
+      .approach-card p {
+        margin: 0 0 10px;
+        color: var(--ink-700);
+      }
+
+      .approach-card ul,
+      .approach-card ol {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--ink-600);
+      }
+
+      .approach-card.accent {
+        background: rgba(12, 159, 160, 0.1);
+        border-color: rgba(12, 159, 160, 0.3);
+      }
+
+      .pipeline {
+        margin-top: 42px;
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .pipeline-step {
+        padding: 18px;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid var(--stroke);
+      }
+
+      .pipeline-step span {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--sea-700);
+      }
+
+      .pipeline-step h4 {
+        margin: 6px 0 8px;
+      }
+
+      .pipeline-step p {
+        margin: 0;
+        color: var(--ink-700);
+      }
+
+      .cta {
+        margin-top: 50px;
+        padding: 28px;
+        border-radius: var(--radius-lg);
+        background: var(--ink-900);
+        color: #fff;
+        display: grid;
+        gap: 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .cta h2 {
+        margin: 0;
+        font-family: "Fraunces", "Iowan Old Style", serif;
+        font-size: 1.8rem;
+      }
+
+      .cta p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .cta .primary-button {
+        background: #fff;
+        color: var(--ink-900);
+        width: fit-content;
+      }
+
+      .footnote {
+        margin-top: 18px;
+        font-size: 0.85rem;
+        color: var(--ink-500);
+      }
+
+      @keyframes fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .viewer-section {
+          grid-template-columns: 1fr;
+        }
+
+        .viewer-stage {
+          height: 380px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .hero {
+          padding: 24px;
+        }
+
+        .viewer-stage {
+          height: 320px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-badge">Research 3D experience</div>
+        <h1>3D model web-based showcase</h1>
+        <p>
+          Explore the Assets library as interactive 3D models. Each model is optimized for real-time
+          viewing, with clear descriptions, adjustable lighting, and orbit controls so users can
+          inspect the science from every angle.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-button" type="button" id="jumpToViewer">Explore the models</button>
+          <span class="hero-hint">Drag to rotate, scroll to zoom, double-click to re-center.</span>
+        </div>
+      </header>
+
+      <section class="viewer-section" id="viewerSection">
+        <aside class="panel">
+          <h2>Model library</h2>
+          <p>Choose a model to load its description, pipeline notes, and context.</p>
+          <div class="model-list" id="modelList"></div>
+          <p class="footnote">
+            Tip: serve this file from a local web server so models load without browser restrictions.
+          </p>
+        </aside>
+
+        <div class="panel viewer-card">
+          <div class="viewer-header">
+            <div class="viewer-title">
+              <h2 id="modelTitle">Loading model...</h2>
+              <p id="modelSubtitle">Preparing the 3D scene.</p>
+            </div>
+            <div class="viewer-controls">
+              <label class="control-chip">
+                <input type="checkbox" id="autoRotate" checked />
+                Auto-rotate
+              </label>
+              <label class="control-chip">
+                <input type="checkbox" id="wireframeToggle" />
+                Wireframe
+              </label>
+              <label class="control-chip">
+                Point size
+                <input
+                  type="range"
+                  id="pointSize"
+                  min="0.002"
+                  max="0.1"
+                  step="0.002"
+                  value="0.02"
+                />
+              </label>
+              <label class="control-chip">
+                Animation
+                <select id="animationSelect"></select>
+              </label>
+              <button class="control-button" type="button" id="toggleAnimation">Pause</button>
+              <label class="control-chip">
+                Speed
+                <input
+                  type="range"
+                  id="animationSpeed"
+                  min="0.25"
+                  max="2"
+                  step="0.05"
+                  value="1"
+                />
+              </label>
+              <button class="control-button" type="button" id="resetView">Reset view</button>
+              <button class="control-button zoom-button" type="button" id="zoom2">x2</button>
+              <button class="control-button zoom-button" type="button" id="zoom5">x5</button>
+            </div>
+          </div>
+
+          <div class="viewer-stage">
+            <canvas id="modelCanvas"></canvas>
+            <div class="viewer-overlay">
+              <span class="overlay-pill" id="loadStatus">Loading...</span>
+              <span class="overlay-pill light" id="modelHint">glTF / GLB preview</span>
+            </div>
+          </div>
+
+          <div class="model-details">
+            <div class="detail-block">
+              <h3>Model story</h3>
+              <p id="modelDescription">
+                Select a model to view its context and production notes.
+              </p>
+            </div>
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span>Use case</span>
+                <strong id="modelUseCase">--</strong>
+              </div>
+              <div class="detail-item">
+                <span>Pipeline</span>
+                <strong id="modelPipeline">--</strong>
+              </div>
+              <div class="detail-item">
+                <span>Asset file</span>
+                <strong id="modelFile">--</strong>
+              </div>
+            </div>
+            <div class="tag-row" id="modelTags"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-title">
+        <h2>Maker approach vs web deployment</h2>
+        <p>
+          This project bridges physical prototyping and web-first storytelling. The maker workflow
+          delivers rapid experiments with tangible models, while web deployment scales the same
+          assets to classrooms, articles, and outreach at global reach.
+        </p>
+      </section>
+
+      <section class="approach-grid">
+        <article class="approach-card">
+          <h3>Maker approach</h3>
+          <p>Great for hands-on demos, lab validation, and rapid iteration.</p>
+          <ul>
+            <li>Physical markers and tabletop prototypes.</li>
+            <li>Immediate feedback during data processing.</li>
+            <li>Works offline in controlled environments.</li>
+          </ul>
+        </article>
+        <article class="approach-card accent">
+          <h3>Web deployment</h3>
+          <p>Designed for broad reach and low-friction access.</p>
+          <ul>
+            <li>Runs on phones, tablets, and desktops.</li>
+            <li>Shareable links for EOS articles and outreach.</li>
+            <li>Live updates without reprinting markers.</li>
+          </ul>
+        </article>
+        <article class="approach-card">
+          <h3>Why glTF/GLB</h3>
+          <p>Lightweight, web-native 3D format ideal for research sharing.</p>
+          <ul>
+            <li>Compact binary payloads.</li>
+            <li>Supports materials, textures, and animations.</li>
+            <li>Loads fast in Three.js and WebGL.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="section-title">
+        <h2>How the models are created</h2>
+        <p>
+          Each object begins as a MATLAB-generated data visualization or mesh. Blender is used to
+          clean topology, unify scale, and optimize for web delivery before exporting to GLB.
+        </p>
+      </section>
+
+      <section class="pipeline">
+        <div class="pipeline-step">
+          <span>Step 01</span>
+          <h4>MATLAB data sculpting</h4>
+          <p>Scientific grids, point clouds, and volumes are converted into base meshes.</p>
+        </div>
+        <div class="pipeline-step">
+          <span>Step 02</span>
+          <h4>Blender cleanup</h4>
+          <p>Topology is repaired, normals corrected, and textures aligned for clarity.</p>
+        </div>
+        <div class="pipeline-step">
+          <span>Step 03</span>
+          <h4>Web optimization</h4>
+          <p>Assets are decimated and exported as optimized GLB for quick loading.</p>
+        </div>
+        <div class="pipeline-step">
+          <span>Step 04</span>
+          <h4>Interactive delivery</h4>
+          <p>Three.js renders the models with lighting and orbit controls for exploration.</p>
+        </div>
+      </section>
+
+      <section class="cta">
+        <h2>Turn research data into interactive stories</h2>
+        <p>
+          This showcase demonstrates how the Assets library can power persuasive, web-based
+          visualization. The same pipeline can be extended to future missions and datasets.
+        </p>
+        <button class="primary-button" type="button">Start a new model pass</button>
+      </section>
+    </div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+      import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+      import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+      import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader.js";
+      import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+
+      const modelData = [
+        {
+          id: "interior",
+          name: "Earth interior cutaway",
+          subtitle: "Layered geology with depth cues",
+          file: "Assets/earths_interior.opt.glb",
+          fallback: "Assets/earths_interior.glb",
+          description:
+            "Visualizes interior layers to communicate composition and dynamics with intuitive cross sections.",
+          useCase: "Explaining interior structure in STEM outreach.",
+          pipeline: "MATLAB volumetric slicing, Blender polish, GLB export.",
+          tags: ["Geology", "Cross section", "Education"],
+        },
+        {
+          id: "antarctica",
+          name: "Antarctica ice sheet",
+          subtitle: "Cryosphere elevation and scale",
+          file: "Assets/Antarctica3.opt.glb",
+          fallback: "Assets/Antarctica3.glb",
+          startZoom: 0.7,
+          description:
+            "Elevation-driven surface model that highlights ice mass distribution and topography.",
+          useCase: "Polar research briefs and cryosphere updates.",
+          pipeline: "MATLAB terrain mesh, Blender smoothing, optimized GLB.",
+          tags: ["Cryosphere", "Topography", "Elevation"],
+        },
+        {
+          id: "cubesat",
+          name: "CubeSat 1U platform",
+          subtitle: "Hardware context for mission storytelling",
+          file: "Assets/CubeSat_-_1_RU_Generic.opt.glb",
+          fallback: "Assets/CubeSat_-_1_RU_Generic.glb",
+          description:
+            "A compact spacecraft platform used to explain sensor payloads and mission design.",
+          useCase: "Mission concept overviews and engineering demos.",
+          pipeline: "MATLAB reference geometry, Blender cleanup, GLB export.",
+          tags: ["Spacecraft", "Engineering", "Hardware"],
+        },
+        {
+          id: "awe",
+          name: "AWE radiance instrument",
+          subtitle: "Instrument geometry in orbit",
+          file: "Assets/AWE_radiance.opt.glb",
+          startZoom: 0.7,
+          description:
+            "Instrument model built to explain the sensing pathway for atmospheric wave energy.",
+          useCase: "Instrument explainers and mission readiness reviews.",
+          pipeline: "MATLAB mesh assembly, Blender surface cleanup, GLB export.",
+          tags: ["Instrument", "Atmosphere", "Mission"],
+        },
+        {
+          id: "tohoku",
+          name: "Tohoku earthquake volume",
+          subtitle: "Event visualization for rapid insight",
+          file: "Assets/tohoku.opt.glb",
+          fallback: "Assets/tohoku.glb",
+          startZoom: 0.7,
+          description:
+            "A volumetric capture of the Tohoku event, emphasizing energy release structure.",
+          useCase: "Hazard communication and seismic education.",
+          pipeline: "MATLAB volume mesh, Blender cleanup, optimized GLB.",
+          tags: ["Seismic", "Hazards", "Volume"],
+        },
+        {
+          id: "tohoku-pointcloud",
+          name: "Tohoku point cloud",
+          subtitle: "Spatial density from the same event data",
+          file: "Assets/ptCloudsTest2.ply",
+          fallback: "Assets/ptCloudsTest.ply",
+          renderMode: "points",
+          pointSize: 0.02,
+          pointColor: "#0c9fa0",
+          startZoom: 0.65,
+          rotation: [-Math.PI / 2, 0, 0],
+          description:
+            "Raw point cloud view to highlight structure and density.",
+          useCase: "Compare volumetric and point-based interpretations.",
+          pipeline: "MATLAB sampling, Blender cleanup, exported PLY.",
+          tags: ["Seismic", "Point cloud", "Structure"],
+        },
+        {
+          id: "ocean-currents",
+          name: "Ocean currents globe",
+          subtitle: "Video-textured flow patterns",
+          type: "videoSphere",
+          video: "Assets/ecco2_sst_flow.mp4",
+          radius: 1.15,
+          skipNormalize: true,
+          startZoom: 0.7,
+          animationLabel: "Ocean current flow",
+          description:
+            "A time-varying globe that visualizes surface flow and temperature structure.",
+          useCase: "Ocean circulation storytelling and outreach.",
+          pipeline: "MATLAB render to video, applied as a sphere texture.",
+          tags: ["Ocean", "Flow", "Video"],
+        },
+        {
+          id: "co2-sphere",
+          name: "CO2 concentration sphere",
+          subtitle: "Global CO2 dynamics as motion",
+          type: "videoSphere",
+          video: "Assets/videoCo2.mp4",
+          radius: 1.05,
+          skipNormalize: true,
+          startZoom: 0.7,
+          animationLabel: "CO2 dynamics",
+          description:
+            "Animated CO2 concentrations mapped to a sphere for immediate visual impact.",
+          useCase: "Climate communications and EOS article visuals.",
+          pipeline: "MATLAB render to video, applied as a sphere texture.",
+          tags: ["CO2", "Climate", "Video"],
+        },
+        {
+          id: "coral",
+          name: "Coral reef structure",
+          subtitle: "Benthic habitat detail",
+          file: "Assets/coral_reef.opt.glb",
+          startZoom: 0.5,
+          description:
+            "High-detail coral geometry that showcases habitat complexity in marine research.",
+          useCase: "Biodiversity storytelling and reef health studies.",
+          pipeline: "MATLAB mesh extraction, Blender retopo, GLB export.",
+          tags: ["Ocean", "Ecology", "Benthic"],
+        },
+      ];
+
+      const modelList = document.getElementById("modelList");
+      const modelTitle = document.getElementById("modelTitle");
+      const modelSubtitle = document.getElementById("modelSubtitle");
+      const modelDescription = document.getElementById("modelDescription");
+      const modelUseCase = document.getElementById("modelUseCase");
+      const modelPipeline = document.getElementById("modelPipeline");
+      const modelFile = document.getElementById("modelFile");
+      const modelTags = document.getElementById("modelTags");
+      const loadStatus = document.getElementById("loadStatus");
+      const modelHint = document.getElementById("modelHint");
+      const autoRotate = document.getElementById("autoRotate");
+      const wireframeToggle = document.getElementById("wireframeToggle");
+      const pointSize = document.getElementById("pointSize");
+      const animationSelect = document.getElementById("animationSelect");
+      const toggleAnimation = document.getElementById("toggleAnimation");
+      const animationSpeed = document.getElementById("animationSpeed");
+      const resetView = document.getElementById("resetView");
+      const zoom2 = document.getElementById("zoom2");
+      const zoom5 = document.getElementById("zoom5");
+      const jumpToViewer = document.getElementById("jumpToViewer");
+
+      let renderer;
+      let scene;
+      let camera;
+      let controls;
+      let loader;
+      let dracoLoader;
+      let plyLoader;
+      let mixer = null;
+      let animationActions = [];
+      let isAnimationPlaying = false;
+      let animationSpeedValue = 1;
+      let animationMode = "none";
+      let activeVideo = null;
+      let activeVideoTexture = null;
+      let activeModel = null;
+      let activeModelData = null;
+      let pointMaterials = [];
+      let currentModelId = null;
+      const clock = new THREE.Clock();
+      let defaultCameraPosition = new THREE.Vector3(2.6, 1.5, 2.8);
+      const defaultCameraDirection = defaultCameraPosition.clone().normalize();
+      const defaultCameraDistance = defaultCameraPosition.length();
+      let activeCameraDistance = defaultCameraDistance;
+
+      const setupScene = () => {
+        const canvas = document.getElementById("modelCanvas");
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+        camera.position.copy(defaultCameraPosition);
+
+        controls = new OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.autoRotate = autoRotate.checked;
+        controls.autoRotateSpeed = 0.7;
+        controls.minDistance = 1.2;
+        controls.maxDistance = 6;
+        controls.target.set(0, 0, 0);
+
+        const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        keyLight.position.set(4, 6, 4);
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        rimLight.position.set(-4, 3, -2);
+
+        scene.add(ambient, keyLight, rimLight);
+
+        loader = new GLTFLoader();
+        dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath(
+          "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/"
+        );
+        loader.setDRACOLoader(dracoLoader);
+        loader.setMeshoptDecoder(MeshoptDecoder);
+        plyLoader = new PLYLoader();
+      };
+
+      const setLoadingState = (message) => {
+        loadStatus.textContent = message;
+      };
+
+      const updateDetails = (model) => {
+        modelTitle.textContent = model.name;
+        modelSubtitle.textContent = model.subtitle;
+        modelDescription.textContent = model.description;
+        modelUseCase.textContent = model.useCase;
+        modelPipeline.textContent = model.pipeline;
+        modelFile.textContent = model.file || model.video || "--";
+
+        modelTags.innerHTML = "";
+        model.tags.forEach((tag) => {
+          const span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = tag;
+          modelTags.appendChild(span);
+        });
+      };
+
+      const updateActiveButton = (id) => {
+        [...modelList.querySelectorAll(".model-button")].forEach((button) => {
+          button.dataset.active = button.dataset.modelId === id ? "true" : "false";
+        });
+      };
+
+      const setModelHint = (model) => {
+        if (!modelHint) return;
+        if (model.hint) {
+          modelHint.textContent = model.hint;
+          return;
+        }
+        if (model.type === "videoSphere") {
+          modelHint.textContent = "Video sphere";
+          return;
+        }
+        if (model.renderMode === "points") {
+          modelHint.textContent = isPlyFile(model.file) ? "PLY point cloud" : "Point cloud";
+          return;
+        }
+        modelHint.textContent = "glTF / GLB preview";
+      };
+
+      const setPointControls = (enabled, sizeValue) => {
+        pointSize.disabled = !enabled;
+        if (enabled && typeof sizeValue === "number") {
+          pointSize.value = String(sizeValue);
+        }
+      };
+
+      const getPointSize = (model) => {
+        if (typeof model.pointSize === "number") return model.pointSize;
+        const sliderValue = Number(pointSize.value);
+        return Number.isFinite(sliderValue) ? sliderValue : 0.015;
+      };
+
+      const setNoAnimation = () => {
+        animationMode = "none";
+        animationSelect.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No animation";
+        animationSelect.appendChild(option);
+        animationSelect.disabled = true;
+        toggleAnimation.disabled = true;
+        animationSpeed.disabled = true;
+        isAnimationPlaying = false;
+        toggleAnimation.textContent = "Play";
+      };
+
+      const updateAnimationPlayback = () => {
+        toggleAnimation.textContent = isAnimationPlaying ? "Pause" : "Play";
+        if (animationMode === "gltf") {
+          if (!mixer) return;
+          mixer.timeScale = isAnimationPlaying ? animationSpeedValue : 0;
+          return;
+        }
+        if (animationMode === "video") {
+          if (!activeVideo) return;
+          activeVideo.playbackRate = animationSpeedValue;
+          if (isAnimationPlaying) {
+            activeVideo.play().catch(() => {});
+          } else {
+            activeVideo.pause();
+          }
+        }
+      };
+
+      const setAnimationControls = (clips) => {
+        if (!clips || clips.length === 0) {
+          setNoAnimation();
+          return;
+        }
+        animationMode = "gltf";
+        animationSelect.innerHTML = "";
+        animationSpeedValue = Number(animationSpeed.value);
+
+        clips.forEach((clip, index) => {
+          const option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = clip.name ? clip.name : "Clip " + (index + 1);
+          animationSelect.appendChild(option);
+        });
+
+        animationSelect.value = "0";
+        animationSelect.disabled = clips.length === 1;
+        toggleAnimation.disabled = false;
+        animationSpeed.disabled = false;
+        isAnimationPlaying = true;
+        updateAnimationPlayback();
+      };
+
+      const setVideoControls = (video, label) => {
+        animationMode = "video";
+        activeVideo = video;
+        animationSelect.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "video";
+        option.textContent = label || "Video texture";
+        animationSelect.appendChild(option);
+        animationSelect.disabled = true;
+        toggleAnimation.disabled = false;
+        animationSpeed.disabled = false;
+        animationSpeedValue = Number(animationSpeed.value);
+        isAnimationPlaying = true;
+        updateAnimationPlayback();
+      };
+
+      const playAnimationClip = (index) => {
+        if (animationMode !== "gltf" || !mixer || animationActions.length === 0) return;
+        animationActions.forEach((action) => action.stop());
+        const action = animationActions[index];
+        if (!action) return;
+        action.reset().play();
+        isAnimationPlaying = true;
+        updateAnimationPlayback();
+      };
+
+      const normalizeModel = (model) => {
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const maxAxis = Math.max(size.x, size.y, size.z);
+        const scale = 1.8 / maxAxis;
+
+        model.scale.setScalar(scale);
+        model.position.sub(center.multiplyScalar(scale));
+      };
+
+      const applyModelRotation = (model, object) => {
+        if (!model.rotation) return;
+        if (Array.isArray(model.rotation)) {
+          object.rotation.set(model.rotation[0], model.rotation[1], model.rotation[2]);
+          return;
+        }
+        object.rotation.set(
+          model.rotation.x || 0,
+          model.rotation.y || 0,
+          model.rotation.z || 0
+        );
+      };
+
+      const isPlyFile = (file) => {
+        return typeof file === "string" && file.toLowerCase().endsWith(".ply");
+      };
+
+      const getLoadErrorMessage = (error) => {
+        if (error && error.message) return error.message;
+        if (error && error.target && error.target.status) {
+          return "HTTP " + error.target.status;
+        }
+        return "Failed to load model";
+      };
+
+      const cleanupActiveMedia = () => {
+        if (activeVideo) {
+          activeVideo.pause();
+          activeVideo.removeAttribute("src");
+          activeVideo.load();
+          if (activeVideo.parentElement) {
+            activeVideo.parentElement.removeChild(activeVideo);
+          }
+        }
+        if (activeVideoTexture) {
+          activeVideoTexture.dispose();
+        }
+        activeVideo = null;
+        activeVideoTexture = null;
+      };
+
+      const createVideoSphere = (model) => {
+        const video = document.createElement("video");
+        video.src = model.video;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.crossOrigin = "anonymous";
+        video.style.display = "none";
+        document.body.appendChild(video);
+
+        const texture = new THREE.VideoTexture(video);
+        texture.colorSpace = THREE.SRGBColorSpace;
+
+        const geometry = new THREE.SphereGeometry(model.radius || 1, 64, 64);
+        const material = new THREE.MeshStandardMaterial({
+          map: texture,
+          metalness: 0,
+          roughness: 1,
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        return { mesh, video, texture };
+      };
+
+      const createPointCloudFromGltf = (gltf, model) => {
+        const group = new THREE.Group();
+        gltf.scene.updateMatrixWorld(true);
+        const color = new THREE.Color(model.pointColor || "#0c9fa0");
+        const size = getPointSize(model);
+
+        gltf.scene.traverse((child) => {
+          if (!child.isMesh || !child.geometry) return;
+          const geometry = child.geometry.clone();
+          geometry.applyMatrix4(child.matrixWorld);
+          const hasVertexColors = Boolean(geometry.getAttribute("color"));
+          const material = new THREE.PointsMaterial({
+            size,
+            color,
+            vertexColors: hasVertexColors,
+            transparent: true,
+            opacity: 0.9,
+          });
+          pointMaterials.push(material);
+          const points = new THREE.Points(geometry, material);
+          group.add(points);
+        });
+
+        return group.children.length > 0 ? group : gltf.scene;
+      };
+
+      const createPointCloudFromGeometry = (geometry, model) => {
+        const color = new THREE.Color(model.pointColor || "#0c9fa0");
+        const size = getPointSize(model);
+        const material = new THREE.PointsMaterial({
+          size,
+          color,
+          vertexColors: Boolean(geometry.getAttribute("color")),
+          transparent: true,
+          opacity: 0.9,
+        });
+        pointMaterials.push(material);
+        return new THREE.Points(geometry, material);
+      };
+
+      const loadVideoSphere = (model) => {
+        setLoadingState("Loading " + model.name + "...");
+        const { mesh, video, texture } = createVideoSphere(model);
+        activeModel = mesh;
+        activeVideo = video;
+        activeVideoTexture = texture;
+        if (!model.skipNormalize) {
+          normalizeModel(activeModel);
+        }
+        scene.add(activeModel);
+        applyWireframe(wireframeToggle.checked);
+        resetCamera();
+        modelFile.textContent = model.video;
+        setVideoControls(video, model.animationLabel);
+        setLoadingState("Loading video...");
+
+        const markReady = () => {
+          setLoadingState("Ready");
+          updateAnimationPlayback();
+        };
+        video.addEventListener("loadeddata", markReady, { once: true });
+        video.addEventListener("error", () => {
+          setLoadingState("Failed to load video");
+        }, { once: true });
+
+        video.play().catch(() => {});
+      };
+
+      const loadPlyFile = (model, file, isFallback) => {
+        const label = isFallback ? "Trying fallback..." : "Loading " + model.name + "...";
+        setLoadingState(label);
+
+        plyLoader.load(
+          file,
+          (geometry) => {
+            const points = createPointCloudFromGeometry(geometry, model);
+            activeModel = points;
+            applyModelRotation(model, activeModel);
+            normalizeModel(activeModel);
+            scene.add(activeModel);
+            resetCamera();
+            modelFile.textContent = file;
+            setNoAnimation();
+            setLoadingState("Ready");
+          },
+          (event) => {
+            if (event.total) {
+              const percent = Math.round((event.loaded / event.total) * 100);
+              setLoadingState("Loading " + percent + "%");
+            }
+          },
+          (error) => {
+            console.error("PLY load error:", file, error);
+            if (!isFallback && model.fallback) {
+              loadPlyFile(model, model.fallback, true);
+              return;
+            }
+            setLoadingState(getLoadErrorMessage(error));
+          }
+        );
+      };
+
+      const loadModelFile = (model, file, isFallback) => {
+        const label = isFallback ? "Trying fallback..." : "Loading " + model.name + "...";
+        setLoadingState(label);
+
+        loader.load(
+          file,
+          (gltf) => {
+            if (model.renderMode === "points") {
+              activeModel = createPointCloudFromGltf(gltf, model);
+            } else {
+              activeModel = gltf.scene;
+            }
+            applyModelRotation(model, activeModel);
+            normalizeModel(activeModel);
+            scene.add(activeModel);
+            applyWireframe(wireframeToggle.checked);
+            resetCamera();
+            modelFile.textContent = file;
+            const clips = gltf.animations || [];
+            if (model.renderMode === "points") {
+              mixer = null;
+              animationActions = [];
+              setNoAnimation();
+            } else if (clips.length > 0) {
+              mixer = new THREE.AnimationMixer(activeModel);
+              animationActions = clips.map((clip) => mixer.clipAction(clip));
+              setAnimationControls(clips);
+              playAnimationClip(0);
+            } else {
+              mixer = null;
+              animationActions = [];
+              setNoAnimation();
+            }
+            setLoadingState("Ready");
+          },
+          (event) => {
+            if (event.total) {
+              const percent = Math.round((event.loaded / event.total) * 100);
+              setLoadingState("Loading " + percent + "%");
+            }
+          },
+          (error) => {
+            console.error("Model load error:", file, error);
+            if (!isFallback && model.fallback) {
+              loadModelFile(model, model.fallback, true);
+              return;
+            }
+            setLoadingState(getLoadErrorMessage(error));
+          }
+        );
+      };
+
+      const loadModel = (model) => {
+        if (currentModelId === model.id) return;
+        currentModelId = model.id;
+        activeModelData = model;
+        updateDetails(model);
+        updateActiveButton(model.id);
+        setModelHint(model);
+        const zoomFactor = model.startZoom ?? 1;
+        activeCameraDistance = THREE.MathUtils.clamp(
+          defaultCameraDistance * zoomFactor,
+          controls.minDistance,
+          controls.maxDistance
+        );
+        setLoadingState("Loading " + model.name + "...");
+        mixer = null;
+        animationActions = [];
+        cleanupActiveMedia();
+        setNoAnimation();
+        pointMaterials = [];
+        setPointControls(model.renderMode === "points", model.pointSize);
+
+        if (activeModel) {
+          scene.remove(activeModel);
+          activeModel.traverse((child) => {
+            if (child.isMesh || child.isPoints) {
+              child.geometry.dispose();
+              if (Array.isArray(child.material)) {
+                child.material.forEach((material) => {
+                  if (material.map) {
+                    material.map.dispose();
+                  }
+                  material.dispose();
+                });
+              } else if (child.material) {
+                if (child.material.map) {
+                  child.material.map.dispose();
+                }
+                child.material.dispose();
+              }
+            }
+          });
+          activeModel = null;
+        }
+
+        if (model.type === "videoSphere") {
+          loadVideoSphere(model);
+          return;
+        }
+
+        if (isPlyFile(model.file)) {
+          loadPlyFile(model, model.file, false);
+          return;
+        }
+
+        loadModelFile(model, model.file, false);
+      };
+
+      const applyWireframe = (enabled) => {
+        if (!activeModel) return;
+        activeModel.traverse((child) => {
+          if (child.isMesh && child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach((material) => (material.wireframe = enabled));
+            } else {
+              child.material.wireframe = enabled;
+            }
+          }
+        });
+      };
+
+      const resetCamera = () => {
+        controls.target.set(0, 0, 0);
+        setCameraDistance(activeCameraDistance, true);
+      };
+
+      const setCameraDistance = (distance, useDefaultDirection = false) => {
+        const direction = useDefaultDirection
+          ? defaultCameraDirection.clone()
+          : camera.position.clone().sub(controls.target).normalize();
+        const clampedDistance = THREE.MathUtils.clamp(
+          distance,
+          controls.minDistance,
+          controls.maxDistance
+        );
+        camera.position.copy(controls.target).add(direction.multiplyScalar(clampedDistance));
+        controls.update();
+      };
+
+      const zoomBy = (factor) => {
+        const currentDistance = camera.position.distanceTo(controls.target);
+        setCameraDistance(currentDistance / factor);
+      };
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+        if (mixer) {
+          mixer.update(delta);
+        }
+        controls.update();
+        renderer.render(scene, camera);
+      };
+
+      const handleResize = () => {
+        const canvas = renderer.domElement;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+      };
+
+      const setupList = () => {
+        modelData.forEach((model) => {
+          const button = document.createElement("button");
+          button.className = "model-button";
+          button.dataset.modelId = model.id;
+          button.type = "button";
+          button.innerHTML = `<strong>${model.name}</strong><span>${model.subtitle}</span>`;
+          button.addEventListener("click", () => loadModel(model));
+          modelList.appendChild(button);
+        });
+      };
+
+      setupScene();
+      setPointControls(false);
+      setupList();
+      loadModel(modelData[0]);
+      animate();
+
+      autoRotate.addEventListener("change", () => {
+        controls.autoRotate = autoRotate.checked;
+      });
+
+      wireframeToggle.addEventListener("change", () => {
+        applyWireframe(wireframeToggle.checked);
+      });
+
+      animationSpeed.addEventListener("input", () => {
+        animationSpeedValue = Number(animationSpeed.value);
+        if (animationMode !== "none") {
+          updateAnimationPlayback();
+        }
+      });
+
+      pointSize.addEventListener("input", () => {
+        const size = Number(pointSize.value);
+        if (!Number.isFinite(size)) return;
+        pointMaterials.forEach((material) => {
+          material.size = size;
+          material.needsUpdate = true;
+        });
+        if (activeModelData && activeModelData.renderMode === "points") {
+          activeModelData.pointSize = size;
+        }
+      });
+
+      toggleAnimation.addEventListener("click", () => {
+        if (animationMode === "none") return;
+        if (animationMode === "gltf" && (!mixer || animationActions.length === 0)) return;
+        if (animationMode === "video" && !activeVideo) return;
+        isAnimationPlaying = !isAnimationPlaying;
+        updateAnimationPlayback();
+      });
+
+      animationSelect.addEventListener("change", () => {
+        if (animationMode !== "gltf") return;
+        const index = Number(animationSelect.value);
+        playAnimationClip(index);
+      });
+
+      resetView.addEventListener("click", () => resetCamera());
+
+      zoom2.addEventListener("click", () => zoomBy(2));
+      zoom5.addEventListener("click", () => zoomBy(5));
+
+      document.getElementById("modelCanvas").addEventListener("dblclick", () => resetCamera());
+
+      jumpToViewer.addEventListener("click", () => {
+        document.getElementById("viewerSection").scrollIntoView({ behavior: "smooth" });
+      });
+
+      window.addEventListener("resize", handleResize);
+    </script>
+  </body>
+</html>
