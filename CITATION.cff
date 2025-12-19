@@ -1,0 +1,82 @@
+abstract: '<p>This repository contains augmented reality demos. To try them, print
+  out <a href="https://github.com/KCollins/xr-notes/blob/main/AR/AR_marker_layout_2page.pdf">this
+  document</a>, navigate to <a href="https://kcollins.github.io/xr-notes/AR/AR11.html">this
+  page</a>, turn on camera permissions and hold up the markers.&nbsp;</p>
+
+  <h2>__________________________________________________</h2>
+
+  <h2>What''s Changed</h2>
+
+  <ul>
+
+  <li>Jaime''s branch by @KCollins in https://github.com/KCollins/xr-notes/pull/1</li>
+
+  <li>Jaime''s branch by @KCollins in https://github.com/KCollins/xr-notes/pull/2</li>
+
+  <li>Jaime''s branch by @jimmydx in https://github.com/KCollins/xr-notes/pull/3</li>
+
+  <li>Jaime''s branch by @jimmydx in https://github.com/KCollins/xr-notes/pull/4</li>
+
+  <li>Stats overlay and increased performance with a lower camera resolution by @jimmydx
+  in https://github.com/KCollins/xr-notes/pull/5</li>
+
+  <li>New barcodes; new model labels; new CO2 globe with video and performa&hellip;
+  by @jimmydx in https://github.com/KCollins/xr-notes/pull/6</li>
+
+  <li>Added lazy load for all models/makers (only load when marker is seen &hellip;
+  by @jimmydx in https://github.com/KCollins/xr-notes/pull/7</li>
+
+  <li>Added images to the Blender point cloud markdown document. by @jimmydx in https://github.com/KCollins/xr-notes/pull/8</li>
+
+  <li>Appended Blender/PC markdown with glTF 2.0 export instructions by @jimmydx in
+  https://github.com/KCollins/xr-notes/pull/9</li>
+
+  <li>Minor rewrite on gltf markdown by @jimmydx in https://github.com/KCollins/xr-notes/pull/10</li>
+
+  <li>Tweaking to point cloud markdown for clarity by @jimmydx in https://github.com/KCollins/xr-notes/pull/11</li>
+
+  <li>Minor tweak to point cloud markdown by @jimmydx in https://github.com/KCollins/xr-notes/pull/12</li>
+
+  <li>Added A-Framer markers documentation; updated AR11 and barcode layout to not
+  use Marker 0 by @jimmydx in https://github.com/KCollins/xr-notes/pull/13</li>
+
+  <li>Added AWE_radiance model on Marker 10 (includes ISS model) by @jimmydx in https://github.com/KCollins/xr-notes/pull/14</li>
+
+  <li>Added coral reef on marker 11 by @jimmydx in https://github.com/KCollins/xr-notes/pull/15</li>
+
+  <li>Better version of coral reef by @jimmydx in https://github.com/KCollins/xr-notes/pull/17</li>
+
+  </ul>
+
+  <h2>New Contributors</h2>
+
+  <ul>
+
+  <li>@KCollins made their first contribution in https://github.com/KCollins/xr-notes/pull/1</li>
+
+  </ul>
+
+  <p><strong>Full Changelog</strong>: https://github.com/KCollins/xr-notes/commits/v0.1.0</p>'
+authors:
+- affiliation: Space Science Institute
+  family-names: Collins
+  given-names: Kristina
+  orcid: 0000-0002-3816-1948
+- affiliation: "Embry\u2013Riddle Aeronautical University"
+  family-names: Aguilar Guerrero
+  given-names: Jaime
+  orcid: 0000-0002-9160-3434
+- affiliation: Lamont-Doherty Earth Observatory, Columbia University
+  family-names: Boghosian
+  given-names: Alexandra
+  orcid: 0000-0003-0856-5172
+cff-version: 1.2.0
+date-released: '2025-10-30'
+doi: 10.5281/zenodo.17480258
+license:
+- cc-by-4.0
+message: If you use this software, please cite it using the metadata from this file.
+repository-code: https://github.com/KCollins/xr-notes/tree/v0.1.0
+title: Augmented Reality Demos for Earth and Space Science
+type: software
+version: v0.1.0

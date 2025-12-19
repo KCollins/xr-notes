@@ -26,6 +26,15 @@ To run the most common optimizations in one step, use the `optimize` command:
 gltf-transform optimize input.glb output.glb --compress draco --texture-compress webp
 ```
 
+> **⚠️ Important:** The CLI currently aborts when a single mesh primitive carries more than a few million triangles (we routinely see failures once the triangle count creeps past ~5–6 M). When that limit is hit you will see console output like:
+> ```
+> Aborted()
+> warn: Unable to parse document.
+>
+> error: Aborted(). Build with -sASSERTIONS for more info.
+> ```
+> No output file is written upon error. You can run `npx @gltf-transform/cli inspect input.glb` while iterating on the glTF model creation—`inspect` fails the same way when the primitive count is too large, giving you an early warning. Decimate or split extremely heavy assets (i.e. in Blender) before rerunning glTF-Transform tools to succesfully optimize.
+
 See usage recommendations on the official website: <https://gltf-transform.dev/cli>. We use ".opt" in the output filename to indicate that the file is optimized. Example output from the command above:
 
 ```bash
