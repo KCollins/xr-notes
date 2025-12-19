@@ -102,6 +102,11 @@
         width: fit-content;
       }
 
+      .hero-credit {
+        font-size: 0.9rem;
+        color: var(--ink-500);
+      }
+
       .hero h1 {
         font-family: "Fraunces", "Iowan Old Style", serif;
         font-size: clamp(2.2rem, 3vw, 3.3rem);
@@ -397,6 +402,16 @@
         color: var(--ink-900);
       }
 
+      .detail-item a {
+        color: var(--sea-700);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .detail-item a:hover {
+        text-decoration: underline;
+      }
+
       .tag-row {
         display: flex;
         flex-wrap: wrap;
@@ -572,8 +587,13 @@
   <body>
     <div class="page">
       <header class="hero">
-        <div class="hero-badge">Research 3D experience</div>
-        <h1>3D model web-based showcase</h1>
+        <div class="hero-badge">Experience 3D data natively</div>
+        <h1>Bridging Data Complexity and Scientific Insight in Geosciences</h1>
+        <div class="hero-credit">
+          by Jaime Aguilar for AGU 2025 Session:
+          <em>IN51B: Exploring Earth System Complexity with Digital Twins and &ge;3D Visualization
+          and Sonification</em>
+        </div>
         <p>
           Explore the Assets library as interactive 3D models. Each model is optimized for real-time
           viewing, with clear descriptions, adjustable lighting, and orbit controls so users can
@@ -581,7 +601,7 @@
         </p>
         <div class="hero-actions">
           <button class="primary-button" type="button" id="jumpToViewer">Explore the models</button>
-          <span class="hero-hint">Drag to rotate, scroll to zoom, double-click to re-center.</span>
+          <span class="hero-hint">Drag to rotate, toggle Pan mode to move the model, scroll to zoom, double-click to re-center.</span>
         </div>
       </header>
 
@@ -607,6 +627,10 @@
                 Auto-rotate
               </label>
               <label class="control-chip">
+                <input type="checkbox" id="panMode" />
+                Pan mode
+              </label>
+              <label class="control-chip">
                 <input type="checkbox" id="wireframeToggle" />
                 Wireframe
               </label>
@@ -620,6 +644,20 @@
                   step="0.002"
                   value="0.02"
                 />
+              </label>
+              <label class="control-chip">
+                Colormap
+                <select id="colormapSelect">
+                  <option value="solid">Solid</option>
+                  <option value="viridis">Viridis</option>
+                  <option value="plasma">Plasma</option>
+                  <option value="inferno">Inferno</option>
+                  <option value="magma">Magma</option>
+                  <option value="cividis">Cividis</option>
+                  <option value="turbo">Turbo</option>
+                  <option value="grayscale">Grayscale</option>
+                  <option value="original">Original</option>
+                </select>
               </label>
               <label class="control-chip">
                 Animation
@@ -653,7 +691,7 @@
 
           <div class="model-details">
             <div class="detail-block">
-              <h3>Model story</h3>
+              <h3>Model info</h3>
               <p id="modelDescription">
                 Select a model to view its context and production notes.
               </p>
@@ -663,13 +701,13 @@
                 <span>Use case</span>
                 <strong id="modelUseCase">--</strong>
               </div>
-              <div class="detail-item">
+              <div class="detail-item" id="modelPipelineBlock">
                 <span>Pipeline</span>
                 <strong id="modelPipeline">--</strong>
               </div>
               <div class="detail-item">
-                <span>Asset file</span>
-                <strong id="modelFile">--</strong>
+                <span>Reference</span>
+                <strong id="modelReference">--</strong>
               </div>
             </div>
             <div class="tag-row" id="modelTags"></div>
@@ -769,124 +807,176 @@
         {
           id: "interior",
           name: "Earth interior cutaway",
-          subtitle: "Layered geology with depth cues",
+          subtitle: "Animated four-layer interior to the core",
           file: "Assets/earths_interior.opt.glb",
           fallback: "Assets/earths_interior.glb",
+          reference: {
+            label: "Sketchfab: Earth's Interior",
+            url:
+              "https://sketchfab.com/3d-models/earths-interior-4fa1ee1a6fa246d8acf56bc400f1bf5f",
+          },
           description:
-            "Visualizes interior layers to communicate composition and dynamics with intuitive cross sections.",
+            "Sketchfab-sourced animated cutaway revealing four layers from crust to inner core. The motion guides viewers through each layer to explain Earth's interior structure.",
           useCase: "Explaining interior structure in STEM outreach.",
-          pipeline: "MATLAB volumetric slicing, Blender polish, GLB export.",
           tags: ["Geology", "Cross section", "Education"],
         },
         {
           id: "antarctica",
-          name: "Antarctica ice sheet",
-          subtitle: "Cryosphere elevation and scale",
+          name: "Antarctica topography",
+          subtitle: "3D-print-ready surface relief",
           file: "Assets/Antarctica3.opt.glb",
           fallback: "Assets/Antarctica3.glb",
           startZoom: 0.7,
           description:
-            "Elevation-driven surface model that highlights ice mass distribution and topography.",
+            "Topographic surface of Antarctica prepared for 3D printing, preserving elevation relief and continental scale.",
           useCase: "Polar research briefs and cryosphere updates.",
-          pipeline: "MATLAB terrain mesh, Blender smoothing, optimized GLB.",
           tags: ["Cryosphere", "Topography", "Elevation"],
         },
         {
           id: "cubesat",
           name: "CubeSat 1U platform",
-          subtitle: "Hardware context for mission storytelling",
+          subtitle: "1U nanosatellite reference geometry",
           file: "Assets/CubeSat_-_1_RU_Generic.opt.glb",
           fallback: "Assets/CubeSat_-_1_RU_Generic.glb",
+          reference: {
+            label: "NASA 3D Resources: CubeSat 1U",
+            url: "https://science.nasa.gov/3d-resources/cubesat-1-ru-generic/",
+          },
           description:
-            "A compact spacecraft platform used to explain sensor payloads and mission design.",
+            "A CubeSat is a nanosatellite standard. One 1U unit measures 10 x 10 x 11 cm, with common builds in 1U, 1.5U, 2U, 3U, and 6U sizes (NASA 3D Resources).",
           useCase: "Mission concept overviews and engineering demos.",
-          pipeline: "MATLAB reference geometry, Blender cleanup, GLB export.",
           tags: ["Spacecraft", "Engineering", "Hardware"],
         },
         {
+          id: "iss",
+          name: "International Space Station",
+          subtitle: "NASA orbital laboratory geometry",
+          file: "Assets/ISS_stationary.opt.glb",
+          startZoom: 0.7,
+          reference: {
+            label: "NASA: International Space Station 3D Model",
+            url: "https://science.nasa.gov/resource/international-space-station-3d-model/",
+          },
+          description:
+            "A full-scale International Space Station model for mission and research context.",
+          useCase: "Orbital infrastructure explainers and mission storytelling.",
+          tags: ["Spacecraft", "Orbit", "ISS"],
+        },
+        {
           id: "awe",
-          name: "AWE radiance instrument",
-          subtitle: "Instrument geometry in orbit",
+          name: "AWE swath capturing CGW over CONUS",
+          subtitle: "ISS orbit + AWE swath footprint",
           file: "Assets/AWE_radiance.opt.glb",
           startZoom: 0.7,
           description:
-            "Instrument model built to explain the sensing pathway for atmospheric wave energy.",
+            "ISS orbit segment with the NASA AWE swath capturing concentric gravity waves from a thunderstorm convective system over CONUS.",
           useCase: "Instrument explainers and mission readiness reviews.",
           pipeline: "MATLAB mesh assembly, Blender surface cleanup, GLB export.",
           tags: ["Instrument", "Atmosphere", "Mission"],
         },
         {
+          id: "awe-radial-profiles",
+          name: "AWE radial profiles (May 26)",
+          subtitle: "Profile geometry for atmospheric analysis",
+          file: "Assets/AWE_radial_profiles-May26.opt.glb",
+          fallback: "Assets/AWE_radial_profiles-May26.glb",
+          startZoom: 0.7,
+          description:
+            "Radial profile geometry derived from AWE data for layered atmospheric context.",
+          useCase: "Atmospheric structure analysis and presentation visuals.",
+          pipeline: "MATLAB surface mesh, Blender cleanup, optimized GLB.",
+          tags: ["AWE", "Atmosphere", "Profiles"],
+        },
+        {
           id: "tohoku",
-          name: "Tohoku earthquake volume",
-          subtitle: "Event visualization for rapid insight",
+          name: "Tohoku 2011 earthquake system",
+          subtitle: "2011 seismic event volume",
           file: "Assets/tohoku.opt.glb",
           fallback: "Assets/tohoku.glb",
           startZoom: 0.7,
+          reference: {
+            label: "Sketchfab: Tohoku Earthquake 2011",
+            url:
+              "https://sketchfab.com/3d-models/tohoku-earthquake-2011-bf7bac2c40d7417c8af31b1cce8a8a47",
+          },
           description:
-            "A volumetric capture of the Tohoku event, emphasizing energy release structure.",
+            "Sketchfab-sourced 3D visualization of the 2011 Tohoku earthquake system to contextualize the event in space and depth.",
           useCase: "Hazard communication and seismic education.",
-          pipeline: "MATLAB volume mesh, Blender cleanup, optimized GLB.",
           tags: ["Seismic", "Hazards", "Volume"],
         },
         {
           id: "tohoku-pointcloud",
-          name: "Tohoku point cloud",
-          subtitle: "Spatial density from the same event data",
+          name: "Tohoku ionospheric TEC cloud",
+          subtitle: "Ionospheric response to the tsunami",
           file: "Assets/ptCloudsTest2.ply",
           fallback: "Assets/ptCloudsTest.ply",
           renderMode: "points",
           pointSize: 0.02,
           pointColor: "#0c9fa0",
+          pointColorMap: "turbo",
           startZoom: 0.65,
           rotation: [-Math.PI / 2, 0, 0],
           description:
-            "Raw point cloud view to highlight structure and density.",
+            "Point cloud of ionospheric TEC perturbations caused by the 2011 Tohoku tsunami, highlighting wavefront structure and density.",
           useCase: "Compare volumetric and point-based interpretations.",
-          pipeline: "MATLAB sampling, Blender cleanup, exported PLY.",
+          pipeline: "Sparse MATLAB data exported to PLY (no Blender cleanup).",
           tags: ["Seismic", "Point cloud", "Structure"],
         },
         {
           id: "ocean-currents",
           name: "Ocean currents globe",
-          subtitle: "Video-textured flow patterns",
+          subtitle: "NASA SVS ocean flow visualization",
           type: "videoSphere",
           video: "Assets/ecco2_sst_flow.mp4",
           radius: 1.15,
           skipNormalize: true,
           startZoom: 0.7,
           animationLabel: "Ocean current flow",
+          reference: {
+            label: "NASA SVS: Ocean Currents (3912)",
+            url: "https://svs.gsfc.nasa.gov/3912/",
+          },
           description:
-            "A time-varying globe that visualizes surface flow and temperature structure.",
+            "NASA SVS ocean currents visualization mapped to a globe, using video texture to show changing surface flow patterns.",
           useCase: "Ocean circulation storytelling and outreach.",
-          pipeline: "MATLAB render to video, applied as a sphere texture.",
+          pipeline: "Sphere mesh with NASA SVS video texture.",
           tags: ["Ocean", "Flow", "Video"],
         },
         {
           id: "co2-sphere",
-          name: "CO2 concentration sphere",
-          subtitle: "Global CO2 dynamics as motion",
+          name: "Atmospheric CO2 sphere",
+          subtitle: "NASA SVS CO2 visualization",
           type: "videoSphere",
           video: "Assets/videoCo2.mp4",
           radius: 1.05,
           skipNormalize: true,
           startZoom: 0.7,
           animationLabel: "CO2 dynamics",
+          reference: {
+            label: "NASA SVS: CO2 (5273)",
+            url: "https://svs.gsfc.nasa.gov/5273/",
+          },
           description:
-            "Animated CO2 concentrations mapped to a sphere for immediate visual impact.",
+            "NASA SVS CO2 visualization mapped to a sphere, highlighting the evolving global distribution of atmospheric CO2.",
           useCase: "Climate communications and EOS article visuals.",
-          pipeline: "MATLAB render to video, applied as a sphere texture.",
+          pipeline: "Sphere mesh with NASA SVS video texture.",
           tags: ["CO2", "Climate", "Video"],
         },
         {
           id: "coral",
-          name: "Coral reef structure",
-          subtitle: "Benthic habitat detail",
+          name: "Curacao Snake Bay coral reef",
+          subtitle: "20 m reef segment",
           file: "Assets/coral_reef.opt.glb",
           startZoom: 0.5,
+          minDistance: 0.15,
+          reference: {
+            label: "Sketchfab: Curacao Snake Bay Reef (March 2020)",
+            url:
+              "https://sketchfab.com/3d-models/curacao-snakebay-20m-march-2020-b8d3de7653fb43c8a4eb78d7186df0e0",
+          },
           description:
-            "High-detail coral geometry that showcases habitat complexity in marine research.",
+            "Sketchfab-sourced 20 m Curacao Snake Bay reef model (March 2020) showing detailed habitat complexity and structure.",
           useCase: "Biodiversity storytelling and reef health studies.",
-          pipeline: "MATLAB mesh extraction, Blender retopo, GLB export.",
           tags: ["Ocean", "Ecology", "Benthic"],
         },
       ];
@@ -897,13 +987,16 @@
       const modelDescription = document.getElementById("modelDescription");
       const modelUseCase = document.getElementById("modelUseCase");
       const modelPipeline = document.getElementById("modelPipeline");
-      const modelFile = document.getElementById("modelFile");
+      const modelPipelineBlock = document.getElementById("modelPipelineBlock");
+      const modelReference = document.getElementById("modelReference");
       const modelTags = document.getElementById("modelTags");
       const loadStatus = document.getElementById("loadStatus");
       const modelHint = document.getElementById("modelHint");
       const autoRotate = document.getElementById("autoRotate");
+      const panMode = document.getElementById("panMode");
       const wireframeToggle = document.getElementById("wireframeToggle");
       const pointSize = document.getElementById("pointSize");
+      const colormapSelect = document.getElementById("colormapSelect");
       const animationSelect = document.getElementById("animationSelect");
       const toggleAnimation = document.getElementById("toggleAnimation");
       const animationSpeed = document.getElementById("animationSpeed");
@@ -929,12 +1022,21 @@
       let activeModel = null;
       let activeModelData = null;
       let pointMaterials = [];
+      let pointGeometries = [];
+      const pointOriginalColors = new Map();
       let currentModelId = null;
       const clock = new THREE.Clock();
       let defaultCameraPosition = new THREE.Vector3(2.6, 1.5, 2.8);
       const defaultCameraDirection = defaultCameraPosition.clone().normalize();
       const defaultCameraDistance = defaultCameraPosition.length();
       let activeCameraDistance = defaultCameraDistance;
+      const defaultMinDistance = 0.35;
+      const defaultMaxDistance = 6;
+      const defaultMouseButtons = {
+        LEFT: THREE.MOUSE.ROTATE,
+        MIDDLE: THREE.MOUSE.DOLLY,
+        RIGHT: THREE.MOUSE.PAN,
+      };
 
       const setupScene = () => {
         const canvas = document.getElementById("modelCanvas");
@@ -951,8 +1053,12 @@
         controls.enableDamping = true;
         controls.autoRotate = autoRotate.checked;
         controls.autoRotateSpeed = 0.7;
-        controls.minDistance = 1.2;
-        controls.maxDistance = 6;
+        controls.enablePan = true;
+        controls.screenSpacePanning = true;
+        controls.panSpeed = 0.8;
+        controls.mouseButtons = { ...defaultMouseButtons };
+        controls.minDistance = defaultMinDistance;
+        controls.maxDistance = defaultMaxDistance;
         controls.target.set(0, 0, 0);
 
         const ambient = new THREE.AmbientLight(0xffffff, 0.7);
@@ -977,13 +1083,55 @@
         loadStatus.textContent = message;
       };
 
+      const setReference = (model) => {
+        if (!modelReference) return;
+        modelReference.textContent = "";
+
+        const reference = model.reference;
+        let label = null;
+        let url = null;
+
+        if (reference && typeof reference === "object") {
+          label = reference.label || null;
+          url = reference.url || null;
+        } else if (typeof reference === "string") {
+          if (reference.startsWith("http://") || reference.startsWith("https://")) {
+            url = reference;
+            label = reference;
+          } else {
+            label = reference;
+          }
+        }
+
+        if (!label && !url) {
+          label = "Custom build for this project";
+        }
+
+        if (url) {
+          const link = document.createElement("a");
+          link.href = url;
+          link.textContent = label || url;
+          link.target = "_blank";
+          link.rel = "noopener";
+          modelReference.appendChild(link);
+        } else {
+          modelReference.textContent = label;
+        }
+      };
+
       const updateDetails = (model) => {
         modelTitle.textContent = model.name;
         modelSubtitle.textContent = model.subtitle;
         modelDescription.textContent = model.description;
         modelUseCase.textContent = model.useCase;
-        modelPipeline.textContent = model.pipeline;
-        modelFile.textContent = model.file || model.video || "--";
+        if (model.pipeline) {
+          modelPipeline.textContent = model.pipeline;
+          modelPipelineBlock.style.display = "";
+        } else {
+          modelPipeline.textContent = "";
+          modelPipelineBlock.style.display = "none";
+        }
+        setReference(model);
 
         modelTags.innerHTML = "";
         model.tags.forEach((tag) => {
@@ -1017,10 +1165,18 @@
         modelHint.textContent = "glTF / GLB preview";
       };
 
-      const setPointControls = (enabled, sizeValue) => {
+      const setPointControls = (enabled, sizeValue, colorMapValue) => {
         pointSize.disabled = !enabled;
-        if (enabled && typeof sizeValue === "number") {
-          pointSize.value = String(sizeValue);
+        colormapSelect.disabled = !enabled;
+        if (enabled) {
+          if (typeof sizeValue === "number") {
+            pointSize.value = String(sizeValue);
+          }
+          if (colorMapValue) {
+            colormapSelect.value = colorMapValue;
+          }
+        } else {
+          colormapSelect.value = "solid";
         }
       };
 
@@ -1028,6 +1184,176 @@
         if (typeof model.pointSize === "number") return model.pointSize;
         const sliderValue = Number(pointSize.value);
         return Number.isFinite(sliderValue) ? sliderValue : 0.015;
+      };
+
+      const getPointAxis = (model) => {
+        const axis = model.pointAxis || "y";
+        if (axis === "x" || axis === "y" || axis === "z") return axis;
+        if (axis === "radius") return "radius";
+        return "y";
+      };
+
+      const colormapStops = {
+        viridis: [
+          [0.267, 0.005, 0.329],
+          [0.283, 0.141, 0.458],
+          [0.254, 0.265, 0.530],
+          [0.207, 0.372, 0.553],
+          [0.164, 0.471, 0.558],
+          [0.128, 0.567, 0.551],
+          [0.135, 0.659, 0.518],
+          [0.267, 0.749, 0.441],
+          [0.478, 0.821, 0.318],
+          [0.741, 0.873, 0.150],
+          [0.993, 0.906, 0.144],
+        ],
+        plasma: [
+          [0.050, 0.030, 0.528],
+          [0.243, 0.036, 0.707],
+          [0.436, 0.137, 0.723],
+          [0.612, 0.241, 0.612],
+          [0.741, 0.349, 0.471],
+          [0.859, 0.468, 0.270],
+          [0.941, 0.647, 0.039],
+          [0.940, 0.975, 0.131],
+        ],
+        inferno: [
+          [0.001, 0.000, 0.014],
+          [0.093, 0.048, 0.225],
+          [0.256, 0.038, 0.406],
+          [0.462, 0.095, 0.469],
+          [0.651, 0.213, 0.400],
+          [0.827, 0.382, 0.279],
+          [0.941, 0.624, 0.092],
+          [0.988, 0.998, 0.645],
+        ],
+        magma: [
+          [0.001, 0.000, 0.014],
+          [0.097, 0.030, 0.181],
+          [0.235, 0.045, 0.314],
+          [0.401, 0.090, 0.406],
+          [0.587, 0.171, 0.394],
+          [0.760, 0.292, 0.317],
+          [0.909, 0.463, 0.226],
+          [0.987, 0.729, 0.459],
+        ],
+        cividis: [
+          [0.000, 0.135, 0.304],
+          [0.000, 0.247, 0.404],
+          [0.298, 0.416, 0.407],
+          [0.517, 0.549, 0.391],
+          [0.730, 0.662, 0.373],
+          [0.905, 0.761, 0.329],
+          [0.996, 0.859, 0.219],
+        ],
+        turbo: [
+          [0.189, 0.071, 0.232],
+          [0.235, 0.212, 0.572],
+          [0.185, 0.431, 0.678],
+          [0.137, 0.655, 0.518],
+          [0.477, 0.821, 0.318],
+          [0.906, 0.894, 0.159],
+          [0.976, 0.576, 0.137],
+          [0.976, 0.227, 0.153],
+        ],
+        grayscale: [
+          [0.0, 0.0, 0.0],
+          [1.0, 1.0, 1.0],
+        ],
+      };
+
+      const getColormapColor = (stops, t) => {
+        if (stops.length === 1) return stops[0];
+        const clamped = THREE.MathUtils.clamp(t, 0, 1);
+        const scaled = clamped * (stops.length - 1);
+        const index = Math.floor(scaled);
+        const next = Math.min(index + 1, stops.length - 1);
+        const mix = scaled - index;
+        const a = stops[index];
+        const b = stops[next];
+        return [
+          THREE.MathUtils.lerp(a[0], b[0], mix),
+          THREE.MathUtils.lerp(a[1], b[1], mix),
+          THREE.MathUtils.lerp(a[2], b[2], mix),
+        ];
+      };
+
+      const applyPointColormap = (mode) => {
+        if (!pointGeometries.length || !activeModelData) return;
+        const fallbackColor = activeModelData.pointColor || "#0c9fa0";
+        const axis = getPointAxis(activeModelData);
+        const whiteColor = new THREE.Color(1, 1, 1);
+        let resolvedMode = mode;
+
+        if (mode === "original") {
+          const hasOriginal = pointGeometries.some((geometry) =>
+            pointOriginalColors.has(geometry)
+          );
+          if (!hasOriginal) {
+            resolvedMode = "solid";
+            if (colormapSelect.value === "original") {
+              colormapSelect.value = "solid";
+            }
+          }
+        }
+
+        pointGeometries.forEach((geometry, index) => {
+          const material = pointMaterials[index];
+          if (!material || !geometry) return;
+          const original = pointOriginalColors.get(geometry);
+
+          if (resolvedMode === "original") {
+            if (original) {
+              geometry.setAttribute("color", new THREE.BufferAttribute(original.slice(), 3));
+              material.vertexColors = true;
+              material.color.copy(whiteColor);
+              material.needsUpdate = true;
+              return;
+            }
+            resolvedMode = "solid";
+          }
+
+          if (resolvedMode === "solid") {
+            geometry.deleteAttribute("color");
+            material.vertexColors = false;
+            material.color.set(fallbackColor);
+            material.needsUpdate = true;
+            return;
+          }
+
+          const stops = colormapStops[resolvedMode];
+          if (!stops) return;
+          const positions = geometry.getAttribute("position");
+          if (!positions) return;
+
+          geometry.computeBoundingBox();
+          const bounds = geometry.boundingBox;
+          const range =
+            axis === "radius"
+              ? Math.max(bounds.max.length(), bounds.min.length()) || 1
+              : Math.max(bounds.max[axis] - bounds.min[axis], 1e-6);
+
+          const colors = new Float32Array(positions.count * 3);
+          for (let i = 0; i < positions.count; i += 1) {
+            const x = positions.getX(i);
+            const y = positions.getY(i);
+            const z = positions.getZ(i);
+            const value =
+              axis === "radius"
+                ? Math.sqrt(x * x + y * y + z * z) / range
+                : ((axis === "x" ? x : axis === "y" ? y : z) - bounds.min[axis]) / range;
+            const color = getColormapColor(stops, value);
+            const offset = i * 3;
+            colors[offset] = color[0];
+            colors[offset + 1] = color[1];
+            colors[offset + 2] = color[2];
+          }
+
+          geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+          material.vertexColors = true;
+          material.color.copy(whiteColor);
+          material.needsUpdate = true;
+        });
       };
 
       const setNoAnimation = () => {
@@ -1198,6 +1524,10 @@
           if (!child.isMesh || !child.geometry) return;
           const geometry = child.geometry.clone();
           geometry.applyMatrix4(child.matrixWorld);
+          const originalColors = geometry.getAttribute("color");
+          if (originalColors && !pointOriginalColors.has(geometry)) {
+            pointOriginalColors.set(geometry, originalColors.array.slice());
+          }
           const hasVertexColors = Boolean(geometry.getAttribute("color"));
           const material = new THREE.PointsMaterial({
             size,
@@ -1207,6 +1537,7 @@
             opacity: 0.9,
           });
           pointMaterials.push(material);
+          pointGeometries.push(geometry);
           const points = new THREE.Points(geometry, material);
           group.add(points);
         });
@@ -1217,6 +1548,10 @@
       const createPointCloudFromGeometry = (geometry, model) => {
         const color = new THREE.Color(model.pointColor || "#0c9fa0");
         const size = getPointSize(model);
+        const originalColors = geometry.getAttribute("color");
+        if (originalColors && !pointOriginalColors.has(geometry)) {
+          pointOriginalColors.set(geometry, originalColors.array.slice());
+        }
         const material = new THREE.PointsMaterial({
           size,
           color,
@@ -1225,6 +1560,7 @@
           opacity: 0.9,
         });
         pointMaterials.push(material);
+        pointGeometries.push(geometry);
         return new THREE.Points(geometry, material);
       };
 
@@ -1240,7 +1576,6 @@
         scene.add(activeModel);
         applyWireframe(wireframeToggle.checked);
         resetCamera();
-        modelFile.textContent = model.video;
         setVideoControls(video, model.animationLabel);
         setLoadingState("Loading video...");
 
@@ -1269,8 +1604,8 @@
             normalizeModel(activeModel);
             scene.add(activeModel);
             resetCamera();
-            modelFile.textContent = file;
             setNoAnimation();
+            applyPointColormap(colormapSelect.value);
             setLoadingState("Ready");
           },
           (event) => {
@@ -1307,12 +1642,12 @@
             scene.add(activeModel);
             applyWireframe(wireframeToggle.checked);
             resetCamera();
-            modelFile.textContent = file;
             const clips = gltf.animations || [];
             if (model.renderMode === "points") {
               mixer = null;
               animationActions = [];
               setNoAnimation();
+              applyPointColormap(colormapSelect.value);
             } else if (clips.length > 0) {
               mixer = new THREE.AnimationMixer(activeModel);
               animationActions = clips.map((clip) => mixer.clipAction(clip));
@@ -1349,6 +1684,8 @@
         updateDetails(model);
         updateActiveButton(model.id);
         setModelHint(model);
+        controls.minDistance = model.minDistance ?? defaultMinDistance;
+        controls.maxDistance = model.maxDistance ?? defaultMaxDistance;
         const zoomFactor = model.startZoom ?? 1;
         activeCameraDistance = THREE.MathUtils.clamp(
           defaultCameraDistance * zoomFactor,
@@ -1361,7 +1698,13 @@
         cleanupActiveMedia();
         setNoAnimation();
         pointMaterials = [];
-        setPointControls(model.renderMode === "points", model.pointSize);
+        pointGeometries = [];
+        pointOriginalColors.clear();
+        setPointControls(
+          model.renderMode === "points",
+          model.pointSize,
+          model.pointColorMap
+        );
 
         if (activeModel) {
           scene.remove(activeModel);
@@ -1476,6 +1819,18 @@
         controls.autoRotate = autoRotate.checked;
       });
 
+      panMode.addEventListener("change", () => {
+        if (panMode.checked) {
+          controls.mouseButtons = {
+            LEFT: THREE.MOUSE.PAN,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.ROTATE,
+          };
+        } else {
+          controls.mouseButtons = { ...defaultMouseButtons };
+        }
+      });
+
       wireframeToggle.addEventListener("change", () => {
         applyWireframe(wireframeToggle.checked);
       });
@@ -1485,6 +1840,12 @@
         if (animationMode !== "none") {
           updateAnimationPlayback();
         }
+      });
+
+      colormapSelect.addEventListener("change", () => {
+        if (!activeModelData || activeModelData.renderMode !== "points") return;
+        activeModelData.pointColorMap = colormapSelect.value;
+        applyPointColormap(colormapSelect.value);
       });
 
       pointSize.addEventListener("input", () => {
