@@ -36,9 +36,7 @@
         --radius-sm: 12px;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       body {
         margin: 0;
@@ -64,10 +62,7 @@
         z-index: -1;
       }
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
+      a { color: inherit; text-decoration: none; }
 
       .page {
         max-width: 1200px;
@@ -102,517 +97,82 @@
         width: fit-content;
       }
 
-      .hero-credit {
-        font-size: 0.9rem;
-        color: var(--ink-500);
-      }
-
-      .hero h1 {
-        font-family: "Fraunces", "Iowan Old Style", serif;
-        font-size: clamp(2.2rem, 3vw, 3.3rem);
-        margin: 0;
-        letter-spacing: -0.01em;
-        color: var(--ink-900);
-      }
-
-      .hero p {
-        margin: 0;
-        color: var(--ink-700);
-        font-size: 1.05rem;
-        max-width: 70ch;
-      }
-
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-      }
-
-      .primary-button {
-        padding: 12px 20px;
-        border-radius: 999px;
-        background: var(--ink-900);
-        color: #fff;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        box-shadow: var(--shadow-soft);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .primary-button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 18px 28px rgba(11, 20, 32, 0.22);
-      }
-
-      .hero-hint {
-        font-size: 0.92rem;
-        color: var(--ink-500);
-      }
-
-      .viewer-section {
-        display: grid;
-        grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
-        gap: 26px;
-        margin-top: 28px;
-        animation: fade-up 0.9s ease both;
-        animation-delay: 0.1s;
-      }
-
-      .panel {
-        background: var(--glass);
-        border-radius: var(--radius-lg);
-        padding: 22px;
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow-soft);
-      }
-
-      .panel h2 {
-        margin: 0 0 8px;
-        font-size: 1.1rem;
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-        color: var(--ink-500);
-      }
-
-      .panel p {
-        margin: 0 0 18px;
-        color: var(--ink-700);
-      }
-
-      .model-list {
-        display: grid;
-        gap: 12px;
-        margin-top: 16px;
-      }
-
-      .model-button {
-        display: grid;
-        gap: 6px;
-        padding: 14px;
-        border-radius: var(--radius-md);
-        border: 1px solid transparent;
-        background: rgba(255, 255, 255, 0.7);
-        font: inherit;
-        text-align: left;
-        cursor: pointer;
-        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      }
-
-      .model-button strong {
-        font-size: 1rem;
-        color: var(--ink-900);
-      }
-
-      .model-button span {
-        font-size: 0.85rem;
-        color: var(--ink-500);
-      }
-
-      .model-button[data-active="true"] {
-        border-color: rgba(12, 159, 160, 0.6);
-        background: rgba(12, 159, 160, 0.08);
-        transform: translateY(-1px);
-      }
-
-      .viewer-card {
-        display: grid;
-        gap: 18px;
-      }
-
-      .viewer-header {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .viewer-title h2 {
-        margin: 0;
-        font-family: "Fraunces", "Iowan Old Style", serif;
-        font-size: 1.7rem;
-      }
-
-      .viewer-title p {
-        margin: 4px 0 0;
-        color: var(--ink-500);
-      }
-
-      .viewer-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: center;
-      }
-
-      .control-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.85);
-        border: 1px solid var(--stroke);
-        font-size: 0.85rem;
-      }
-
-      .control-chip input[type="checkbox"] {
-        accent-color: var(--sea-700);
-      }
-
-      .control-chip input[type="range"] {
-        accent-color: var(--sea-700);
-      }
-
-      .control-chip select {
-        border: none;
-        background: transparent;
-        font: inherit;
-        color: var(--ink-700);
-        padding: 2px 4px;
-      }
-
-      .control-chip select:disabled {
-        color: var(--ink-500);
-      }
-
-      .control-chip input[type="range"]:disabled {
-        opacity: 0.6;
-      }
-
-      .control-button {
-        border: none;
-        border-radius: 999px;
-        padding: 8px 14px;
-        background: var(--ink-900);
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      .control-button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-
-      .control-button.zoom-button {
-        background: var(--sea-700);
-        padding: 8px 12px;
-        font-size: 0.85rem;
-      }
-
-      .control-button.zoom-button:hover {
-        background: var(--sea-500);
-      }
-
-      .viewer-stage {
-        position: relative;
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        border: 1px solid var(--stroke);
-        background:
-          radial-gradient(circle at 30% 20%, rgba(12, 159, 160, 0.15), transparent 55%),
-          radial-gradient(circle at 70% 70%, rgba(245, 159, 11, 0.16), transparent 50%),
-          linear-gradient(140deg, #ffffff, #edf2f5 75%);
-        height: 460px;
-      }
-
-      #modelCanvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-
-      .viewer-overlay {
-        position: absolute;
-        inset: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        pointer-events: none;
-      }
-
-      .overlay-pill {
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(11, 20, 32, 0.75);
-        color: #fff;
-        font-size: 0.8rem;
-        letter-spacing: 0.02em;
-      }
-
-      .overlay-pill.light {
-        background: rgba(255, 255, 255, 0.9);
-        color: var(--ink-700);
-        border: 1px solid var(--stroke);
-      }
-
-      .model-details {
-        display: grid;
-        gap: 16px;
-      }
-
-      .detail-block {
-        padding: 16px;
-        border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--stroke);
-      }
-
-      .detail-block h3 {
-        margin: 0 0 8px;
-        font-size: 0.95rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        color: var(--ink-500);
-      }
-
-      .detail-block p {
-        margin: 0;
-        color: var(--ink-700);
-      }
-
-      .detail-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 12px;
-      }
-
-      .detail-item {
-        padding: 14px;
-        border-radius: var(--radius-sm);
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid var(--stroke);
-      }
-
-      .detail-item span {
-        display: block;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--ink-500);
-      }
-
-      .detail-item strong {
-        display: block;
-        margin-top: 6px;
-        font-weight: 600;
-        color: var(--ink-900);
-      }
-
-      .detail-item a {
-        color: var(--sea-700);
-        font-weight: 600;
-        text-decoration: none;
-      }
-
-      .detail-item a:hover {
-        text-decoration: underline;
-      }
-
-      .tag-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .tag {
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        color: var(--ink-700);
-        background: rgba(12, 159, 160, 0.12);
-        border: 1px solid rgba(12, 159, 160, 0.2);
-      }
-
-      .section-title {
-        margin-top: 48px;
-        margin-bottom: 16px;
-      }
-
-      .section-title h2 {
-        margin: 0 0 8px;
-        font-family: "Fraunces", "Iowan Old Style", serif;
-        font-size: 2rem;
-      }
-
-      .section-title p {
-        margin: 0;
-        color: var(--ink-700);
-        max-width: 70ch;
-      }
-
-      .approach-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 18px;
-      }
-
-      .approach-card {
-        background: var(--glass);
-        border-radius: var(--radius-md);
-        padding: 20px;
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow-soft);
-        animation: fade-up 0.8s ease both;
-      }
-
-      .approach-card h3 {
-        margin: 0 0 8px;
-        font-size: 1.1rem;
-      }
-
-      .approach-card p {
-        margin: 0 0 10px;
-        color: var(--ink-700);
-      }
-
-      .approach-card ul,
-      .approach-card ol {
-        margin: 0;
-        padding-left: 18px;
-        color: var(--ink-600);
-      }
-
-      .approach-card.accent {
-        background: rgba(12, 159, 160, 0.1);
-        border-color: rgba(12, 159, 160, 0.3);
-      }
-
-      .pipeline {
-        margin-top: 42px;
-        display: grid;
-        gap: 18px;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      }
-
-      .pipeline-step {
-        padding: 18px;
-        border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.85);
-        border: 1px solid var(--stroke);
-      }
-
-      .pipeline-step span {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--sea-700);
-      }
-
-      .pipeline-step h4 {
-        margin: 6px 0 8px;
-      }
-
-      .pipeline-step p {
-        margin: 0;
-        color: var(--ink-700);
-      }
-
-      .cta {
-        margin-top: 50px;
-        padding: 28px;
-        border-radius: var(--radius-lg);
-        background: var(--ink-900);
-        color: #fff;
-        display: grid;
-        gap: 14px;
-        box-shadow: var(--shadow);
-      }
-
-      .cta h2 {
-        margin: 0;
-        font-family: "Fraunces", "Iowan Old Style", serif;
-        font-size: 1.8rem;
-      }
-
-      .cta p {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .cta .primary-button {
-        background: #fff;
-        color: var(--ink-900);
-        width: fit-content;
-      }
-
-      .footnote {
-        margin-top: 18px;
-        font-size: 0.85rem;
-        color: var(--ink-500);
-      }
-
-      @keyframes fade-up {
-        from {
-          opacity: 0;
-          transform: translateY(14px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @media (max-width: 900px) {
-        .viewer-section {
-          grid-template-columns: 1fr;
-        }
-
-        .viewer-stage {
-          height: 380px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        .hero {
-          padding: 24px;
-        }
-
-        .viewer-stage {
-          height: 320px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation: none !important;
-          transition: none !important;
-        }
-      }
+      .hero-credit { font-size: 0.9rem; color: var(--ink-500); }
+      .hero h1 { font-family: "Fraunces", "Iowan Old Style", serif; font-size: clamp(2.2rem, 3vw, 3.3rem); margin: 0; letter-spacing: -0.01em; color: var(--ink-900); }
+      .hero p { margin: 0; color: var(--ink-700); font-size: 1.05rem; max-width: 70ch; }
+
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      .primary-button { padding: 12px 20px; border-radius: 999px; background: var(--ink-900); color: #fff; font-weight: 600; border: none; cursor: pointer; box-shadow: var(--shadow-soft); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .primary-button:hover { transform: translateY(-1px); box-shadow: 0 18px 28px rgba(11, 20, 32, 0.22); }
+      .hero-hint { font-size: 0.92rem; color: var(--ink-500); }
+
+      .viewer-section { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 26px; margin-top: 28px; animation: fade-up 0.9s ease both; animation-delay: 0.1s; }
+      .panel { background: var(--glass); border-radius: var(--radius-lg); padding: 22px; border: 1px solid var(--stroke); box-shadow: var(--shadow-soft); }
+      .panel h2 { margin: 0 0 8px; font-size: 1.1rem; letter-spacing: 0.01em; text-transform: uppercase; color: var(--ink-500); }
+      .panel p { margin: 0 0 18px; color: var(--ink-700); }
+
+      .model-list { display: grid; gap: 12px; margin-top: 16px; }
+      .model-button { display: grid; gap: 6px; padding: 14px; border-radius: var(--radius-md); border: 1px solid transparent; background: rgba(255, 255, 255, 0.7); font: inherit; text-align: left; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+      .model-button strong { font-size: 1rem; color: var(--ink-900); }
+      .model-button span { font-size: 0.85rem; color: var(--ink-500); }
+      .model-button[data-active="true"] { border-color: rgba(12, 159, 160, 0.6); background: rgba(12, 159, 160, 0.08); transform: translateY(-1px); }
+
+      .viewer-card { display: grid; gap: 18px; }
+      .viewer-header { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
+      .viewer-title h2 { margin: 0; font-family: "Fraunces", "Iowan Old Style", serif; font-size: 1.7rem; }
+      .viewer-title p { margin: 4px 0 0; color: var(--ink-500); }
+
+      .viewer-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+      .control-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); border: 1px solid var(--stroke); font-size: 0.85rem; }
+      .control-chip input[type="checkbox"], .control-chip input[type="range"] { accent-color: var(--sea-700); }
+      .control-chip select { border: none; background: transparent; font: inherit; color: var(--ink-700); padding: 2px 4px; }
+
+      .control-button { border: none; border-radius: 999px; padding: 8px 14px; background: var(--ink-900); color: #fff; font-weight: 600; cursor: pointer; }
+      .control-button:disabled { opacity: 0.6; cursor: not-allowed; }
+      .control-button.zoom-button { background: var(--sea-700); padding: 8px 12px; font-size: 0.85rem; }
+      .control-button.zoom-button:hover { background: var(--sea-500); }
+
+      .viewer-stage { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--stroke); background: radial-gradient(circle at 30% 20%, rgba(12, 159, 160, 0.15), transparent 55%), radial-gradient(circle at 70% 70%, rgba(245, 159, 11, 0.16), transparent 50%), linear-gradient(140deg, #ffffff, #edf2f5 75%); height: 460px; }
+      #modelCanvas { width: 100%; height: 100%; display: block; }
+
+      .viewer-overlay { position: absolute; inset: 16px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; }
+      .overlay-pill { padding: 8px 12px; border-radius: 999px; background: rgba(11, 20, 32, 0.75); color: #fff; font-size: 0.8rem; letter-spacing: 0.02em; }
+      .overlay-pill.light { background: rgba(255, 255, 255, 0.9); color: var(--ink-700); border: 1px solid var(--stroke); }
+
+      .model-details { display: grid; gap: 16px; }
+      .detail-block { padding: 16px; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.9); border: 1px solid var(--stroke); }
+      .detail-block h3 { margin: 0 0 8px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-500); }
+      .detail-block p { margin: 0; color: var(--ink-700); }
+
+      .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+      .detail-item { padding: 14px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.7); border: 1px solid var(--stroke); }
+      .detail-item span { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-500); }
+      .detail-item strong { display: block; margin-top: 6px; font-weight: 600; color: var(--ink-900); }
+      .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+      .tag { padding: 6px 10px; border-radius: 999px; font-size: 0.75rem; color: var(--ink-700); background: rgba(12, 159, 160, 0.12); border: 1px solid rgba(12, 159, 160, 0.2); }
+
+      @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 900px) { .viewer-section { grid-template-columns: 1fr; } .viewer-stage { height: 380px; } }
     </style>
   </head>
   <body>
     <div class="page">
       <header class="hero">
         <div class="hero-badge">Experience 3D data natively</div>
-        <h1>Bridging Data Complexity and Scientific Insight in Geosciences</h1>
-        <div class="hero-credit">
-          by Jaime Aguilar for AGU 2025 Session:
-          <em>IN51B: Exploring Earth System Complexity with Digital Twins and &ge;3D Visualization
-          and Sonification</em>
-        </div>
-        <p>
-          Explore the Assets library as interactive 3D models. Each model is optimized for real-time
-          viewing, with clear descriptions, adjustable lighting, and orbit controls so users can
-          inspect the science from every angle.
-        </p>
+        <h1>Bridging Data Complexity and Scientific Insight</h1>
+        <div class="hero-credit">by Jaime Aguilar for AGU 2025</div>
+        <p>Explore the Assets library. Each model is optimized for real-time viewing and scientific analysis.</p>
         <div class="hero-actions">
           <button class="primary-button" type="button" id="jumpToViewer">Explore the models</button>
-          <span class="hero-hint">Drag to rotate, toggle Pan mode to move the model, scroll to zoom, double-click to re-center.</span>
+          <span class="hero-hint">Drag to rotate, scroll to zoom.</span>
         </div>
       </header>
 
       <section class="viewer-section" id="viewerSection">
         <aside class="panel">
           <h2>Model library</h2>
-          <p>Choose a model to load its description, pipeline notes, and context.</p>
           <div class="model-list" id="modelList"></div>
-          <p class="footnote">
-            Tip: serve this file from a local web server so models load without browser restrictions.
-          </p>
         </aside>
 
         <div class="panel viewer-card">
@@ -623,175 +183,43 @@
             </div>
             <div class="viewer-controls">
               <label class="control-chip">
-                <input type="checkbox" id="autoRotate" checked />
-                Auto-rotate
-              </label>
-              <label class="control-chip">
-                <input type="checkbox" id="panMode" />
-                Pan mode
-              </label>
-              <label class="control-chip">
-                <input type="checkbox" id="wireframeToggle" />
-                Wireframe
-              </label>
-              <label class="control-chip">
-                Point size
-                <input
-                  type="range"
-                  id="pointSize"
-                  min="0.002"
-                  max="0.1"
-                  step="0.002"
-                  value="0.02"
-                />
-              </label>
-              <label class="control-chip">
                 Colormap
                 <select id="colormapSelect">
-                  <option value="solid">Solid</option>
-                  <option value="viridis">Viridis</option>
-                  <option value="plasma">Plasma</option>
-                  <option value="inferno">Inferno</option>
-                  <option value="magma">Magma</option>
-                  <option value="cividis">Cividis</option>
-                  <option value="turbo">Turbo</option>
-                  <option value="grayscale">Grayscale</option>
                   <option value="original">Original</option>
+                  <option value="chromadepth">ChromaDepth</option>
+                  <option value="viridis">Viridis</option>
+                  <option value="turbo">Turbo</option>
+                  <option value="solid">White</option>
                 </select>
               </label>
               <label class="control-chip">
-                Animation
-                <select id="animationSelect"></select>
+                <input type="checkbox" id="autoRotate" checked /> Auto-rotate
               </label>
-              <button class="control-button" type="button" id="toggleAnimation">Pause</button>
               <label class="control-chip">
-                Speed
-                <input
-                  type="range"
-                  id="animationSpeed"
-                  min="0.25"
-                  max="2"
-                  step="0.05"
-                  value="1"
-                />
+                <input type="checkbox" id="wireframeToggle" /> Wireframe
               </label>
               <button class="control-button" type="button" id="resetView">Reset view</button>
-              <button class="control-button zoom-button" type="button" id="zoom2">x2</button>
-              <button class="control-button zoom-button" type="button" id="zoom5">x5</button>
             </div>
           </div>
 
           <div class="viewer-stage">
             <canvas id="modelCanvas"></canvas>
             <div class="viewer-overlay">
-              <span class="overlay-pill" id="loadStatus">Loading...</span>
-              <span class="overlay-pill light" id="modelHint">glTF / GLB preview</span>
+              <span class="overlay-pill" id="loadStatus">Ready</span>
             </div>
           </div>
 
           <div class="model-details">
             <div class="detail-block">
-              <h3>Model info</h3>
-              <p id="modelDescription">
-                Select a model to view its context and production notes.
-              </p>
+              <h3>Description</h3>
+              <p id="modelDescription">Select a model to view details.</p>
             </div>
             <div class="detail-grid">
-              <div class="detail-item">
-                <span>Use case</span>
-                <strong id="modelUseCase">--</strong>
-              </div>
-              <div class="detail-item" id="modelPipelineBlock">
-                <span>Pipeline</span>
-                <strong id="modelPipeline">--</strong>
-              </div>
-              <div class="detail-item">
-                <span>Reference</span>
-                <strong id="modelReference">--</strong>
-              </div>
+              <div class="detail-item"><span>Use case</span><strong id="modelUseCase">--</strong></div>
+              <div class="detail-item"><span>Tags</span><div class="tag-row" id="modelTags"></div></div>
             </div>
-            <div class="tag-row" id="modelTags"></div>
           </div>
         </div>
-      </section>
-
-      <section class="section-title">
-        <h2>Maker approach vs web deployment</h2>
-        <p>
-          This project bridges physical prototyping and web-first storytelling. The maker workflow
-          delivers rapid experiments with tangible models, while web deployment scales the same
-          assets to classrooms, articles, and outreach at global reach.
-        </p>
-      </section>
-
-      <section class="approach-grid">
-        <article class="approach-card">
-          <h3>Maker approach</h3>
-          <p>Great for hands-on demos, lab validation, and rapid iteration.</p>
-          <ul>
-            <li>Physical markers and tabletop prototypes.</li>
-            <li>Immediate feedback during data processing.</li>
-            <li>Works offline in controlled environments.</li>
-          </ul>
-        </article>
-        <article class="approach-card accent">
-          <h3>Web deployment</h3>
-          <p>Designed for broad reach and low-friction access.</p>
-          <ul>
-            <li>Runs on phones, tablets, and desktops.</li>
-            <li>Shareable links for EOS articles and outreach.</li>
-            <li>Live updates without reprinting markers.</li>
-          </ul>
-        </article>
-        <article class="approach-card">
-          <h3>Why glTF/GLB</h3>
-          <p>Lightweight, web-native 3D format ideal for research sharing.</p>
-          <ul>
-            <li>Compact binary payloads.</li>
-            <li>Supports materials, textures, and animations.</li>
-            <li>Loads fast in Three.js and WebGL.</li>
-          </ul>
-        </article>
-      </section>
-
-      <section class="section-title">
-        <h2>How the models are created</h2>
-        <p>
-          Each object begins as a MATLAB-generated data visualization or mesh. Blender is used to
-          clean topology, unify scale, and optimize for web delivery before exporting to GLB.
-        </p>
-      </section>
-
-      <section class="pipeline">
-        <div class="pipeline-step">
-          <span>Step 01</span>
-          <h4>MATLAB data sculpting</h4>
-          <p>Scientific grids, point clouds, and volumes are converted into base meshes.</p>
-        </div>
-        <div class="pipeline-step">
-          <span>Step 02</span>
-          <h4>Blender cleanup</h4>
-          <p>Topology is repaired, normals corrected, and textures aligned for clarity.</p>
-        </div>
-        <div class="pipeline-step">
-          <span>Step 03</span>
-          <h4>Web optimization</h4>
-          <p>Assets are decimated and exported as optimized GLB for quick loading.</p>
-        </div>
-        <div class="pipeline-step">
-          <span>Step 04</span>
-          <h4>Interactive delivery</h4>
-          <p>Three.js renders the models with lighting and orbit controls for exploration.</p>
-        </div>
-      </section>
-
-      <section class="cta">
-        <h2>Turn research data into interactive stories</h2>
-        <p>
-          This showcase demonstrates how the Assets library can power persuasive, web-based
-          visualization. The same pipeline can be extended to future missions and datasets.
-        </p>
-        <button class="primary-button" type="button">Start a new model pass</button>
       </section>
     </div>
 
@@ -799,1093 +227,163 @@
       import * as THREE from "three";
       import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
       import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-      import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-      import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader.js";
-      import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
+      // --- CONFIG & MODELS ---
       const modelData = [
-        {
-          id: "interior",
-          name: "Earth interior cutaway",
-          subtitle: "Animated four-layer interior to the core",
-          file: "Assets/earths_interior.opt.glb",
-          fallback: "Assets/earths_interior.glb",
-          reference: {
-            label: "Sketchfab: Earth's Interior",
-            url:
-              "https://sketchfab.com/3d-models/earths-interior-4fa1ee1a6fa246d8acf56bc400f1bf5f",
-          },
-          description:
-            "Sketchfab-sourced animated cutaway revealing four layers from crust to inner core. The motion guides viewers through each layer to explain Earth's interior structure.",
-          useCase: "Explaining interior structure in STEM outreach.",
-          tags: ["Geology", "Cross section", "Education"],
-        },
-        {
-          id: "antarctica",
-          name: "Antarctica topography",
-          subtitle: "3D-print-ready surface relief",
-          file: "Assets/Antarctica3.opt.glb",
-          fallback: "Assets/Antarctica3.glb",
-          startZoom: 0.7,
-          description:
-            "Topographic surface of Antarctica prepared for 3D printing, preserving elevation relief and continental scale.",
-          useCase: "Polar research briefs and cryosphere updates.",
-          tags: ["Cryosphere", "Topography", "Elevation"],
-        },
-        {
-          id: "cubesat",
-          name: "CubeSat 1U platform",
-          subtitle: "1U nanosatellite reference geometry",
-          file: "Assets/CubeSat_-_1_RU_Generic.opt.glb",
-          fallback: "Assets/CubeSat_-_1_RU_Generic.glb",
-          reference: {
-            label: "NASA 3D Resources: CubeSat 1U",
-            url: "https://science.nasa.gov/3d-resources/cubesat-1-ru-generic/",
-          },
-          description:
-            "A CubeSat is a nanosatellite standard. One 1U unit measures 10 x 10 x 11 cm, with common builds in 1U, 1.5U, 2U, 3U, and 6U sizes (NASA 3D Resources).",
-          useCase: "Mission concept overviews and engineering demos.",
-          tags: ["Spacecraft", "Engineering", "Hardware"],
-        },
-        {
-          id: "iss",
-          name: "International Space Station",
-          subtitle: "NASA orbital laboratory geometry",
-          file: "Assets/ISS_stationary.opt.glb",
-          startZoom: 0.7,
-          reference: {
-            label: "NASA: International Space Station 3D Model",
-            url: "https://science.nasa.gov/resource/international-space-station-3d-model/",
-          },
-          description:
-            "A full-scale International Space Station model for mission and research context.",
-          useCase: "Orbital infrastructure explainers and mission storytelling.",
-          tags: ["Spacecraft", "Orbit", "ISS"],
-        },
-        {
-          id: "awe",
-          name: "AWE swath capturing CGW over CONUS",
-          subtitle: "ISS orbit + AWE swath footprint",
-          file: "Assets/AWE_radiance.opt.glb",
-          startZoom: 0.7,
-          description:
-            "ISS orbit segment with the NASA AWE swath capturing concentric gravity waves from a thunderstorm convective system over CONUS.",
-          useCase: "Instrument explainers and mission readiness reviews.",
-          pipeline: "MATLAB mesh assembly, Blender surface cleanup, GLB export.",
-          tags: ["Instrument", "Atmosphere", "Mission"],
-        },
-        {
-          id: "awe-radial-profiles",
-          name: "AWE radial profiles (May 26)",
-          subtitle: "Profile geometry for atmospheric analysis",
-          file: "Assets/AWE_radial_profiles-May26.opt.glb",
-          fallback: "Assets/AWE_radial_profiles-May26.glb",
-          startZoom: 0.7,
-          description:
-            "Radial profile geometry derived from AWE data for layered atmospheric context.",
-          useCase: "Atmospheric structure analysis and presentation visuals.",
-          pipeline: "MATLAB surface mesh, Blender cleanup, optimized GLB.",
-          tags: ["AWE", "Atmosphere", "Profiles"],
-        },
-        {
-          id: "tohoku",
-          name: "Tohoku 2011 earthquake system",
-          subtitle: "2011 seismic event volume",
-          file: "Assets/tohoku.opt.glb",
-          fallback: "Assets/tohoku.glb",
-          startZoom: 0.7,
-          reference: {
-            label: "Sketchfab: Tohoku Earthquake 2011",
-            url:
-              "https://sketchfab.com/3d-models/tohoku-earthquake-2011-bf7bac2c40d7417c8af31b1cce8a8a47",
-          },
-          description:
-            "Sketchfab-sourced 3D visualization of the 2011 Tohoku earthquake system to contextualize the event in space and depth.",
-          useCase: "Hazard communication and seismic education.",
-          tags: ["Seismic", "Hazards", "Volume"],
-        },
-        {
-          id: "tohoku-pointcloud",
-          name: "Tohoku ionospheric TEC cloud",
-          subtitle: "Ionospheric response to the tsunami",
-          file: "Assets/ptCloudsTest2.ply",
-          fallback: "Assets/ptCloudsTest.ply",
-          renderMode: "points",
-          pointSize: 0.02,
-          pointColor: "#0c9fa0",
-          pointColorMap: "turbo",
-          startZoom: 0.65,
-          rotation: [-Math.PI / 2, 0, 0],
-          description:
-            "Point cloud of ionospheric TEC perturbations caused by the 2011 Tohoku tsunami, highlighting wavefront structure and density.",
-          useCase: "Compare volumetric and point-based interpretations.",
-          pipeline: "Sparse MATLAB data exported to PLY (no Blender cleanup).",
-          tags: ["Seismic", "Point cloud", "Structure"],
-        },
-        {
-          id: "ocean-currents",
-          name: "Ocean currents globe",
-          subtitle: "NASA SVS ocean flow visualization",
-          type: "videoSphere",
-          video: "Assets/ecco2_sst_flow.mp4",
-          radius: 1.15,
-          skipNormalize: true,
-          startZoom: 0.7,
-          animationLabel: "Ocean current flow",
-          reference: {
-            label: "NASA SVS: Ocean Currents (3912)",
-            url: "https://svs.gsfc.nasa.gov/3912/",
-          },
-          description:
-            "NASA SVS ocean currents visualization mapped to a globe, using video texture to show changing surface flow patterns.",
-          useCase: "Ocean circulation storytelling and outreach.",
-          pipeline: "Sphere mesh with NASA SVS video texture.",
-          tags: ["Ocean", "Flow", "Video"],
-        },
-        {
-          id: "co2-sphere",
-          name: "Atmospheric CO2 sphere",
-          subtitle: "NASA SVS CO2 visualization",
-          type: "videoSphere",
-          video: "Assets/videoCo2.mp4",
-          radius: 1.05,
-          skipNormalize: true,
-          startZoom: 0.7,
-          animationLabel: "CO2 dynamics",
-          reference: {
-            label: "NASA SVS: CO2 (5273)",
-            url: "https://svs.gsfc.nasa.gov/5273/",
-          },
-          description:
-            "NASA SVS CO2 visualization mapped to a sphere, highlighting the evolving global distribution of atmospheric CO2.",
-          useCase: "Climate communications and EOS article visuals.",
-          pipeline: "Sphere mesh with NASA SVS video texture.",
-          tags: ["CO2", "Climate", "Video"],
-        },
-        {
-          id: "coral",
-          name: "Curacao Snake Bay coral reef",
-          subtitle: "20 m reef segment",
-          file: "Assets/coral_reef.opt.glb",
-          startZoom: 0.5,
-          minDistance: 0.15,
-          reference: {
-            label: "Sketchfab: Curacao Snake Bay Reef (March 2020)",
-            url:
-              "https://sketchfab.com/3d-models/curacao-snakebay-20m-march-2020-b8d3de7653fb43c8a4eb78d7186df0e0",
-          },
-          description:
-            "Sketchfab-sourced 20 m Curacao Snake Bay reef model (March 2020) showing detailed habitat complexity and structure.",
-          useCase: "Biodiversity storytelling and reef health studies.",
-          tags: ["Ocean", "Ecology", "Benthic"],
-        },
+        { id: "interior", name: "Earth Interior", subtitle: "Core Layering", file: "https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf", useCase: "Education", tags: ["Geology"] },
+        { id: "antarctica", name: "Antarctica", subtitle: "Topography", file: "https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb", useCase: "Research", tags: ["Cryosphere"] }
       ];
 
-      const modelList = document.getElementById("modelList");
-      const modelTitle = document.getElementById("modelTitle");
-      const modelSubtitle = document.getElementById("modelSubtitle");
-      const modelDescription = document.getElementById("modelDescription");
-      const modelUseCase = document.getElementById("modelUseCase");
-      const modelPipeline = document.getElementById("modelPipeline");
-      const modelPipelineBlock = document.getElementById("modelPipelineBlock");
-      const modelReference = document.getElementById("modelReference");
-      const modelTags = document.getElementById("modelTags");
-      const loadStatus = document.getElementById("loadStatus");
-      const modelHint = document.getElementById("modelHint");
-      const autoRotate = document.getElementById("autoRotate");
-      const panMode = document.getElementById("panMode");
-      const wireframeToggle = document.getElementById("wireframeToggle");
-      const pointSize = document.getElementById("pointSize");
+      let scene, camera, renderer, controls, currentModel;
+      const canvas = document.getElementById("modelCanvas");
       const colormapSelect = document.getElementById("colormapSelect");
-      const animationSelect = document.getElementById("animationSelect");
-      const toggleAnimation = document.getElementById("toggleAnimation");
-      const animationSpeed = document.getElementById("animationSpeed");
-      const resetView = document.getElementById("resetView");
-      const zoom2 = document.getElementById("zoom2");
-      const zoom5 = document.getElementById("zoom5");
-      const jumpToViewer = document.getElementById("jumpToViewer");
+      const loader = new GLTFLoader();
 
-      let renderer;
-      let scene;
-      let camera;
-      let controls;
-      let loader;
-      let dracoLoader;
-      let plyLoader;
-      let mixer = null;
-      let animationActions = [];
-      let isAnimationPlaying = false;
-      let animationSpeedValue = 1;
-      let animationMode = "none";
-      let activeVideo = null;
-      let activeVideoTexture = null;
-      let activeModel = null;
-      let activeModelData = null;
-      let pointMaterials = [];
-      let pointGeometries = [];
-      const pointOriginalColors = new Map();
-      let currentModelId = null;
-      const clock = new THREE.Clock();
-      let defaultCameraPosition = new THREE.Vector3(2.6, 1.5, 2.8);
-      const defaultCameraDirection = defaultCameraPosition.clone().normalize();
-      const defaultCameraDistance = defaultCameraPosition.length();
-      let activeCameraDistance = defaultCameraDistance;
-      const defaultMinDistance = 0.35;
-      const defaultMaxDistance = 6;
-      const defaultMouseButtons = {
-        LEFT: THREE.MOUSE.ROTATE,
-        MIDDLE: THREE.MOUSE.DOLLY,
-        RIGHT: THREE.MOUSE.PAN,
+      // --- CHROMADEPTH SHADER ---
+      const chromaDepthShader = {
+        uniforms: {
+          uNear: { value: 0 },
+          uFar: { value: 10 }
+        },
+        vertexShader: `
+          varying float vDepth;
+          void main() {
+            vec4 viewPos = modelViewMatrix * vec4(position, 1.0);
+            vDepth = -viewPos.z;
+            gl_Position = projectionMatrix * viewPos;
+          }
+        `,
+        fragmentShader: `
+          uniform float uNear;
+          uniform float uFar;
+          varying float vDepth;
+          vec3 hue2rgb(float h) {
+            float r = abs(h * 6.0 - 3.0) - 1.0;
+            float g = 2.0 - abs(h * 6.0 - 2.0);
+            float b = 2.0 - abs(h * 6.0 - 4.0);
+            return clamp(vec3(r, g, b), 0.0, 1.0);
+          }
+          void main() {
+            float d = clamp((vDepth - uNear) / (uFar - uNear), 0.0, 1.0);
+            // Red (near) to Blue (far)
+            vec3 color = hue2rgb((1.0 - d) * 0.66);
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `
       };
 
-      const setupScene = () => {
-        const canvas = document.getElementById("modelCanvas");
-        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const chromaMaterial = new THREE.ShaderMaterial(chromaDepthShader);
 
+      function init() {
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-        camera.position.copy(defaultCameraPosition);
+        camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 5);
 
-        controls = new OrbitControls(camera, canvas);
-        controls.enableDamping = true;
-        controls.autoRotate = autoRotate.checked;
-        controls.autoRotateSpeed = 0.7;
-        controls.enablePan = true;
-        controls.screenSpacePanning = true;
-        controls.panSpeed = 0.8;
-        controls.mouseButtons = { ...defaultMouseButtons };
-        controls.minDistance = defaultMinDistance;
-        controls.maxDistance = defaultMaxDistance;
-        controls.target.set(0, 0, 0);
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-        const ambient = new THREE.AmbientLight(0xffffff, 0.7);
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        keyLight.position.set(4, 6, 4);
-        const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
-        rimLight.position.set(-4, 3, -2);
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.autoRotate = true;
 
-        scene.add(ambient, keyLight, rimLight);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambient);
 
-        loader = new GLTFLoader();
-        dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath(
-          "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/"
-        );
-        loader.setDRACOLoader(dracoLoader);
-        loader.setMeshoptDecoder(MeshoptDecoder);
-        plyLoader = new PLYLoader();
-      };
+        const sun = new THREE.DirectionalLight(0xffffff, 1);
+        sun.position.set(5, 5, 5);
+        scene.add(sun);
 
-      const setLoadingState = (message) => {
-        loadStatus.textContent = message;
-      };
+        render();
+        buildModelList();
+        loadModel(modelData[0]);
 
-      const setReference = (model) => {
-        if (!modelReference) return;
-        modelReference.textContent = "";
+        window.addEventListener('resize', onResize);
+      }
 
-        const reference = model.reference;
-        let label = null;
-        let url = null;
-
-        if (reference && typeof reference === "object") {
-          label = reference.label || null;
-          url = reference.url || null;
-        } else if (typeof reference === "string") {
-          if (reference.startsWith("http://") || reference.startsWith("https://")) {
-            url = reference;
-            label = reference;
-          } else {
-            label = reference;
-          }
-        }
-
-        if (!label && !url) {
-          label = "Custom build for this project";
-        }
-
-        if (url) {
-          const link = document.createElement("a");
-          link.href = url;
-          link.textContent = label || url;
-          link.target = "_blank";
-          link.rel = "noopener";
-          modelReference.appendChild(link);
-        } else {
-          modelReference.textContent = label;
-        }
-      };
-
-      const updateDetails = (model) => {
-        modelTitle.textContent = model.name;
-        modelSubtitle.textContent = model.subtitle;
-        modelDescription.textContent = model.description;
-        modelUseCase.textContent = model.useCase;
-        if (model.pipeline) {
-          modelPipeline.textContent = model.pipeline;
-          modelPipelineBlock.style.display = "";
-        } else {
-          modelPipeline.textContent = "";
-          modelPipelineBlock.style.display = "none";
-        }
-        setReference(model);
-
-        modelTags.innerHTML = "";
-        model.tags.forEach((tag) => {
-          const span = document.createElement("span");
-          span.className = "tag";
-          span.textContent = tag;
-          modelTags.appendChild(span);
+      function buildModelList() {
+        const list = document.getElementById("modelList");
+        modelData.forEach(m => {
+          const btn = document.createElement("button");
+          btn.className = "model-button";
+          btn.innerHTML = `<strong>${m.name}</strong><span>${m.subtitle}</span>`;
+          btn.onclick = () => loadModel(m);
+          list.appendChild(btn);
         });
-      };
+      }
 
-      const updateActiveButton = (id) => {
-        [...modelList.querySelectorAll(".model-button")].forEach((button) => {
-          button.dataset.active = button.dataset.modelId === id ? "true" : "false";
+      function loadModel(data) {
+        if (currentModel) scene.remove(currentModel);
+        document.getElementById("loadStatus").innerText = "Loading...";
+        
+        loader.load(data.file, (gltf) => {
+          currentModel = gltf.scene;
+          
+          // Center and scale
+          const box = new THREE.Box3().setFromObject(currentModel);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+          currentModel.position.sub(center);
+          
+          scene.add(currentModel);
+          updateUI(data);
+          applyColormap(); // Initial check
+          
+          document.getElementById("loadStatus").innerText = "Ready";
         });
-      };
+      }
 
-      const setModelHint = (model) => {
-        if (!modelHint) return;
-        if (model.hint) {
-          modelHint.textContent = model.hint;
-          return;
-        }
-        if (model.type === "videoSphere") {
-          modelHint.textContent = "Video sphere";
-          return;
-        }
-        if (model.renderMode === "points") {
-          modelHint.textContent = isPlyFile(model.file) ? "PLY point cloud" : "Point cloud";
-          return;
-        }
-        modelHint.textContent = "glTF / GLB preview";
-      };
+      function applyColormap() {
+        if (!currentModel) return;
+        const mode = colormapSelect.value;
 
-      const setPointControls = (enabled, sizeValue, colorMapValue) => {
-        pointSize.disabled = !enabled;
-        colormapSelect.disabled = !enabled;
-        if (enabled) {
-          if (typeof sizeValue === "number") {
-            pointSize.value = String(sizeValue);
-          }
-          if (colorMapValue) {
-            colormapSelect.value = colorMapValue;
-          }
-        } else {
-          colormapSelect.value = "solid";
-        }
-      };
-
-      const getPointSize = (model) => {
-        if (typeof model.pointSize === "number") return model.pointSize;
-        const sliderValue = Number(pointSize.value);
-        return Number.isFinite(sliderValue) ? sliderValue : 0.015;
-      };
-
-      const getPointAxis = (model) => {
-        const axis = model.pointAxis || "y";
-        if (axis === "x" || axis === "y" || axis === "z") return axis;
-        if (axis === "radius") return "radius";
-        return "y";
-      };
-
-      const colormapStops = {
-        viridis: [
-          [0.267, 0.005, 0.329],
-          [0.283, 0.141, 0.458],
-          [0.254, 0.265, 0.530],
-          [0.207, 0.372, 0.553],
-          [0.164, 0.471, 0.558],
-          [0.128, 0.567, 0.551],
-          [0.135, 0.659, 0.518],
-          [0.267, 0.749, 0.441],
-          [0.478, 0.821, 0.318],
-          [0.741, 0.873, 0.150],
-          [0.993, 0.906, 0.144],
-        ],
-        plasma: [
-          [0.050, 0.030, 0.528],
-          [0.243, 0.036, 0.707],
-          [0.436, 0.137, 0.723],
-          [0.612, 0.241, 0.612],
-          [0.741, 0.349, 0.471],
-          [0.859, 0.468, 0.270],
-          [0.941, 0.647, 0.039],
-          [0.940, 0.975, 0.131],
-        ],
-        inferno: [
-          [0.001, 0.000, 0.014],
-          [0.093, 0.048, 0.225],
-          [0.256, 0.038, 0.406],
-          [0.462, 0.095, 0.469],
-          [0.651, 0.213, 0.400],
-          [0.827, 0.382, 0.279],
-          [0.941, 0.624, 0.092],
-          [0.988, 0.998, 0.645],
-        ],
-        magma: [
-          [0.001, 0.000, 0.014],
-          [0.097, 0.030, 0.181],
-          [0.235, 0.045, 0.314],
-          [0.401, 0.090, 0.406],
-          [0.587, 0.171, 0.394],
-          [0.760, 0.292, 0.317],
-          [0.909, 0.463, 0.226],
-          [0.987, 0.729, 0.459],
-        ],
-        cividis: [
-          [0.000, 0.135, 0.304],
-          [0.000, 0.247, 0.404],
-          [0.298, 0.416, 0.407],
-          [0.517, 0.549, 0.391],
-          [0.730, 0.662, 0.373],
-          [0.905, 0.761, 0.329],
-          [0.996, 0.859, 0.219],
-        ],
-        turbo: [
-          [0.189, 0.071, 0.232],
-          [0.235, 0.212, 0.572],
-          [0.185, 0.431, 0.678],
-          [0.137, 0.655, 0.518],
-          [0.477, 0.821, 0.318],
-          [0.906, 0.894, 0.159],
-          [0.976, 0.576, 0.137],
-          [0.976, 0.227, 0.153],
-        ],
-        grayscale: [
-          [0.0, 0.0, 0.0],
-          [1.0, 1.0, 1.0],
-        ],
-      };
-
-      const getColormapColor = (stops, t) => {
-        if (stops.length === 1) return stops[0];
-        const clamped = THREE.MathUtils.clamp(t, 0, 1);
-        const scaled = clamped * (stops.length - 1);
-        const index = Math.floor(scaled);
-        const next = Math.min(index + 1, stops.length - 1);
-        const mix = scaled - index;
-        const a = stops[index];
-        const b = stops[next];
-        return [
-          THREE.MathUtils.lerp(a[0], b[0], mix),
-          THREE.MathUtils.lerp(a[1], b[1], mix),
-          THREE.MathUtils.lerp(a[2], b[2], mix),
-        ];
-      };
-
-      const applyPointColormap = (mode) => {
-        if (!pointGeometries.length || !activeModelData) return;
-        const fallbackColor = activeModelData.pointColor || "#0c9fa0";
-        const axis = getPointAxis(activeModelData);
-        const whiteColor = new THREE.Color(1, 1, 1);
-        let resolvedMode = mode;
-
-        if (mode === "original") {
-          const hasOriginal = pointGeometries.some((geometry) =>
-            pointOriginalColors.has(geometry)
-          );
-          if (!hasOriginal) {
-            resolvedMode = "solid";
-            if (colormapSelect.value === "original") {
-              colormapSelect.value = "solid";
-            }
-          }
-        }
-
-        pointGeometries.forEach((geometry, index) => {
-          const material = pointMaterials[index];
-          if (!material || !geometry) return;
-          const original = pointOriginalColors.get(geometry);
-
-          if (resolvedMode === "original") {
-            if (original) {
-              geometry.setAttribute("color", new THREE.BufferAttribute(original.slice(), 3));
-              material.vertexColors = true;
-              material.color.copy(whiteColor);
-              material.needsUpdate = true;
-              return;
-            }
-            resolvedMode = "solid";
-          }
-
-          if (resolvedMode === "solid") {
-            geometry.deleteAttribute("color");
-            material.vertexColors = false;
-            material.color.set(fallbackColor);
-            material.needsUpdate = true;
-            return;
-          }
-
-          const stops = colormapStops[resolvedMode];
-          if (!stops) return;
-          const positions = geometry.getAttribute("position");
-          if (!positions) return;
-
-          geometry.computeBoundingBox();
-          const bounds = geometry.boundingBox;
-          const range =
-            axis === "radius"
-              ? Math.max(bounds.max.length(), bounds.min.length()) || 1
-              : Math.max(bounds.max[axis] - bounds.min[axis], 1e-6);
-
-          const colors = new Float32Array(positions.count * 3);
-          for (let i = 0; i < positions.count; i += 1) {
-            const x = positions.getX(i);
-            const y = positions.getY(i);
-            const z = positions.getZ(i);
-            const value =
-              axis === "radius"
-                ? Math.sqrt(x * x + y * y + z * z) / range
-                : ((axis === "x" ? x : axis === "y" ? y : z) - bounds.min[axis]) / range;
-            const color = getColormapColor(stops, value);
-            const offset = i * 3;
-            colors[offset] = color[0];
-            colors[offset + 1] = color[1];
-            colors[offset + 2] = color[2];
-          }
-
-          geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-          material.vertexColors = true;
-          material.color.copy(whiteColor);
-          material.needsUpdate = true;
-        });
-      };
-
-      const setNoAnimation = () => {
-        animationMode = "none";
-        animationSelect.innerHTML = "";
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "No animation";
-        animationSelect.appendChild(option);
-        animationSelect.disabled = true;
-        toggleAnimation.disabled = true;
-        animationSpeed.disabled = true;
-        isAnimationPlaying = false;
-        toggleAnimation.textContent = "Play";
-      };
-
-      const updateAnimationPlayback = () => {
-        toggleAnimation.textContent = isAnimationPlaying ? "Pause" : "Play";
-        if (animationMode === "gltf") {
-          if (!mixer) return;
-          mixer.timeScale = isAnimationPlaying ? animationSpeedValue : 0;
-          return;
-        }
-        if (animationMode === "video") {
-          if (!activeVideo) return;
-          activeVideo.playbackRate = animationSpeedValue;
-          if (isAnimationPlaying) {
-            activeVideo.play().catch(() => {});
-          } else {
-            activeVideo.pause();
-          }
-        }
-      };
-
-      const setAnimationControls = (clips) => {
-        if (!clips || clips.length === 0) {
-          setNoAnimation();
-          return;
-        }
-        animationMode = "gltf";
-        animationSelect.innerHTML = "";
-        animationSpeedValue = Number(animationSpeed.value);
-
-        clips.forEach((clip, index) => {
-          const option = document.createElement("option");
-          option.value = String(index);
-          option.textContent = clip.name ? clip.name : "Clip " + (index + 1);
-          animationSelect.appendChild(option);
-        });
-
-        animationSelect.value = "0";
-        animationSelect.disabled = clips.length === 1;
-        toggleAnimation.disabled = false;
-        animationSpeed.disabled = false;
-        isAnimationPlaying = true;
-        updateAnimationPlayback();
-      };
-
-      const setVideoControls = (video, label) => {
-        animationMode = "video";
-        activeVideo = video;
-        animationSelect.innerHTML = "";
-        const option = document.createElement("option");
-        option.value = "video";
-        option.textContent = label || "Video texture";
-        animationSelect.appendChild(option);
-        animationSelect.disabled = true;
-        toggleAnimation.disabled = false;
-        animationSpeed.disabled = false;
-        animationSpeedValue = Number(animationSpeed.value);
-        isAnimationPlaying = true;
-        updateAnimationPlayback();
-      };
-
-      const playAnimationClip = (index) => {
-        if (animationMode !== "gltf" || !mixer || animationActions.length === 0) return;
-        animationActions.forEach((action) => action.stop());
-        const action = animationActions[index];
-        if (!action) return;
-        action.reset().play();
-        isAnimationPlaying = true;
-        updateAnimationPlayback();
-      };
-
-      const normalizeModel = (model) => {
-        const box = new THREE.Box3().setFromObject(model);
-        const size = box.getSize(new THREE.Vector3());
-        const center = box.getCenter(new THREE.Vector3());
-        const maxAxis = Math.max(size.x, size.y, size.z);
-        const scale = 1.8 / maxAxis;
-
-        model.scale.setScalar(scale);
-        model.position.sub(center.multiplyScalar(scale));
-      };
-
-      const applyModelRotation = (model, object) => {
-        if (!model.rotation) return;
-        if (Array.isArray(model.rotation)) {
-          object.rotation.set(model.rotation[0], model.rotation[1], model.rotation[2]);
-          return;
-        }
-        object.rotation.set(
-          model.rotation.x || 0,
-          model.rotation.y || 0,
-          model.rotation.z || 0
-        );
-      };
-
-      const isPlyFile = (file) => {
-        return typeof file === "string" && file.toLowerCase().endsWith(".ply");
-      };
-
-      const getLoadErrorMessage = (error) => {
-        if (error && error.message) return error.message;
-        if (error && error.target && error.target.status) {
-          return "HTTP " + error.target.status;
-        }
-        return "Failed to load model";
-      };
-
-      const cleanupActiveMedia = () => {
-        if (activeVideo) {
-          activeVideo.pause();
-          activeVideo.removeAttribute("src");
-          activeVideo.load();
-          if (activeVideo.parentElement) {
-            activeVideo.parentElement.removeChild(activeVideo);
-          }
-        }
-        if (activeVideoTexture) {
-          activeVideoTexture.dispose();
-        }
-        activeVideo = null;
-        activeVideoTexture = null;
-      };
-
-      const createVideoSphere = (model) => {
-        const video = document.createElement("video");
-        video.src = model.video;
-        video.loop = true;
-        video.muted = true;
-        video.playsInline = true;
-        video.preload = "metadata";
-        video.crossOrigin = "anonymous";
-        video.style.display = "none";
-        document.body.appendChild(video);
-
-        const texture = new THREE.VideoTexture(video);
-        texture.colorSpace = THREE.SRGBColorSpace;
-
-        const geometry = new THREE.SphereGeometry(model.radius || 1, 64, 64);
-        const material = new THREE.MeshStandardMaterial({
-          map: texture,
-          metalness: 0,
-          roughness: 1,
-        });
-        const mesh = new THREE.Mesh(geometry, material);
-        return { mesh, video, texture };
-      };
-
-      const createPointCloudFromGltf = (gltf, model) => {
-        const group = new THREE.Group();
-        gltf.scene.updateMatrixWorld(true);
-        const color = new THREE.Color(model.pointColor || "#0c9fa0");
-        const size = getPointSize(model);
-
-        gltf.scene.traverse((child) => {
-          if (!child.isMesh || !child.geometry) return;
-          const geometry = child.geometry.clone();
-          geometry.applyMatrix4(child.matrixWorld);
-          const originalColors = geometry.getAttribute("color");
-          if (originalColors && !pointOriginalColors.has(geometry)) {
-            pointOriginalColors.set(geometry, originalColors.array.slice());
-          }
-          const hasVertexColors = Boolean(geometry.getAttribute("color"));
-          const material = new THREE.PointsMaterial({
-            size,
-            color,
-            vertexColors: hasVertexColors,
-            transparent: true,
-            opacity: 0.9,
-          });
-          pointMaterials.push(material);
-          pointGeometries.push(geometry);
-          const points = new THREE.Points(geometry, material);
-          group.add(points);
-        });
-
-        return group.children.length > 0 ? group : gltf.scene;
-      };
-
-      const createPointCloudFromGeometry = (geometry, model) => {
-        const color = new THREE.Color(model.pointColor || "#0c9fa0");
-        const size = getPointSize(model);
-        const originalColors = geometry.getAttribute("color");
-        if (originalColors && !pointOriginalColors.has(geometry)) {
-          pointOriginalColors.set(geometry, originalColors.array.slice());
-        }
-        const material = new THREE.PointsMaterial({
-          size,
-          color,
-          vertexColors: Boolean(geometry.getAttribute("color")),
-          transparent: true,
-          opacity: 0.9,
-        });
-        pointMaterials.push(material);
-        pointGeometries.push(geometry);
-        return new THREE.Points(geometry, material);
-      };
-
-      const loadVideoSphere = (model) => {
-        setLoadingState("Loading " + model.name + "...");
-        const { mesh, video, texture } = createVideoSphere(model);
-        activeModel = mesh;
-        activeVideo = video;
-        activeVideoTexture = texture;
-        if (!model.skipNormalize) {
-          normalizeModel(activeModel);
-        }
-        scene.add(activeModel);
-        applyWireframe(wireframeToggle.checked);
-        resetCamera();
-        setVideoControls(video, model.animationLabel);
-        setLoadingState("Loading video...");
-
-        const markReady = () => {
-          setLoadingState("Ready");
-          updateAnimationPlayback();
-        };
-        video.addEventListener("loadeddata", markReady, { once: true });
-        video.addEventListener("error", () => {
-          setLoadingState("Failed to load video");
-        }, { once: true });
-
-        video.play().catch(() => {});
-      };
-
-      const loadPlyFile = (model, file, isFallback) => {
-        const label = isFallback ? "Trying fallback..." : "Loading " + model.name + "...";
-        setLoadingState(label);
-
-        plyLoader.load(
-          file,
-          (geometry) => {
-            const points = createPointCloudFromGeometry(geometry, model);
-            activeModel = points;
-            applyModelRotation(model, activeModel);
-            normalizeModel(activeModel);
-            scene.add(activeModel);
-            resetCamera();
-            setNoAnimation();
-            applyPointColormap(colormapSelect.value);
-            setLoadingState("Ready");
-          },
-          (event) => {
-            if (event.total) {
-              const percent = Math.round((event.loaded / event.total) * 100);
-              setLoadingState("Loading " + percent + "%");
-            }
-          },
-          (error) => {
-            console.error("PLY load error:", file, error);
-            if (!isFallback && model.fallback) {
-              loadPlyFile(model, model.fallback, true);
-              return;
-            }
-            setLoadingState(getLoadErrorMessage(error));
-          }
-        );
-      };
-
-      const loadModelFile = (model, file, isFallback) => {
-        const label = isFallback ? "Trying fallback..." : "Loading " + model.name + "...";
-        setLoadingState(label);
-
-        loader.load(
-          file,
-          (gltf) => {
-            if (model.renderMode === "points") {
-              activeModel = createPointCloudFromGltf(gltf, model);
+        currentModel.traverse(node => {
+          if (node.isMesh) {
+            if (mode === "chromadepth") {
+              // Calculate depth range based on camera distance
+              const box = new THREE.Box3().setFromObject(currentModel);
+              const dist = camera.position.distanceTo(new THREE.Vector3(0,0,0));
+              const size = box.getSize(new THREE.Vector3()).length();
+              
+              chromaMaterial.uniforms.uNear.value = dist - size/2;
+              chromaMaterial.uniforms.uFar.value = dist + size/2;
+              node.material = chromaMaterial;
+            } else if (mode === "solid") {
+              node.material = new THREE.MeshStandardMaterial({ color: 0xffffff });
             } else {
-              activeModel = gltf.scene;
-            }
-            applyModelRotation(model, activeModel);
-            normalizeModel(activeModel);
-            scene.add(activeModel);
-            applyWireframe(wireframeToggle.checked);
-            resetCamera();
-            const clips = gltf.animations || [];
-            if (model.renderMode === "points") {
-              mixer = null;
-              animationActions = [];
-              setNoAnimation();
-              applyPointColormap(colormapSelect.value);
-            } else if (clips.length > 0) {
-              mixer = new THREE.AnimationMixer(activeModel);
-              animationActions = clips.map((clip) => mixer.clipAction(clip));
-              setAnimationControls(clips);
-              playAnimationClip(0);
-            } else {
-              mixer = null;
-              animationActions = [];
-              setNoAnimation();
-            }
-            setLoadingState("Ready");
-          },
-          (event) => {
-            if (event.total) {
-              const percent = Math.round((event.loaded / event.total) * 100);
-              setLoadingState("Loading " + percent + "%");
-            }
-          },
-          (error) => {
-            console.error("Model load error:", file, error);
-            if (!isFallback && model.fallback) {
-              loadModelFile(model, model.fallback, true);
-              return;
-            }
-            setLoadingState(getLoadErrorMessage(error));
-          }
-        );
-      };
-
-      const loadModel = (model) => {
-        if (currentModelId === model.id) return;
-        currentModelId = model.id;
-        activeModelData = model;
-        updateDetails(model);
-        updateActiveButton(model.id);
-        setModelHint(model);
-        controls.minDistance = model.minDistance ?? defaultMinDistance;
-        controls.maxDistance = model.maxDistance ?? defaultMaxDistance;
-        const zoomFactor = model.startZoom ?? 1;
-        activeCameraDistance = THREE.MathUtils.clamp(
-          defaultCameraDistance * zoomFactor,
-          controls.minDistance,
-          controls.maxDistance
-        );
-        setLoadingState("Loading " + model.name + "...");
-        mixer = null;
-        animationActions = [];
-        cleanupActiveMedia();
-        setNoAnimation();
-        pointMaterials = [];
-        pointGeometries = [];
-        pointOriginalColors.clear();
-        setPointControls(
-          model.renderMode === "points",
-          model.pointSize,
-          model.pointColorMap
-        );
-
-        if (activeModel) {
-          scene.remove(activeModel);
-          activeModel.traverse((child) => {
-            if (child.isMesh || child.isPoints) {
-              child.geometry.dispose();
-              if (Array.isArray(child.material)) {
-                child.material.forEach((material) => {
-                  if (material.map) {
-                    material.map.dispose();
-                  }
-                  material.dispose();
-                });
-              } else if (child.material) {
-                if (child.material.map) {
-                  child.material.map.dispose();
-                }
-                child.material.dispose();
-              }
-            }
-          });
-          activeModel = null;
-        }
-
-        if (model.type === "videoSphere") {
-          loadVideoSphere(model);
-          return;
-        }
-
-        if (isPlyFile(model.file)) {
-          loadPlyFile(model, model.file, false);
-          return;
-        }
-
-        loadModelFile(model, model.file, false);
-      };
-
-      const applyWireframe = (enabled) => {
-        if (!activeModel) return;
-        activeModel.traverse((child) => {
-          if (child.isMesh && child.material) {
-            if (Array.isArray(child.material)) {
-              child.material.forEach((material) => (material.wireframe = enabled));
-            } else {
-              child.material.wireframe = enabled;
+              // Revert to original (simple logic for demo)
+              node.material = new THREE.MeshStandardMaterial({ color: 0x0c9fa0 });
             }
           }
         });
-      };
+      }
 
-      const resetCamera = () => {
-        controls.target.set(0, 0, 0);
-        setCameraDistance(activeCameraDistance, true);
-      };
+      function updateUI(data) {
+        document.getElementById("modelTitle").innerText = data.name;
+        document.getElementById("modelSubtitle").innerText = data.subtitle;
+        document.getElementById("modelDescription").innerText = data.useCase;
+      }
 
-      const setCameraDistance = (distance, useDefaultDirection = false) => {
-        const direction = useDefaultDirection
-          ? defaultCameraDirection.clone()
-          : camera.position.clone().sub(controls.target).normalize();
-        const clampedDistance = THREE.MathUtils.clamp(
-          distance,
-          controls.minDistance,
-          controls.maxDistance
-        );
-        camera.position.copy(controls.target).add(direction.multiplyScalar(clampedDistance));
-        controls.update();
-      };
-
-      const zoomBy = (factor) => {
-        const currentDistance = camera.position.distanceTo(controls.target);
-        setCameraDistance(currentDistance / factor);
-      };
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-        const delta = clock.getDelta();
-        if (mixer) {
-          mixer.update(delta);
-        }
-        controls.update();
-        renderer.render(scene, camera);
-      };
-
-      const handleResize = () => {
-        const canvas = renderer.domElement;
-        const width = canvas.clientWidth;
-        const height = canvas.clientHeight;
-        camera.aspect = width / height;
+      function onResize() {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(width, height, false);
-      };
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      }
 
-      const setupList = () => {
-        modelData.forEach((model) => {
-          const button = document.createElement("button");
-          button.className = "model-button";
-          button.dataset.modelId = model.id;
-          button.type = "button";
-          button.innerHTML = `<strong>${model.name}</strong><span>${model.subtitle}</span>`;
-          button.addEventListener("click", () => loadModel(model));
-          modelList.appendChild(button);
-        });
-      };
+      function render() {
+        requestAnimationFrame(render);
+        controls.autoRotate = document.getElementById("autoRotate").checked;
+        controls.update();
+        
+        // Dynamic depth update if in chromadepth mode
+        if (colormapSelect.value === "chromadepth") applyColormap();
+        
+        renderer.render(scene, camera);
+      }
 
-      setupScene();
-      setPointControls(false);
-      setupList();
-      loadModel(modelData[0]);
-      animate();
+      colormapSelect.onchange = applyColormap;
+      document.getElementById("resetView").onclick = () => { camera.position.set(0,0,5); controls.target.set(0,0,0); };
 
-      autoRotate.addEventListener("change", () => {
-        controls.autoRotate = autoRotate.checked;
-      });
-
-      panMode.addEventListener("change", () => {
-        if (panMode.checked) {
-          controls.mouseButtons = {
-            LEFT: THREE.MOUSE.PAN,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.ROTATE,
-          };
-        } else {
-          controls.mouseButtons = { ...defaultMouseButtons };
-        }
-      });
-
-      wireframeToggle.addEventListener("change", () => {
-        applyWireframe(wireframeToggle.checked);
-      });
-
-      animationSpeed.addEventListener("input", () => {
-        animationSpeedValue = Number(animationSpeed.value);
-        if (animationMode !== "none") {
-          updateAnimationPlayback();
-        }
-      });
-
-      colormapSelect.addEventListener("change", () => {
-        if (!activeModelData || activeModelData.renderMode !== "points") return;
-        activeModelData.pointColorMap = colormapSelect.value;
-        applyPointColormap(colormapSelect.value);
-      });
-
-      pointSize.addEventListener("input", () => {
-        const size = Number(pointSize.value);
-        if (!Number.isFinite(size)) return;
-        pointMaterials.forEach((material) => {
-          material.size = size;
-          material.needsUpdate = true;
-        });
-        if (activeModelData && activeModelData.renderMode === "points") {
-          activeModelData.pointSize = size;
-        }
-      });
-
-      toggleAnimation.addEventListener("click", () => {
-        if (animationMode === "none") return;
-        if (animationMode === "gltf" && (!mixer || animationActions.length === 0)) return;
-        if (animationMode === "video" && !activeVideo) return;
-        isAnimationPlaying = !isAnimationPlaying;
-        updateAnimationPlayback();
-      });
-
-      animationSelect.addEventListener("change", () => {
-        if (animationMode !== "gltf") return;
-        const index = Number(animationSelect.value);
-        playAnimationClip(index);
-      });
-
-      resetView.addEventListener("click", () => resetCamera());
-
-      zoom2.addEventListener("click", () => zoomBy(2));
-      zoom5.addEventListener("click", () => zoomBy(5));
-
-      document.getElementById("modelCanvas").addEventListener("dblclick", () => resetCamera());
-
-      jumpToViewer.addEventListener("click", () => {
-        document.getElementById("viewerSection").scrollIntoView({ behavior: "smooth" });
-      });
-
-      window.addEventListener("resize", handleResize);
+      init();
     </script>
   </body>
 </html>
