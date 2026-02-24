@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Showcase with Chromadepth</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/supermedium/superframe/master/dist/superframe.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      // Chromadepth shader implementation
+      AFRAME.registerShader('chromadepth', {
+          schema: {},
+          fragment: `
+          precision mediump float;
+          varying vec2 vUv;
+          void main() {
+              float depth = gl_FragCoord.z;
+              vec3 color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), depth);
+              gl_FragColor = vec4(color, 1.0);
+          }
+          `
+      });
+
+      // Function to toggle chromadepth
+      function toggleChromadepth() {
+          var scene = document.querySelector('a-scene');
+          var target = scene.querySelector('[material]');
+          if (target) {
+              var isChromadepth = target.getAttribute('shader') === 'chromadepth';
+              target.setAttribute('shader', isChromadepth ? 'standard' : 'chromadepth');
+          }
+      }
+    </script>
+</head>
+<body>
+    <a-scene>
+        <a-assets>
+          <!-- Add your assets here -->
+        </a-assets>
+
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+
+        <a-entity position="0 0 -5">
+          <a-camera>
+              <a-entity geometry="primitive: box" position="0 0 -2" material="color: #4CC3D9;"></a-entity>
+              <a-entity geometry="primitive: cylinder" position="-1 0 -2" material="color: #FFC65D;"></a-entity>
+          </a-camera>
+        </a-entity>
+
+        <a-entity position="0 2 -5">
+            <a-entity geometry="primitive: plane" rotation="-90 0 0" width="10" height="10" material="shader: chromadepth;"></a-entity>
+        </a-entity>
+    </a-scene>
+
+    <button onclick="toggleChromadepth()">Toggle Chromadepth</button>
+</body>
+</html>
