@@ -335,11 +335,23 @@
       function applyColormap() {
         if (!currentModel) return;
         const mode = colormapSelect.value;
-
+        const stage = document.querySelector('.viewer-stage'); // Get the container
+      
+        if (mode === "chromadepth") {
+          // 1. Set Three.js background to black
+          scene.background = new THREE.Color(0x000000);
+          // 2. Add the CSS class for the container
+          stage.classList.add('dark-bg');
+        } else {
+          // 1. Revert Three.js background (null makes it transparent again)
+          scene.background = null;
+          // 2. Remove the CSS class to show the original gradient
+          stage.classList.remove('dark-bg');
+        }
+      
         currentModel.traverse(node => {
           if (node.isMesh) {
             if (mode === "chromadepth") {
-              // Calculate depth range based on camera distance
               const box = new THREE.Box3().setFromObject(currentModel);
               const dist = camera.position.distanceTo(new THREE.Vector3(0,0,0));
               const size = box.getSize(new THREE.Vector3()).length();
@@ -350,7 +362,6 @@
             } else if (mode === "solid") {
               node.material = new THREE.MeshStandardMaterial({ color: 0xffffff });
             } else {
-              // Revert to original (simple logic for demo)
               node.material = new THREE.MeshStandardMaterial({ color: 0x0c9fa0 });
             }
           }
