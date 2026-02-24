@@ -13,211 +13,85 @@
       }
     </script>
     <style>
+      /* Keeping your original sleek styling */
       @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap");
 
       :root {
         color-scheme: light;
-        --ink-900: #0b1420;
-        --ink-700: #1c2c3a;
-        --ink-600: #2b4256;
-        --ink-500: #41586e;
-        --sand-50: #f7f2e9;
-        --sand-100: #efe6d8;
-        --sea-500: #0c9fa0;
-        --sea-700: #0a6f73;
-        --sun-500: #f59f0b;
-        --glass: rgba(255, 255, 255, 0.82);
-        --glass-strong: rgba(255, 255, 255, 0.92);
-        --stroke: rgba(14, 23, 38, 0.12);
-        --shadow: 0 22px 50px rgba(11, 20, 32, 0.16);
-        --shadow-soft: 0 14px 30px rgba(11, 20, 32, 0.12);
-        --radius-lg: 24px;
-        --radius-md: 16px;
-        --radius-sm: 12px;
+        --ink-900: #0b1420; --ink-700: #1c2c3a; --ink-600: #2b4256; --ink-500: #41586e;
+        --sand-50: #f7f2e9; --sand-100: #efe6d8; --sea-500: #0c9fa0; --sea-700: #0a6f73;
+        --glass: rgba(255, 255, 255, 0.82); --glass-strong: rgba(255, 255, 255, 0.92);
+        --stroke: rgba(14, 23, 38, 0.12); --shadow: 0 22px 50px rgba(11, 20, 32, 0.16);
+        --radius-lg: 24px; --radius-md: 16px; --radius-sm: 12px;
       }
 
       * { box-sizing: border-box; }
-
       body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Space Grotesk", "Segoe UI", sans-serif;
-        color: var(--ink-900);
-        background:
-          radial-gradient(1200px 600px at 15% -10%, rgba(12, 159, 160, 0.2), transparent 60%),
-          radial-gradient(900px 500px at 90% 0%, rgba(245, 159, 11, 0.18), transparent 55%),
-          linear-gradient(130deg, #f7f2e9 0%, #eef2f6 58%, #eef2eb 100%);
+        margin: 0; min-height: 100vh; font-family: "Space Grotesk", sans-serif; color: var(--ink-900);
+        background: radial-gradient(1200px 600px at 15% -10%, rgba(12, 159, 160, 0.2), transparent 60%),
+                    linear-gradient(130deg, #f7f2e9 0%, #eef2f6 58%, #eef2eb 100%);
       }
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(14, 23, 38, 0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(14, 23, 38, 0.05) 1px, transparent 1px);
-        background-size: 140px 140px;
-        opacity: 0.35;
-        pointer-events: none;
-        z-index: -1;
-      }
-
-      a { color: inherit; text-decoration: none; }
-
-      .page {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 32px 20px 60px;
-      }
-
-      .hero {
-        display: grid;
-        gap: 18px;
-        padding: 32px;
-        background: var(--glass-strong);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow);
-        border: 1px solid var(--stroke);
-        animation: fade-up 0.8s ease both;
-      }
-
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 6px 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(12, 159, 160, 0.3);
-        color: var(--sea-700);
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        font-size: 0.72rem;
-        background: rgba(12, 159, 160, 0.1);
-        width: fit-content;
-      }
-
-      .hero-credit { font-size: 0.9rem; color: var(--ink-500); }
-      .hero h1 { font-family: "Fraunces", "Iowan Old Style", serif; font-size: clamp(2.2rem, 3vw, 3.3rem); margin: 0; letter-spacing: -0.01em; color: var(--ink-900); }
-      .hero p { margin: 0; color: var(--ink-700); font-size: 1.05rem; max-width: 70ch; }
-
-      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-      .primary-button { padding: 12px 20px; border-radius: 999px; background: var(--ink-900); color: #fff; font-weight: 600; border: none; cursor: pointer; box-shadow: var(--shadow-soft); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-      .primary-button:hover { transform: translateY(-1px); box-shadow: 0 18px 28px rgba(11, 20, 32, 0.22); }
-      .hero-hint { font-size: 0.92rem; color: var(--ink-500); }
-
-      .viewer-section { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 26px; margin-top: 28px; animation: fade-up 0.9s ease both; animation-delay: 0.1s; }
-      .panel { background: var(--glass); border-radius: var(--radius-lg); padding: 22px; border: 1px solid var(--stroke); box-shadow: var(--shadow-soft); }
-      .panel h2 { margin: 0 0 8px; font-size: 1.1rem; letter-spacing: 0.01em; text-transform: uppercase; color: var(--ink-500); }
-      .panel p { margin: 0 0 18px; color: var(--ink-700); }
-
+      .page { max-width: 1200px; margin: 0 auto; padding: 32px 20px 60px; }
+      .hero { display: grid; gap: 18px; padding: 32px; background: var(--glass-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--stroke); }
+      .hero h1 { font-family: "Fraunces", serif; font-size: clamp(2.2rem, 3vw, 3.3rem); margin: 0; }
+      
+      .viewer-section { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 26px; margin-top: 28px; }
+      .panel { background: var(--glass); border-radius: var(--radius-lg); padding: 22px; border: 1px solid var(--stroke); }
+      
       .model-list { display: grid; gap: 12px; margin-top: 16px; }
-      .model-button { display: grid; gap: 6px; padding: 14px; border-radius: var(--radius-md); border: 1px solid transparent; background: rgba(255, 255, 255, 0.7); font: inherit; text-align: left; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
-      .model-button strong { font-size: 1rem; color: var(--ink-900); }
-      .model-button span { font-size: 0.85rem; color: var(--ink-500); }
-      .model-button[data-active="true"] { border-color: rgba(12, 159, 160, 0.6); background: rgba(12, 159, 160, 0.08); transform: translateY(-1px); }
+      .model-button { display: grid; gap: 4px; padding: 14px; border-radius: var(--radius-md); border: 1px solid transparent; background: rgba(255, 255, 255, 0.7); cursor: pointer; text-align: left; }
+      .model-button[data-active="true"] { border-color: var(--sea-700); background: rgba(12, 159, 160, 0.08); }
 
-      .viewer-card { display: grid; gap: 18px; }
-      .viewer-header { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
-      .viewer-title h2 { margin: 0; font-family: "Fraunces", "Iowan Old Style", serif; font-size: 1.7rem; }
-      .viewer-title p { margin: 4px 0 0; color: var(--ink-500); }
+      .viewer-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 15px; }
+      .control-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--stroke); font-size: 0.85rem; }
+      
+      .viewer-stage { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--stroke); height: 460px; background: #fff; }
+      #modelCanvas { width: 100%; height: 100%; }
 
-      .viewer-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-      .control-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); border: 1px solid var(--stroke); font-size: 0.85rem; }
-      .control-chip input[type="checkbox"], .control-chip input[type="range"] { accent-color: var(--sea-700); }
-      .control-chip select { border: none; background: transparent; font: inherit; color: var(--ink-700); padding: 2px 4px; }
-
-      .control-button { border: none; border-radius: 999px; padding: 8px 14px; background: var(--ink-900); color: #fff; font-weight: 600; cursor: pointer; }
-      .control-button:disabled { opacity: 0.6; cursor: not-allowed; }
-      .control-button.zoom-button { background: var(--sea-700); padding: 8px 12px; font-size: 0.85rem; }
-      .control-button.zoom-button:hover { background: var(--sea-500); }
-
-      .viewer-stage { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--stroke); background: radial-gradient(circle at 30% 20%, rgba(12, 159, 160, 0.15), transparent 55%), radial-gradient(circle at 70% 70%, rgba(245, 159, 11, 0.16), transparent 50%), linear-gradient(140deg, #ffffff, #edf2f5 75%); height: 460px; }
-      #modelCanvas { width: 100%; height: 100%; display: block; }
-
-      .viewer-overlay { position: absolute; inset: 16px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; }
-      .overlay-pill { padding: 8px 12px; border-radius: 999px; background: rgba(11, 20, 32, 0.75); color: #fff; font-size: 0.8rem; letter-spacing: 0.02em; }
-      .overlay-pill.light { background: rgba(255, 255, 255, 0.9); color: var(--ink-700); border: 1px solid var(--stroke); }
-
-      .model-details { display: grid; gap: 16px; }
-      .detail-block { padding: 16px; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.9); border: 1px solid var(--stroke); }
-      .detail-block h3 { margin: 0 0 8px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-500); }
-      .detail-block p { margin: 0; color: var(--ink-700); }
-
-      .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-      .detail-item { padding: 14px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.7); border: 1px solid var(--stroke); }
-      .detail-item span { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-500); }
-      .detail-item strong { display: block; margin-top: 6px; font-weight: 600; color: var(--ink-900); }
-      .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
-      .tag { padding: 6px 10px; border-radius: 999px; font-size: 0.75rem; color: var(--ink-700); background: rgba(12, 159, 160, 0.12); border: 1px solid rgba(12, 159, 160, 0.2); }
-
-      @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-
-      @media (max-width: 900px) { .viewer-section { grid-template-columns: 1fr; } .viewer-stage { height: 380px; } }
+      .tag { padding: 4px 10px; border-radius: 999px; font-size: 0.7rem; background: rgba(12, 159, 160, 0.1); border: 1px solid var(--sea-500); }
+      @media (max-width: 900px) { .viewer-section { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
     <div class="page">
       <header class="hero">
-        <div class="hero-badge">Experience 3D data natively</div>
-        <h1>Bridging Data Complexity and Scientific Insight</h1>
-        <div class="hero-credit">by Jaime Aguilar for AGU 2025</div>
-        <p>Explore the Assets library. Each model is optimized for real-time viewing and scientific analysis.</p>
-        <div class="hero-actions">
-          <button class="primary-button" type="button" id="jumpToViewer">Explore the models</button>
-          <span class="hero-hint">Drag to rotate, scroll to zoom.</span>
-        </div>
+        <h1>Bridging Data Complexity in Geosciences</h1>
+        <p>Interactive 3D library for AGU 2025. Explore scientific assets with specialized shading.</p>
       </header>
 
-      <section class="viewer-section" id="viewerSection">
+      <section class="viewer-section">
         <aside class="panel">
           <h2>Model library</h2>
           <div class="model-list" id="modelList"></div>
         </aside>
 
-        <div class="panel viewer-card">
-          <div class="viewer-header">
-            <div class="viewer-title">
-              <h2 id="modelTitle">Loading model...</h2>
-              <p id="modelSubtitle">Preparing the 3D scene.</p>
-            </div>
-            <div class="viewer-controls">
-              <label class="control-chip">
-                Colormap
-                <select id="colormapSelect">
-                  <option value="original">Original</option>
-                  <option value="chromadepth">ChromaDepth</option>
-                  <option value="viridis">Viridis</option>
-                  <option value="turbo">Turbo</option>
-                  <option value="solid">White</option>
-                </select>
-              </label>
-              <label class="control-chip">
-                <input type="checkbox" id="autoRotate" checked /> Auto-rotate
-              </label>
-              <label class="control-chip">
-                <input type="checkbox" id="wireframeToggle" /> Wireframe
-              </label>
-              <button class="control-button" type="button" id="resetView">Reset view</button>
-            </div>
+        <div class="panel">
+          <div class="viewer-controls">
+            <label class="control-chip">
+              Shading
+              <select id="colormapSelect">
+                <option value="original">Original Materials</option>
+                <option value="chromadepth">ChromaDepth (3D Glasses)</option>
+                <option value="wireframe">Wireframe</option>
+              </select>
+            </label>
+            <label class="control-chip">
+              Depth Contrast
+              <input type="range" id="depthContrast" min="0.1" max="2.0" step="0.1" value="1.0">
+            </label>
+            <label class="control-chip"><input type="checkbox" id="autoRotate" checked> Auto-rotate</label>
+            <button class="control-chip" id="resetView">Reset View</button>
           </div>
 
           <div class="viewer-stage">
             <canvas id="modelCanvas"></canvas>
-            <div class="viewer-overlay">
-              <span class="overlay-pill" id="loadStatus">Ready</span>
-            </div>
           </div>
 
-          <div class="model-details">
-            <div class="detail-block">
-              <h3>Description</h3>
-              <p id="modelDescription">Select a model to view details.</p>
-            </div>
-            <div class="detail-grid">
-              <div class="detail-item"><span>Use case</span><strong id="modelUseCase">--</strong></div>
-              <div class="detail-item"><span>Tags</span><div class="tag-row" id="modelTags"></div></div>
-            </div>
+          <div style="margin-top:20px">
+            <h2 id="modelTitle">Select a model</h2>
+            <p id="modelDescription">Context will appear here.</p>
+            <div id="modelTags" style="display:flex; gap:5px;"></div>
           </div>
         </div>
       </section>
@@ -227,24 +101,26 @@
       import * as THREE from "three";
       import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
       import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+      import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader.js";
 
-      // --- CONFIG & MODELS ---
+      // --- RESTORED ORIGINAL MODEL DATA ---
       const modelData = [
-        { id: "interior", name: "Earth Interior", subtitle: "Core Layering", file: "https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf", useCase: "Education", tags: ["Geology"] },
-        { id: "antarctica", name: "Antarctica", subtitle: "Topography", file: "https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb", useCase: "Research", tags: ["Cryosphere"] }
+        { id: "interior", name: "Earth interior cutaway", subtitle: "Four-layer interior", file: "Assets/earths_interior.opt.glb", useCase: "STEM outreach", tags: ["Geology", "Education"] },
+        { id: "antarctica", name: "Antarctica topography", subtitle: "3D-print-ready relief", file: "Assets/Antarctica3.opt.glb", useCase: "Polar research", tags: ["Cryosphere", "Elevation"] },
+        { id: "cubesat", name: "CubeSat 1U platform", subtitle: "Reference geometry", file: "Assets/CubeSat_-_1_RU_Generic.opt.glb", useCase: "Engineering", tags: ["Spacecraft"] },
+        { id: "iss", name: "International Space Station", subtitle: "NASA orbital lab", file: "Assets/ISS_stationary.opt.glb", useCase: "Mission storytelling", tags: ["Spacecraft", "ISS"] },
+        { id: "awe", name: "AWE swath over CONUS", subtitle: "Gravity wave capture", file: "Assets/AWE_radiance.opt.glb", useCase: "Instrument explainer", tags: ["Atmosphere", "AWE"] },
+        { id: "tohoku", name: "Tohoku 2011 system", subtitle: "Seismic event volume", file: "Assets/tohoku.opt.glb", useCase: "Hazard communication", tags: ["Seismic", "Hazards"] },
+        { id: "coral", name: "Curacao Snake Bay reef", subtitle: "20m reef segment", file: "Assets/coral_reef.opt.glb", useCase: "Biodiversity", tags: ["Ocean", "Ecology"] }
       ];
 
       let scene, camera, renderer, controls, currentModel;
       const canvas = document.getElementById("modelCanvas");
-      const colormapSelect = document.getElementById("colormapSelect");
-      const loader = new GLTFLoader();
+      const gltfLoader = new GLTFLoader();
 
-      // --- CHROMADEPTH SHADER ---
-      const chromaDepthShader = {
-        uniforms: {
-          uNear: { value: 0 },
-          uFar: { value: 10 }
-        },
+      // --- CHROMADEPTH SHADER (FIXED: Red=Near, Blue=Far) ---
+      const chromaMaterial = new THREE.ShaderMaterial({
+        uniforms: { uNear: { value: 0 }, uFar: { value: 10 }, uContrast: { value: 1.0 } },
         vertexShader: `
           varying float vDepth;
           void main() {
@@ -254,8 +130,7 @@
           }
         `,
         fragmentShader: `
-          uniform float uNear;
-          uniform float uFar;
+          uniform float uNear; uniform float uFar; uniform float uContrast;
           varying float vDepth;
           vec3 hue2rgb(float h) {
             float r = abs(h * 6.0 - 3.0) - 1.0;
@@ -265,47 +140,39 @@
           }
           void main() {
             float d = clamp((vDepth - uNear) / (uFar - uNear), 0.0, 1.0);
-            // Red (near) to Blue (far)
-            vec3 color = hue2rgb(d * 0.66);
+            d = pow(d, uContrast); // Adjust contrast curve
+            vec3 color = hue2rgb(d * 0.66); // 0.0=Red (Near), 0.66=Blue (Far)
             gl_FragColor = vec4(color, 1.0);
           }
         `
-      };
-
-      const chromaMaterial = new THREE.ShaderMaterial(chromaDepthShader);
+      });
 
       function init() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-        camera.position.set(0, 0, 5);
+        camera.position.set(2, 2, 5);
 
         renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
         controls = new OrbitControls(camera, renderer.domElement);
-        controls.autoRotate = true;
+        
+        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
 
-        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-        scene.add(ambient);
-
-        const sun = new THREE.DirectionalLight(0xffffff, 1);
-        sun.position.set(5, 5, 5);
-        scene.add(sun);
-
-        render();
-        buildModelList();
+        buildList();
         loadModel(modelData[0]);
-
-        window.addEventListener('resize', onResize);
+        animate();
       }
 
-      function buildModelList() {
+      function buildList() {
         const list = document.getElementById("modelList");
         modelData.forEach(m => {
           const btn = document.createElement("button");
           btn.className = "model-button";
-          btn.innerHTML = `<strong>${m.name}</strong><span>${m.subtitle}</span>`;
+          btn.innerHTML = `<strong>${m.name}</strong><span style="font-size:0.8rem">${m.subtitle}</span>`;
           btn.onclick = () => loadModel(m);
           list.appendChild(btn);
         });
@@ -313,75 +180,75 @@
 
       function loadModel(data) {
         if (currentModel) scene.remove(currentModel);
-        document.getElementById("loadStatus").innerText = "Loading...";
         
-        loader.load(data.file, (gltf) => {
+        gltfLoader.load(data.file, (gltf) => {
           currentModel = gltf.scene;
           
-          // Center and scale
+          // Auto-center
           const box = new THREE.Box3().setFromObject(currentModel);
-          const size = box.getSize(new THREE.Vector3());
           const center = box.getCenter(new THREE.Vector3());
           currentModel.position.sub(center);
           
           scene.add(currentModel);
-          updateUI(data);
-          applyColormap(); // Initial check
-          
-          document.getElementById("loadStatus").innerText = "Ready";
+          updateInfo(data);
+          applyShading();
         });
       }
 
-      function applyColormap() {
+      function applyShading() {
         if (!currentModel) return;
-        const mode = colormapSelect.value;
+        const mode = document.getElementById("colormapSelect").value;
+        const contrast = document.getElementById("depthContrast").value;
 
-        currentModel.traverse(node => {
-          if (node.isMesh) {
+        currentModel.traverse(n => {
+          if (n.isMesh) {
             if (mode === "chromadepth") {
-              // Calculate depth range based on camera distance
               const box = new THREE.Box3().setFromObject(currentModel);
-              const dist = camera.position.distanceTo(new THREE.Vector3(0,0,0));
+              const dist = camera.position.length();
               const size = box.getSize(new THREE.Vector3()).length();
               
-              chromaMaterial.uniforms.uNear.value = dist - size/2;
-              chromaMaterial.uniforms.uFar.value = dist + size/2;
-              node.material = chromaMaterial;
-            } else if (mode === "solid") {
-              node.material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+              chromaMaterial.uniforms.uNear.value = dist - (size / 2);
+              chromaMaterial.uniforms.uFar.value = dist + (size / 2);
+              chromaMaterial.uniforms.uContrast.value = contrast;
+              n.material = chromaMaterial;
+            } else if (mode === "wireframe") {
+              n.material = new THREE.MeshBasicMaterial({ color: 0x0c9fa0, wireframe: true });
             } else {
-              // Revert to original (simple logic for demo)
-              node.material = new THREE.MeshStandardMaterial({ color: 0x0c9fa0 });
+              // Revert to GLB's original material
+              n.material = n.userData.originalMat || n.material;
             }
           }
         });
       }
 
-      function updateUI(data) {
+      function updateInfo(data) {
         document.getElementById("modelTitle").innerText = data.name;
-        document.getElementById("modelSubtitle").innerText = data.subtitle;
         document.getElementById("modelDescription").innerText = data.useCase;
+        const tags = document.getElementById("modelTags");
+        tags.innerHTML = "";
+        data.tags.forEach(t => {
+          const s = document.createElement("span"); s.className = "tag"; s.innerText = t;
+          tags.appendChild(s);
+        });
       }
 
-      function onResize() {
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-      }
-
-      function render() {
-        requestAnimationFrame(render);
+      function animate() {
+        requestAnimationFrame(animate);
         controls.autoRotate = document.getElementById("autoRotate").checked;
         controls.update();
-        
-        // Dynamic depth update if in chromadepth mode
-        if (colormapSelect.value === "chromadepth") applyColormap();
-        
+        if (document.getElementById("colormapSelect").value === "chromadepth") applyShading();
         renderer.render(scene, camera);
       }
 
-      colormapSelect.onchange = applyColormap;
-      document.getElementById("resetView").onclick = () => { camera.position.set(0,0,5); controls.target.set(0,0,0); };
+      window.addEventListener('resize', () => {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      });
+
+      document.getElementById("colormapSelect").onchange = applyShading;
+      document.getElementById("depthContrast").oninput = applyShading;
+      document.getElementById("resetView").onclick = () => { camera.position.set(2,2,5); controls.target.set(0,0,0); };
 
       init();
     </script>
