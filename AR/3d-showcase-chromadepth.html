@@ -266,7 +266,7 @@
           void main() {
             float d = clamp((vDepth - uNear) / (uFar - uNear), 0.0, 1.0);
             // Red (near) to Blue (far)
-            vec3 color = hue2rgb((1.0 - d) * 0.66);
+            vec3 color = hue2rgb(d * 0.66);
             gl_FragColor = vec4(color, 1.0);
           }
         `
