@@ -817,7 +817,7 @@
           },
           description:
             "Sketchfab-sourced animated cutaway revealing four layers from crust to inner core. The motion guides viewers through each layer to explain Earth's interior structure.",
-          useCase: "Explaining interior structure in STEM outreach.",
+          useCase: "An example of an animated GLB.",
           tags: ["Geology", "Cross section", "Education"],
         },
         {
@@ -828,8 +828,8 @@
           fallback: "Assets/Antarctica3.glb",
           startZoom: 0.7,
           description:
-            "Topographic surface of Antarctica prepared for 3D printing, preserving elevation relief and continental scale.",
-          useCase: "Polar research briefs and cryosphere updates.",
+            "Digital Elevation Model (DEM) of Antarctica from the Polar Geospatial Center, prepared for 3D printing using TouchTerrain.",
+          useCase: "DEMs are considered 2.5-dimensional. Since each X and Y coordinate gets only a single Z coordinate, they cannot represent overhangs or complex 3D shapes.",
           tags: ["Cryosphere", "Topography", "Elevation"],
         },
         {
@@ -844,7 +844,7 @@
           },
           description:
             "A CubeSat is a nanosatellite standard. One 1U unit measures 10 x 10 x 11 cm, with common builds in 1U, 1.5U, 2U, 3U, and 6U sizes (NASA 3D Resources).",
-          useCase: "Mission concept overviews and engineering demos.",
+          useCase: "XR can be used to show objects of any size and scale, as well as to fit together 3D models of components in a mechanical system.",
           tags: ["Spacecraft", "Engineering", "Hardware"],
         },
         {
@@ -859,7 +859,7 @@
           },
           description:
             "A full-scale International Space Station model for mission and research context.",
-          useCase: "Orbital infrastructure explainers and mission storytelling.",
+          useCase: "NASA makes spacecraft models like this one widely available for use in educational projects.",
           tags: ["Spacecraft", "Orbit", "ISS"],
         },
         {
@@ -869,14 +869,14 @@
           file: "Assets/AWE_radiance.opt.glb",
           startZoom: 0.7,
           description:
-            "ISS orbit segment with the NASA AWE swath capturing concentric gravity waves from a thunderstorm convective system over CONUS.",
-          useCase: "Instrument explainers and mission readiness reviews.",
+            "ISS orbit segment with the NASA Atmospheric Waves Experiment (AWE) swath capturing concentric gravity waves from a thunderstorm convective system over CONUS.",
+          useCase: "Multiple datasets and models can be integrated together for instrument explainers like this one.",
           pipeline: "MATLAB mesh assembly, Blender surface cleanup, GLB export.",
           tags: ["Instrument", "Atmosphere", "Mission"],
         },
         {
           id: "awe-radial-profiles",
-          name: "AWE radial profiles (May 26)",
+          name: "Atmospheric Waves Experiment (AWE) radial profiles (May 26)",
           subtitle: "Profile geometry for atmospheric analysis",
           file: "Assets/AWE_radial_profiles-May26.opt.glb",
           fallback: "Assets/AWE_radial_profiles-May26.glb",
@@ -901,7 +901,7 @@
           },
           description:
             "Sketchfab-sourced 3D visualization of the 2011 Tohoku earthquake system to contextualize the event in space and depth.",
-          useCase: "Hazard communication and seismic education.",
+          useCase: "Multiple datasets are shown in an integrated view to tell the data story of an Earth science event.",
           tags: ["Seismic", "Hazards", "Volume"],
         },
         {
@@ -938,7 +938,7 @@
           },
           description:
             "NASA SVS ocean currents visualization mapped to a globe, using video texture to show changing surface flow patterns.",
-          useCase: "Ocean circulation storytelling and outreach.",
+          useCase: "Equirectangular projections can be mapped to the surface of globes for easy viewing and overlaying.",
           pipeline: "Sphere mesh with NASA SVS video texture.",
           tags: ["Ocean", "Flow", "Video"],
         },
@@ -958,7 +958,7 @@
           },
           description:
             "NASA SVS CO2 visualization mapped to a sphere, highlighting the evolving global distribution of atmospheric CO2.",
-          useCase: "Climate communications and EOS article visuals.",
+          useCase: "Climate communication and data storytelling.",
           pipeline: "Sphere mesh with NASA SVS video texture.",
           tags: ["CO2", "Climate", "Video"],
         },
@@ -976,7 +976,7 @@
           },
           description:
             "Sketchfab-sourced 20 m Curacao Snake Bay reef model (March 2020) showing detailed habitat complexity and structure.",
-          useCase: "Biodiversity storytelling and reef health studies.",
+          useCase: "Photogrammetry can be used to create 3D models of ecological and cultural heritage sites. With XR, these can be examined for details and changes over time or used as the basis for virtual environments.",
           tags: ["Ocean", "Ecology", "Benthic"],
         },
       ];
