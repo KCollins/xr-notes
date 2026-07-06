@@ -3,34 +3,123 @@
   <head>
     <title>ARJ Multi-Asset Demo</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar-nft.js"></script>
+    <script>
+      AFRAME.registerComponent('manual-animation', {
+        init: function () {
+          this.model = null;
+          this.mixer = null;
+
+          const self = this;
+          this.el.addEventListener('model-loaded', function (event) {
+            self.model = event.detail.model;
+            if (self.model.animations && self.model.animations.length > 0) {
+              self.mixer = new THREE.AnimationMixer(self.model);
+              const clip = self.model.animations[0];
+              const action = self.mixer.clipAction(clip);
+              action.play();
+            }
+          });
+        },
+        tick: function (t, dt) {
+          if (this.mixer) {
+            this.mixer.update(dt / 1000);
+          }
+        }
+      });
+    </script>
   </head>
 
   <body style="margin: 0px; overflow: hidden;">
-    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" renderer="colorManagement: true;">
-      <!-- Marker 1 shows the airborne point cloud -->
+    <video id="videoGlobeAsset" loop muted playsinline preload="none" crossorigin="anonymous" style="display:none"></video>
+    <video id="co2SphereAsset" loop muted playsinline preload="none" crossorigin="anonymous" style="display:none"></video>
+
+    <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 5x5_BCH_22_7_7; sourceWidth: 800; sourceHeight: 600;" renderer="antialias: true; logarithmicDepthBuffer: true; precision: low; sortObjects: false; colorManagement: true;">
+      <!-- Marker 1: Tohoku Earthquake Volume -->
       <a-marker type="barcode" value="1">
-        <a-entity ply-model="src:Assets/ptCloudsTest2.ply; mesh: false; size: 2.5;" rotation="-90 0 0" scale="0.25 0.25 0.25"></a-entity>
+        <a-plane data-loader="image" data-src="Assets/Tohoku_label.jpg" position="-0.47 1.1 -0.9" rotation="0 0 0" width="2.3" height="2.2" material="shader:standard; metalness:0; roughness:1; transparent:true"></a-plane>
+        <a-gltf-model data-src="Assets/tohoku.opt.glb" data-fallback="Assets/tohoku.glb" manual-animation position="-0.5 0.70 0" scale="2 2 2"></a-gltf-model>
       </a-marker>
 
-      <!-- Marker 2 displays the Antarctica surface model -->
+      <!-- Marker 2: ARJ airborne point cloud -->
       <a-marker type="barcode" value="2">
-        <a-gltf-model src="Assets/Antarctica2.glb" position="0 -0.25 0" scale="0.01 0.01 0.01" shadow></a-gltf-model>
+        <a-entity data-loader="ply" data-src="Assets/ptCloudsTest2.ply" data-ply-model="src:Assets/ptCloudsTest2.ply; mesh: false; size: 2.5;" rotation="-90 0 0" scale="0.25 0.25 0.25"></a-entity>
       </a-marker>
 
-      <!-- Marker 3 animates the rotating Earth -->
+      <!-- Marker 3: ECCO ocean-flow video globe -->
       <a-marker type="barcode" value="3">
-        <a-gltf-model src="Assets/earth.glb" animation-mixer="clip: '*'; autoplay: true; loop: pingpong; duration: 4; timeScale: 0.5"></a-gltf-model>
+        <a-sphere data-loader="video" data-src="Assets/ecco2_sst_flow.mp4" data-video="#videoGlobeAsset" data-material="src:#videoGlobeAsset; metalness:0; roughness:1" radius="2" position="1 1 -1" rotation="0 90 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 120000; easing: linear"></a-sphere>
       </a-marker>
 
-      <!-- Marker 5 reveals Earth's interior structure -->
+      <!-- Marker 4: EOS website logo -->
+      <a-marker type="barcode" value="4">
+        <a-plane data-loader="image" data-src="Assets/EOS_website_logo.jpg" position="0 0.02 0" rotation="-90 0 0" width="1.1" height="1.1" material="shader:standard; metalness:0; roughness:1; transparent:false"></a-plane>
+      </a-marker>
+
+      <!-- Marker 5: CubeSat model -->
       <a-marker type="barcode" value="5">
-        <a-gltf-model src="Assets/earths_interior.glb" position="0 -0.35 0" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-plane data-loader="image" data-src="Assets/CubeSat_label.jpg" position="0 0.02 0" rotation="-90 0 0" width="1.1" height="1.1" material="shader:standard; metalness:0; roughness:1; transparent:false"></a-plane>
+        <a-entity position="0 0.90 0" animation__bob="property: position; to: 0 1.05 0; dir: alternate; dur: 3200; easing: easeInOutSine; loop: true">
+          <a-entity animation__wobble="property: rotation; to: 4 4 0; dir: alternate; dur: 2600; easing: easeInOutSine; loop: true">
+            <a-gltf-model data-src="Assets/CubeSat_-_1_RU_Generic.opt.glb" data-fallback="Assets/CubeSat_-_1_RU_Generic.glb" scale="0.4 0.4 0.4" animation="property: rotation; to: 0 360 0; loop: true; dur: 16000; easing: linear"></a-gltf-model>
+          </a-entity>
+        </a-entity>
       </a-marker>
 
-      <!-- Marker 6 shows the parsed PLY geometry (disabled while previewing marker 1) -->
+      <!-- Marker 6: ARJ rotating Earth -->
       <a-marker type="barcode" value="6">
-        <a-gltf-model src="Assets/PLYparsed.glb" position="0 0.25 0" scale="1.3 1.3 1.3" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-gltf-model>
+        <a-gltf-model data-src="Assets/earth.opt.glb" data-fallback="Assets/earth.glb" animation-mixer="clip: '*'; autoplay: true; loop: pingpong; duration: 4; timeScale: 0.5"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 7: Antarctica ice sheet -->
+      <a-marker type="barcode" value="7">
+        <a-gltf-model data-src="Assets/Antarctica3.opt.glb" data-fallback="Assets/Antarctica3.glb" data-lite-skip="true" rotation="0 0 0" position="0 0.01 0" scale="1.2 1.2 1.2"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 8: CO2 emissions sphere -->
+      <a-marker type="barcode" value="8">
+        <a-plane data-loader="image" data-src="Assets/CO2_label.jpg" position="0 0.02 0" rotation="-90 0 0" width="1.05" height="1.35" material="shader:standard; metalness:0; roughness:1; transparent:true"></a-plane>
+        <a-sphere data-loader="video" data-src="Assets/co2_2048.mp4" data-video="#co2SphereAsset" data-material="src:#co2SphereAsset; metalness:0; roughness:1" radius="0.6" position="0 0.6 0" rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 45000; easing: linear"></a-sphere>
+      </a-marker>
+
+      <!-- Marker 9: Earth's interior cross-section -->
+      <a-marker type="barcode" value="9">
+        <a-gltf-model data-src="Assets/earths_interior.opt.glb" data-fallback="Assets/earths_interior.glb" rotation="0 -90 0" position="0 0.325 0" scale="0.65 0.65 0.65" manual-animation></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 10: AWE radiance -->
+      <a-marker type="barcode" value="10">
+        <a-gltf-model data-src="Assets/AWE_radiance.opt.glb" manual-animation rotation="0 0 0" position="0 0 0" scale="3 3 3"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 11: Curacao Snake Bay coral -->
+      <a-marker type="barcode" value="11">
+        <a-gltf-model data-src="Assets/coral_reef.opt.glb" rotation="0 0 0" position="0 0 0" scale="1 1 1"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 12: Curacao Snake Bay coral zoom -->
+      <a-marker type="barcode" value="12">
+        <a-gltf-model data-src="Assets/coral_reef_zoom.opt.glb" rotation="0 0 0" position="0 0 0" scale="1 1 1"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 13: AWE radial profiles -->
+      <a-marker type="barcode" value="13">
+        <a-gltf-model data-src="Assets/AWE_radial_profiles-May26.opt.glb" data-fallback="Assets/AWE_radial_profiles-May26.glb" rotation="0 0 0" position="0 0 0" scale="4 4 4"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 14: Sentinel + Bed (2012-04-21_052-053) -->
+      <a-marker type="barcode" value="14">
+        <a-gltf-model data-src="Assets/2012-04-21_052-053_wSentinel&amp;Bed.opt.glb" rotation="0 0 0" position="0 0 0" scale="1 1 1"></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 15: ARJ Antarctica surface model -->
+      <a-marker type="barcode" value="15">
+        <a-gltf-model data-src="Assets/Antarctica2.opt.glb" data-fallback="Assets/Antarctica2.glb" position="0 -0.25 0" scale="0.01 0.01 0.01" shadow></a-gltf-model>
+      </a-marker>
+
+      <!-- Marker 16: ARJ parsed PLY geometry -->
+      <a-marker type="barcode" value="16">
+        <a-gltf-model data-src="Assets/PLYparsed.opt.glb" data-fallback="Assets/PLYparsed.glb" position="0 0.25 0" scale="1.3 1.3 1.3" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-gltf-model>
       </a-marker>
 
       <!-- Scene lighting for better material readability -->
@@ -39,5 +128,516 @@
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+    (function(){
+      if (window.THREE && THREE.Cache) THREE.Cache.enabled = true;
+
+      const MOBILE_CLEANUP_DELAY_MS = 15000;
+      const isMobileDevice = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const maxConcurrentLoads = isMobileDevice ? 1 : 2;
+      const queue = [];
+      const markers = [];
+      let activeLoads = 0;
+      let discoverySequence = 0;
+      let queueSequence = 0;
+      let pendingFlush = false;
+      let pendingFoundMarkers = [];
+
+      function setState(asset, status) {
+        asset.status = status;
+        asset.el.dataset.arjState = status;
+      }
+
+      function disposeMaterial(material) {
+        if (!material) return;
+
+        Object.keys(material).forEach((key) => {
+          const value = material[key];
+          if (value && value.isTexture && typeof value.dispose === 'function') {
+            value.dispose();
+          }
+        });
+
+        if (typeof material.dispose === 'function') {
+          material.dispose();
+        }
+      }
+
+      function disposeObject3D(object3D, includeGeometry) {
+        if (!object3D || typeof object3D.traverse !== 'function') return;
+
+        object3D.traverse((node) => {
+          if (includeGeometry && node.geometry && typeof node.geometry.dispose === 'function') {
+            node.geometry.dispose();
+          }
+
+          if (Array.isArray(node.material)) {
+            node.material.forEach(disposeMaterial);
+          } else {
+            disposeMaterial(node.material);
+          }
+        });
+      }
+
+      function clearCleanup(asset) {
+        if (asset.cleanupTimer) {
+          clearTimeout(asset.cleanupTimer);
+          asset.cleanupTimer = 0;
+        }
+      }
+
+      function clearLoadListeners(asset) {
+        if (asset.removeLoadListeners) {
+          asset.removeLoadListeners();
+          asset.removeLoadListeners = null;
+        }
+      }
+
+      function removeFromQueue(asset) {
+        const index = queue.indexOf(asset);
+        if (index !== -1) {
+          queue.splice(index, 1);
+        }
+      }
+
+      function attributeFor(asset) {
+        if (asset.type === 'ply') return 'ply-model';
+        if (asset.type === 'gltf') return 'gltf-model';
+        if (asset.type === 'image') return 'src';
+        if (asset.type === 'video') return 'material';
+        return '';
+      }
+
+      function sourceFor(asset) {
+        if (asset.type === 'ply') return asset.el.getAttribute('ply-model');
+        if (asset.type === 'gltf') return asset.el.getAttribute('gltf-model');
+        if (asset.type === 'image') return asset.el.getAttribute('src');
+        if (asset.type === 'video') return asset.videoEl ? asset.videoEl.currentSrc || asset.videoEl.getAttribute('src') : null;
+        return null;
+      }
+
+      function playVideo(asset) {
+        if (!asset.videoEl) return;
+        const result = asset.videoEl.play();
+        if (result && typeof result.catch === 'function') {
+          result.catch((err) => { console.warn('[ARJ] video play failed', asset.id, err); });
+        }
+      }
+
+      function pauseVideo(asset) {
+        if (asset.videoEl && typeof asset.videoEl.pause === 'function') {
+          asset.videoEl.pause();
+        }
+      }
+
+      function removeVideoSource(asset) {
+        if (!asset.videoEl) return;
+        pauseVideo(asset);
+        asset.videoEl.removeAttribute('src');
+        asset.videoEl.removeAttribute('data-arj-ready');
+        if (typeof asset.videoEl.load === 'function') {
+          asset.videoEl.load();
+        }
+      }
+
+      function removeLoadedAsset(asset) {
+        clearLoadListeners(asset);
+
+        if (asset.type === 'video') {
+          removeVideoSource(asset);
+          asset.el.removeAttribute('material');
+          disposeObject3D(asset.el.object3D, false);
+        } else if (asset.type === 'image') {
+          asset.el.removeAttribute('src');
+          disposeObject3D(asset.el.object3D, false);
+        } else {
+          disposeObject3D(asset.el.object3D, true);
+          asset.el.removeAttribute(attributeFor(asset));
+        }
+
+        asset.attempt = 0;
+        asset.loadToken += 1;
+        setState(asset, 'idle');
+        console.log('[ARJ] released', asset.id);
+      }
+
+      function discardLoadedAfterLoss(asset) {
+        if (asset.type === 'video') {
+          removeVideoSource(asset);
+          asset.el.removeAttribute('material');
+          disposeObject3D(asset.el.object3D, false);
+        } else if (asset.type === 'image') {
+          asset.el.removeAttribute('src');
+          disposeObject3D(asset.el.object3D, false);
+        } else {
+          disposeObject3D(asset.el.object3D, true);
+          asset.el.removeAttribute(attributeFor(asset));
+        }
+
+        setState(asset, 'idle');
+      }
+
+      function scheduleMobileCleanup(asset) {
+        if (!isMobileDevice || asset.status !== 'loaded' || asset.marker.visible) return;
+
+        clearCleanup(asset);
+        const token = asset.marker.visibilityToken;
+        asset.cleanupTimer = setTimeout(() => {
+          asset.cleanupTimer = 0;
+          if (asset.status === 'loaded' && !asset.marker.visible && token === asset.marker.visibilityToken) {
+            removeLoadedAsset(asset);
+          }
+        }, MOBILE_CLEANUP_DELAY_MS);
+      }
+
+      function sortQueue() {
+        queue.sort((a, b) => (
+          a.discoveryOrder - b.discoveryOrder
+          || a.marker.index - b.marker.index
+          || a.assetIndex - b.assetIndex
+          || a.queueOrder - b.queueOrder
+        ));
+      }
+
+      function enqueueAsset(asset, discoveryOrder) {
+        if (!asset.marker.visible || asset.status === 'queued' || asset.status === 'loading' || asset.status === 'loaded' || asset.status === 'failed') {
+          return;
+        }
+
+        clearCleanup(asset);
+        asset.discoveryOrder = discoveryOrder;
+        asset.queueOrder = ++queueSequence;
+        setState(asset, 'queued');
+        queue.push(asset);
+        sortQueue();
+        console.log('[ARJ] queued', asset.id);
+        drainQueue();
+      }
+
+      function finishLoadSlot() {
+        activeLoads = Math.max(0, activeLoads - 1);
+        drainQueue();
+      }
+
+      function markLoaded(asset, source, loadToken) {
+        if (asset.loadToken !== loadToken) return;
+
+        clearLoadListeners(asset);
+        if (!asset.marker.visible) {
+          console.log('[ARJ] loaded after marker loss; discarding', asset.id);
+          discardLoadedAfterLoss(asset);
+          finishLoadSlot();
+          return;
+        }
+
+        setState(asset, 'loaded');
+        console.log('[ARJ] loaded', asset.id, source);
+        finishLoadSlot();
+      }
+
+      function markFailed(asset, source, evt) {
+        clearLoadListeners(asset);
+        console.warn('[ARJ] asset error', asset.id, source, evt && (evt.type || evt.message) || evt);
+
+        if (asset.type === 'gltf' && asset.attempt + 1 < asset.sources.length) {
+          asset.attempt += 1;
+          console.log('[ARJ] falling back', asset.id, asset.sources[asset.attempt]);
+          startAttempt(asset, asset.loadToken);
+          return;
+        }
+
+        if (asset.type === 'video') {
+          removeVideoSource(asset);
+          asset.el.removeAttribute('material');
+        } else if (asset.type === 'image') {
+          asset.el.removeAttribute('src');
+        } else {
+          disposeObject3D(asset.el.object3D, true);
+          asset.el.removeAttribute(attributeFor(asset));
+        }
+
+        setState(asset, 'failed');
+        finishLoadSlot();
+      }
+
+      function startModelAttempt(asset, loadToken) {
+        const attr = attributeFor(asset);
+        const source = asset.type === 'ply' ? asset.plyModel : asset.sources[asset.attempt];
+        const value = asset.type === 'ply' ? asset.plyModel : source;
+
+        if (!value) {
+          markFailed(asset, source, new Error('Missing model source'));
+          return;
+        }
+
+        const onLoaded = () => markLoaded(asset, source, loadToken);
+        const onError = (evt) => {
+          if (asset.loadToken !== loadToken) return;
+          markFailed(asset, source, evt);
+        };
+
+        asset.removeLoadListeners = () => {
+          asset.el.removeEventListener('model-loaded', onLoaded);
+          asset.el.removeEventListener('model-error', onError);
+        };
+
+        asset.el.addEventListener('model-loaded', onLoaded);
+        asset.el.addEventListener('model-error', onError);
+        asset.el.setAttribute(attr, value);
+        console.log('[ARJ] loading', asset.id, source || value);
+      }
+
+      function startImageAttempt(asset, loadToken) {
+        const source = asset.sources[asset.attempt];
+        if (!source) {
+          markFailed(asset, source, new Error('Missing image source'));
+          return;
+        }
+
+        const image = new Image();
+        const onLoaded = () => {
+          if (asset.loadToken !== loadToken) return;
+          asset.el.setAttribute('src', source);
+          markLoaded(asset, source, loadToken);
+        };
+        const onError = (evt) => {
+          if (asset.loadToken !== loadToken) return;
+          markFailed(asset, source, evt);
+        };
+
+        asset.removeLoadListeners = () => {
+          image.onload = null;
+          image.onerror = null;
+        };
+
+        image.onload = onLoaded;
+        image.onerror = onError;
+        image.src = source;
+        console.log('[ARJ] loading', asset.id, source);
+      }
+
+      function startVideoAttempt(asset, loadToken) {
+        const source = asset.sources[asset.attempt];
+        const video = asset.videoEl;
+
+        if (!source || !video || !asset.material) {
+          markFailed(asset, source, new Error('Missing video source or element'));
+          return;
+        }
+
+        const onReady = () => {
+          if (asset.loadToken !== loadToken) return;
+          asset.el.setAttribute('material', asset.material);
+          video.setAttribute('data-arj-ready', 'true');
+          if (asset.marker.visible) {
+            playVideo(asset);
+          }
+          markLoaded(asset, source, loadToken);
+        };
+        const onError = (evt) => {
+          if (asset.loadToken !== loadToken) return;
+          markFailed(asset, source, evt);
+        };
+
+        asset.removeLoadListeners = () => {
+          video.removeEventListener('loadeddata', onReady);
+          video.removeEventListener('canplaythrough', onReady);
+          video.removeEventListener('error', onError);
+        };
+
+        video.addEventListener('loadeddata', onReady, { once: true });
+        video.addEventListener('canplaythrough', onReady, { once: true });
+        video.addEventListener('error', onError, { once: true });
+        video.preload = 'auto';
+        if (video.getAttribute('src') !== source) {
+          video.src = source;
+        }
+        if (typeof video.load === 'function') {
+          video.load();
+        }
+        console.log('[ARJ] loading', asset.id, source);
+      }
+
+      function startAttempt(asset, loadToken) {
+        clearLoadListeners(asset);
+
+        if (asset.type === 'image') {
+          startImageAttempt(asset, loadToken);
+        } else if (asset.type === 'video') {
+          startVideoAttempt(asset, loadToken);
+        } else {
+          startModelAttempt(asset, loadToken);
+        }
+      }
+
+      function startLoad(asset) {
+        if (!asset.marker.visible) {
+          setState(asset, 'idle');
+          return;
+        }
+
+        activeLoads += 1;
+        setState(asset, 'loading');
+        asset.attempt = 0;
+        asset.loadToken += 1;
+        startAttempt(asset, asset.loadToken);
+      }
+
+      function drainQueue() {
+        sortQueue();
+
+        while (activeLoads < maxConcurrentLoads && queue.length > 0) {
+          const asset = queue.shift();
+          if (asset.status !== 'queued') continue;
+          startLoad(asset);
+        }
+      }
+
+      function flushFoundMarkers() {
+        pendingFlush = false;
+        const found = pendingFoundMarkers;
+        pendingFoundMarkers = [];
+        found.sort((a, b) => a.discoveryOrder - b.discoveryOrder || a.index - b.index);
+
+        found.forEach((marker) => {
+          marker.assets.forEach((asset) => enqueueAsset(asset, marker.discoveryOrder));
+        });
+      }
+
+      function scheduleFoundFlush(marker) {
+        if (!pendingFoundMarkers.includes(marker)) {
+          pendingFoundMarkers.push(marker);
+        }
+
+        if (!pendingFlush) {
+          pendingFlush = true;
+          setTimeout(flushFoundMarkers, 0);
+        }
+      }
+
+      function markerFound(marker) {
+        marker.visible = true;
+        marker.visibilityToken += 1;
+        marker.discoveryOrder = ++discoverySequence;
+        marker.assets.forEach((asset) => {
+          clearCleanup(asset);
+          if (asset.status === 'loaded' && asset.type === 'video') {
+            playVideo(asset);
+          }
+        });
+        scheduleFoundFlush(marker);
+      }
+
+      function markerLost(marker) {
+        marker.visible = false;
+        marker.visibilityToken += 1;
+
+        marker.assets.forEach((asset) => {
+          if (asset.status === 'queued') {
+            removeFromQueue(asset);
+            setState(asset, 'idle');
+            console.log('[ARJ] canceled queued load', asset.id);
+          } else if (asset.status === 'loaded') {
+            if (asset.type === 'video') {
+              pauseVideo(asset);
+            }
+            scheduleMobileCleanup(asset);
+          }
+        });
+      }
+
+      function createAsset(marker, el, assetIndex) {
+        const loader = el.getAttribute('data-loader');
+        const type = loader || 'gltf';
+        const primary = el.getAttribute('data-src');
+        const fallback = el.getAttribute('data-fallback');
+        const sources = type === 'ply' ? [] : [primary, fallback].filter(Boolean);
+        const videoSelector = el.getAttribute('data-video');
+        const videoEl = videoSelector ? document.querySelector(videoSelector) : null;
+        el.dataset.arjState = 'idle';
+
+        return {
+          id: `marker-${marker.value}-asset-${assetIndex + 1}`,
+          marker,
+          el,
+          assetIndex,
+          type,
+          sources,
+          plyModel: el.getAttribute('data-ply-model'),
+          videoEl,
+          material: el.getAttribute('data-material'),
+          status: 'idle',
+          attempt: 0,
+          discoveryOrder: 0,
+          queueOrder: 0,
+          loadToken: 0,
+          cleanupTimer: 0,
+          removeLoadListeners: null
+        };
+      }
+
+      function isUsableAsset(asset) {
+        if (asset.type === 'ply') return !!asset.plyModel;
+        if (asset.type === 'video') return asset.sources.length > 0 && !!asset.videoEl && !!asset.material;
+        return asset.sources.length > 0;
+      }
+
+      function setupMarker(markerEl, index) {
+        const marker = {
+          el: markerEl,
+          index,
+          value: markerEl.getAttribute('value'),
+          visible: false,
+          visibilityToken: 0,
+          discoveryOrder: 0,
+          assets: []
+        };
+
+        marker.assets = Array.from(markerEl.querySelectorAll('[data-src]'))
+          .map((el, assetIndex) => createAsset(marker, el, assetIndex))
+          .filter(isUsableAsset);
+
+        if (!marker.assets.length) return;
+
+        markerEl.addEventListener('markerFound', () => markerFound(marker));
+        markerEl.addEventListener('markerLost', () => markerLost(marker));
+        markers.push(marker);
+      }
+
+      document.querySelectorAll('a-marker').forEach(setupMarker);
+
+      window.ARJAssetScheduler = {
+        maxConcurrentLoads,
+        isMobileDevice,
+        getState: () => ({
+          activeLoads,
+          queue: queue.map((asset) => asset.id),
+          markers: markers.map((marker) => ({
+            value: marker.value,
+            visible: marker.visible,
+            assets: marker.assets.map((asset) => ({
+              id: asset.id,
+              type: asset.type,
+              status: asset.status,
+              source: sourceFor(asset)
+            }))
+          }))
+        })
+      };
+
+      console.log('[ARJ] scheduler ready', {
+        markers: markers.length,
+        assets: markers.reduce((sum, marker) => sum + marker.assets.length, 0),
+        maxConcurrentLoads,
+        isMobileDevice
+      });
+
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('[ARJ] unhandled rejection', event.reason || event);
+      });
+    })();
+    </script>
   </body>
 </html>
